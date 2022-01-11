@@ -9,17 +9,10 @@ import { Card } from './card';
 export class DealerService {
 
   suits = [
-    "hearts", "pikes", "spades", "clubs"
+    "hearts", "ikes", "spades", "clubs"
   ];
-
-
-  deck:Card[] = [] ; 
-
-
-
-
+  deck: Card[] = []
   constructor() {
-    var tempo:Card[] = [] ; 
     this.suits.forEach(suit => {
       for (let i = 0; i < 13; i++) {
         var newcard = <Card>{};
@@ -41,17 +34,12 @@ export class DealerService {
           default:
             break;
         }
-        tempo.push(newcard)
+        this.deck.push(newcard)
       }
     });
-    this.deck = tempo;
-    console.log(tempo)
-    
-
   }
 
   getClassicDeck() {
-
     return this.deck;
   }
 

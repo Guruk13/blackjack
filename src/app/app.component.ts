@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DealerService } from './dealer.service';
 
 @Component({
   selector: 'app-root',
@@ -7,15 +6,9 @@ import { DealerService } from './dealer.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(private dealerservice: DealerService ) {
+  constructor( ) {
 
   }
   title = 'blackprack';
-  logDeck(){
-    let singleDeck = this.dealerservice.getClassicDeck;
-    console.log(singleDeck());
-    console.log('hello');
-  }
-
 
 }
