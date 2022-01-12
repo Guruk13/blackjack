@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CardComponent } from './card/card.component';
+import { of } from 'rxjs';
 import { Card } from './card';
 
 
@@ -8,12 +8,27 @@ import { Card } from './card';
 })
 export class DealerService {
 
-  suits = [
-    "hearts", "ikes", "spades", "clubs"
-  ];
-  deck: Card[] = []
+
+  private packSource = of(
+
+  )
+
+
   constructor() {
-    this.suits.forEach(suit => {
+
+  }
+
+
+  createPack() {
+    let suits = [
+      "hearts", "pikes", "spades", "clubs"
+    ];
+
+    let deck: Card[] = []
+
+
+    //generate a new deck 
+    suits.forEach(suit => {
       for (let i = 0; i < 13; i++) {
         var newcard = <Card>{};
         newcard.number = i + 1;
@@ -34,14 +49,26 @@ export class DealerService {
           default:
             break;
         }
-        this.deck.push(newcard)
+        deck.push(newcard)
       }
-    });
-  }
 
-  getClassicDeck() {
-    return this.deck;
+    })
+    return deck; //will be pack
   }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
