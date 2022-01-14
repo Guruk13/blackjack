@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { DealerService } from '../dealer.service';
-import { Card } from '../card';
+import { Card } from '../cards.model';
 
 @Component({
   selector: 'app-table',
@@ -9,18 +9,18 @@ import { Card } from '../card';
   styleUrls: ['./table.component.css']
 })
 export class TableComponent implements OnInit {
-  subscription: Subscription; 
+  subscription!: Subscription; 
   tablepack: Card[] = []
 
 
   constructor(private dealerService: DealerService) { }
 
   ngOnInit(): void {
-    this.subscription =  this.dealerService.currentPack.subscribe(pack => this.tablepack = pack)
+
   }
 
   getSingleDeck(){
-    return this.dealerService.getClassicDeck()
+
     }
 
 }

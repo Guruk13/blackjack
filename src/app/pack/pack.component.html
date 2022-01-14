@@ -1,0 +1,10 @@
+<div
+  class="card-item"
+  *ngFor="let card of pack"
+>
+  <p>{{card.id}}</p>
+  <button
+    (click)="add.emit(card.id)"
+    data-test="add-button"
+  >Add to Collection</button>
+</div>

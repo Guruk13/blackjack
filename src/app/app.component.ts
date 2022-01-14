@@ -1,4 +1,15 @@
 import { Component } from '@angular/core';
+import { DealerService } from './dealer.service';
+import { Card } from './cards.model';
+
+//store related import 
+import { selectCards, selectCardCollection } from './state/cards.selector';
+import {
+  createdPack,
+  addCard,
+  drawCard
+} from './state/pack.actions';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-root',
@@ -6,9 +17,24 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor( ) {
-
+  pack$ = this.store.select(selectCards);
+  hand$ = this.store.select(selectCardCollection);
+ 
+  onAdd(cardId: string) {
+    this.store.dispatch(addCard({ cardId }));
   }
-  title = 'blackprack';
-
+ 
+  onRemove(cardId: string) {
+    this.store.dispatch(drawCard({ cardId }));
+  }
+ 
+  constructor(
+    private dearlerService: DealerService,
+    private store: Store
+  ) {}
+ 
+  ngOnInit() {
+    let pack = this.dearlerService.createPack();
+    this.store.dispatch(createdPack({ pack }));
+  }
 }

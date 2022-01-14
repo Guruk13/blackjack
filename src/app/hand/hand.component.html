@@ -1,0 +1,10 @@
+<div 
+  class="book-item"
+  *ngFor="let card of pack"
+>
+  <p>{{card.id}}</p>
+  <button
+    (click)="remove.emit(card.id)"
+    data-test="remove-button"
+  >Remove from Collection</button>
+</div>

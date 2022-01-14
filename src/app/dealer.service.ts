@@ -1,18 +1,12 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { Card } from './card';
+import { Card } from './cards.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class DealerService {
-
-
-  private packSource = of(
-
-  )
-
 
   constructor() {
 
@@ -31,7 +25,7 @@ export class DealerService {
     suits.forEach(suit => {
       for (let i = 0; i < 13; i++) {
         var newcard = <Card>{};
-        newcard.number = i + 1;
+        newcard.id = i + 1 + suits[0] ;
         newcard.suit = suit;
         switch (i) {
           case 0:
@@ -53,7 +47,7 @@ export class DealerService {
       }
 
     })
-    return deck; //will be pack
+    return deck  ; //will be pack
   }
 
 
