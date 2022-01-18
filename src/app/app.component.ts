@@ -19,22 +19,29 @@ import { Store } from '@ngrx/store';
 export class AppComponent {
   pack$ = this.store.select(selectCards);
   hand$ = this.store.select(selectCardCollection);
- 
+
   onAdd(cardId: string) {
     this.store.dispatch(addCard({ cardId }));
   }
- 
+
   onRemove(cardId: string) {
     this.store.dispatch(drawCard({ cardId }));
   }
- 
+
   constructor(
     private dearlerService: DealerService,
     private store: Store
-  ) {}
- 
+  ) { }
+
   ngOnInit() {
-    let pack = this.dearlerService.createPack();
-    this.store.dispatch(createdPack({ pack }));
+/*         let pack = this.dearlerService.createPack();
+        console.log(pack);
+        this.store.dispatch(createdPack({ pack }));  */
+    this.dearlerService
+      .createPack()
+      .subscribe((pack) => this.store.dispatch(createdPack({ pack })));
+
+
   }
+
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { of} from 'rxjs';
+import { map } from 'rxjs/operators'
 import { Card } from './cards.model';
 
 
@@ -25,7 +26,7 @@ export class DealerService {
     suits.forEach(suit => {
       for (let i = 0; i < 13; i++) {
         var newcard = <Card>{};
-        newcard.id = i + 1 + suits[0] ;
+        newcard.id = i + 1 + suit[0];
         newcard.suit = suit;
         switch (i) {
           case 0:
@@ -47,7 +48,9 @@ export class DealerService {
       }
 
     })
-    return deck  ; //will be pack
+    let ret = of(deck);
+    
+    return ret.pipe(map((cards)=>cards || [] ) );
   }
 
 

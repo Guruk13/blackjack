@@ -7,7 +7,7 @@ import { Card } from '../cards.model';
   styleUrls: ['./hand.component.css']
 })
 export class HandComponent implements OnInit {
-  @Input() hand: ReadonlyArray<Card> = [];
+  @Input() hand: ReadonlyArray<Card> = []  ;
   @Output() remove = new EventEmitter<string>();
 
   constructor() { }
