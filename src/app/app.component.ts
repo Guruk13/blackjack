@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 import { DealerService } from './dealer.service';
 import { Card } from './cards.model';
-
+import { first } from 'rxjs/operators';
 //store related import 
-import { selectCards, selectCardCollection } from './state/cards.selector';
+import { selectCards, selectCardCollection, selectPickRandomOne } from './state/cards.selector';
 import {
   createdPack,
   addCard,
-  drawCard
+  drawCard,
+  dealCard
 } from './state/pack.actions';
 import { Store } from '@ngrx/store';
 
@@ -23,6 +24,13 @@ export class AppComponent {
   onAdd(cardId: string) {
     this.store.dispatch(addCard({ cardId }));
   }
+  dealrandom(){
+    let randomCard: Card ;
+     this.store.select(selectPickRandomOne).subscribe(res => {randomCard = res});
+    let tempPayload = {playerIdToDeal:0 , cardToDeal:  randomCard}
+    this.store.dispatch(dealCard(tempPayload))
+  }
+  
 
   onRemove(cardId: string) {
     this.store.dispatch(drawCard({ cardId }));
@@ -39,7 +47,7 @@ export class AppComponent {
         this.store.dispatch(createdPack({ pack }));  */
     this.dearlerService
       .createPack()
-      .subscribe((pack) => this.store.dispatch(createdPack({ pack })));
+      .subscribe((somepack) => this.store.dispatch(createdPack({ somepack })));
 
 
   }

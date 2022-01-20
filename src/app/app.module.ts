@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatSliderModule } from '@angular/material/slider';
 import { MatCardModule } from '@angular/material/card'; 
+import { MatButtonModule } from '@angular/material/button';
 import { CardComponent } from './card/card.component';
 import { TableComponent } from './table/table.component';
 import { PackComponent } from './pack/pack.component';
@@ -36,6 +37,7 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSliderModule,
+    MatButtonModule,
     MatCardModule,
     StoreModule.forRoot({ hand: handsReducer, pack: packReducer }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })

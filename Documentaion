@@ -6,3 +6,8 @@ https://www.codemag.com/Article/1811061/Angular-and-the-Store
 https://medium.com/@gordonchendev/angular-rxjs-store-f43f27ffbb
 //*****
 https://dzone.com/articles/angular-app-state-management-with-ngrx
+//***** "Things go all the way around" 
+https://stackoverflow.com/questions/59293391/how-to-handle-a-data-transfer-object-with-multiple-feature-data-slices-in-ngrx
+//*****
+https://angular-training-guide.rangle.io/state-management/ngrx/reading_your_application_state_using_selectors
+https://ultimatecourses.com/blog/ngrx-store-understanding-state-selectors
