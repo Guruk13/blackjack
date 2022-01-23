@@ -31,11 +31,8 @@ export class AppComponent {
   dealrandom() {
     let randomCard: Card ;
     let tempoplayer: PlayerHand ;
-
     this.store.select(selectPickRandomOne).subscribe(res => { randomCard = res })
-
     this.store.select(selectPlayerHand(0)).subscribe((res) => {tempoplayer = res});
-    console.log(tempoplayer);
     let tempPayload = { tempoplayer, cardToDeal: randomCard }
     this.store.dispatch(dealCard(tempPayload))
   }
@@ -44,6 +41,10 @@ export class AppComponent {
   onRemove(cardId: string) {
     this.store.dispatch(drawCard({ cardId }));
   }
+
+
+  
+
 
   constructor(
     private dearlerService: DealerService,
@@ -54,12 +55,20 @@ export class AppComponent {
     this.dearlerService
       .createPack()
       .subscribe((somepack) => this.store.dispatch(createdPack({ somepack })));
-    let aplayer:PlayerHand = {id: 0 , hand: []};
-    let aplayer2:PlayerHand = {id: 1 , hand: []}
+    
+    let imoney: number = 500; 
+    let dealer: PlayerHand = {id:0 , name:"Mr.House", hand:[], money:imoney}
+    let aplayer:PlayerHand = {id: 1 , hand: [], name: "You", money: imoney};
+    let aplayer2:PlayerHand = {id: 2 , hand: [], name:"Miss Fortune", money: imoney}
     let somePlayers: ReadonlyArray<PlayerHand> = [aplayer, aplayer2]
     this.store.dispatch(createPlayers({somePlayers}))
+  }
 
+  game(){
 
   }
+
+
+
 
 }
