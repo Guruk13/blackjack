@@ -14,6 +14,7 @@ import {
 } from './state/pack.actions';
 import { Store } from '@ngrx/store';
 import { PlayerHand } from './playerHands.model';
+import { $ } from 'protractor';
 
 @Component({
   selector: 'app-root',
@@ -28,11 +29,16 @@ export class AppComponent {
     this.store.dispatch(addCard({ cardId }));
   }
 
-  dealrandom() {
-    let randomCard: Card ;
-    let tempoplayer: PlayerHand ;
-    this.store.select(selectPickRandomOne).subscribe(res => { randomCard = res })
-    this.store.select(selectPlayerHand(0)).subscribe((res) => {tempoplayer = res});
+  dealrandom(playerId:number) {
+    let randomCard!: Card;
+    let tempoplayer!: PlayerHand;
+    this.store.select(selectPickRandomOne).subscribe(
+      res => { randomCard = res }, error => { console.log("Could'nt pick a random card..") })
+    this.store.select(selectPlayerHand(playerId)).subscribe(
+      (res) => { tempoplayer = res }, error => { console.log("Could'nt find player with id" + playerId) });
+    if (tempoplayer != undefined) {
+
+    }
     let tempPayload = { tempoplayer, cardToDeal: randomCard }
     this.store.dispatch(dealCard(tempPayload))
   }
@@ -43,28 +49,40 @@ export class AppComponent {
   }
 
 
-  
-
-
   constructor(
     private dearlerService: DealerService,
     private store: Store
   ) { }
 
   ngOnInit() {
+
+  }
+
+  initGame() {
+    //todo create pack generator + modify card ids 
     this.dearlerService
       .createPack()
       .subscribe((somepack) => this.store.dispatch(createdPack({ somepack })));
+
+    let imoney: number = 500;
+    let dealer: PlayerHand = { id: 0, name: "Mr.House", hand: [], money: imoney }
+    let Youc: PlayerHand = { id: 1, hand: [], name: "You", money: imoney };
+    let MissFortune: PlayerHand = { id: 2, hand: [], name: "Miss Fortune", money: imoney }
+    let somePlayers: ReadonlyArray<PlayerHand> = [dealer, Youc, MissFortune]
+    this.store.dispatch(createPlayers({ somePlayers }));
+    this.game();
+
     
-    let imoney: number = 500; 
-    let dealer: PlayerHand = {id:0 , name:"Mr.House", hand:[], money:imoney}
-    let aplayer:PlayerHand = {id: 1 , hand: [], name: "You", money: imoney};
-    let aplayer2:PlayerHand = {id: 2 , hand: [], name:"Miss Fortune", money: imoney}
-    let somePlayers: ReadonlyArray<PlayerHand> = [aplayer, aplayer2]
-    this.store.dispatch(createPlayers({somePlayers}))
   }
 
-  game(){
+  game() {
+
+    this.dealrandom(0);
+    this.dealrandom(0);
+    this.dealrandom(1);
+    this.dealrandom(1);
+    this.dealrandom(2);
+    this.dealrandom(2);
 
   }
 

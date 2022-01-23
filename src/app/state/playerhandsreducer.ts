@@ -13,7 +13,6 @@ export const playerHandsReducer = createImmerReducer(
     return {
       ...state,
       [tempoplayer.id] : {
-        //not to forget other properties....
         ...state[tempoplayer.id],
         id: tempoplayer.id,
         hand: [...state[tempoplayer.id].hand, cardToDeal]

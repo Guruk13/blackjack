@@ -1,5 +1,5 @@
 <mat-slider min="1" max="100" step="1" value="50"></mat-slider>
-<button (click)="dealrandom()" >dealRandom</button>
+<button (click)="initGame()" >dealRandom</button>
 
 <h2>Pack</h2>
 <app-pack class="cards-in-pack" [pack]="pack$ | async " (add)="onAdd($event)"></app-pack>
