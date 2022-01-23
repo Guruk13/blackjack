@@ -11,3 +11,15 @@ https://stackoverflow.com/questions/59293391/how-to-handle-a-data-transfer-objec
 //*****
 https://angular-training-guide.rangle.io/state-management/ngrx/reading_your_application_state_using_selectors
 https://ultimatecourses.com/blog/ngrx-store-understanding-state-selectors
+
+//I have many regrets in my life , i hope not typing my state globally isnt one more. 
+https://duncanhunter.gitbook.io/angular-and-ngrx/15.-strongly-type-our-store
+
+//state ? when dealing with a centralized store, use entity. the key word is entity.
+https://timdeschryver.dev/blog/nested-ngrx-entity-state#entity
+
+//Should I create a reducer for a slice of state???? better use entity next time .... 
+https://ngrx.io/guide/store/reducers
+
+//
+https://timdeschryver.dev/blog/clean-ngrx-reducers-using-immer#side-by-side-comparison

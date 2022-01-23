@@ -1,7 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { Card } from '../cards.model';
-import { Player } from '../players.model'
+import { PlayerHand } from '../playerHands.model'
 
 export const addCard = createAction(
   '[Pack] add card',
@@ -18,13 +17,20 @@ export const createdPack = createAction(
   props<{ somepack: ReadonlyArray<Card> }>()
 );
 
+
+
 export interface DealCardPayload{
   playerIdToDeal: number,
   cardToDeal: Card
 }
 
 export const dealCard = createAction(
-  'Dealt a random card to a player',
-  props<{  playerIdToDeal: number,
+  'Dealing a random card to a player',
+  props<{  tempoplayer: PlayerHand,
     cardToDeal: Card }>()
+)
+
+export const createPlayers = createAction(
+  '[Players] Creating players... success',
+  props<{somePlayers: ReadonlyArray<PlayerHand>}>()
 )

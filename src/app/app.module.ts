@@ -16,7 +16,7 @@ import { HandComponent } from './hand/hand.component';
 //Store related imports
 import { StoreModule } from '@ngrx/store';
 import { packReducer } from './state/pack.reducer';
-import { handsReducer } from './state/handsreducer';
+import { playerHandsReducer } from './state/playerhandsreducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 
@@ -39,7 +39,7 @@ import { environment } from '../environments/environment';
     MatSliderModule,
     MatButtonModule,
     MatCardModule,
-    StoreModule.forRoot({ hand: handsReducer, pack: packReducer }),
+    StoreModule.forRoot({ playerHand: playerHandsReducer, pack: packReducer }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [],
