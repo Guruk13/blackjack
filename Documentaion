@@ -23,3 +23,6 @@ https://ngrx.io/guide/store/reducers
 
 //
 https://timdeschryver.dev/blog/clean-ngrx-reducers-using-immer#side-by-side-comparison
+
+//Let's normalize the state 
+https://timdeschryver.dev/blog/normalizing-state#now-lets-put-this-into-practice

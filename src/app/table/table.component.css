@@ -1,0 +1,6 @@
+#list{
+  max-height: 100vh;
+}
+mat-grid-tile {
+    background: red;
+  }

@@ -5,9 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+//Angular Material imports 
 import { MatSliderModule } from '@angular/material/slider';
-import { MatCardModule } from '@angular/material/card'; 
+import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list';
+
 import { CardComponent } from './card/card.component';
 import { TableComponent } from './table/table.component';
 import { PackComponent } from './pack/pack.component';
@@ -19,6 +22,7 @@ import { packReducer } from './state/pack.reducer';
 import { playerHandsReducer } from './state/playerhandsreducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { DealerComponent } from './dealer/dealer.component';
 
 
 
@@ -30,15 +34,20 @@ import { environment } from '../environments/environment';
     TableComponent,
     HandComponent,
     PackComponent,
+    DealerComponent,
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    //Angular Material related imports 
     BrowserAnimationsModule,
     MatSliderModule,
     MatButtonModule,
     MatCardModule,
+    MatGridListModule,
+
+    //Store related imports 
     StoreModule.forRoot({ playerHand: playerHandsReducer, pack: packReducer }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],

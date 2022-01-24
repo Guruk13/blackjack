@@ -1,1 +1,9 @@
-
+<mat-grid-list cols="3" rowHeight="50vh" id=list>
+  <mat-grid-tile [colspan]=3>
+    <app-dealer ></app-dealer>
+  </mat-grid-tile>
+  <mat-grid-tile>You</mat-grid-tile>
+  <mat-grid-tile>3</mat-grid-tile>
+  <mat-grid-tile>4</mat-grid-tile>
+</mat-grid-list>
+ <button (click)="initGame()">dealRandom</button>
