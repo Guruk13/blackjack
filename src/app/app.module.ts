@@ -25,9 +25,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { DealerComponent } from './dealer/dealer.component';
 
-
-
-
+//ToolBar for game parameters
+import { SideToolBarComponent } from './side-tool-bar/side-tool-bar.component';
+import { SideBarWrapperDirective } from './side-wrapper.directive';
+import { SideOpenerDirective } from './side-opener.directive';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,9 @@ import { DealerComponent } from './dealer/dealer.component';
     HandComponent,
     PackComponent,
     DealerComponent,
-
+    SideToolBarComponent,
+    SideBarWrapperDirective,
+    SideOpenerDirective
   ],
   imports: [
     BrowserModule,

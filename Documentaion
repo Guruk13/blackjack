@@ -26,3 +26,19 @@ https://timdeschryver.dev/blog/clean-ngrx-reducers-using-immer#side-by-side-comp
 
 //Let's normalize the state 
 https://timdeschryver.dev/blog/normalizing-state#now-lets-put-this-into-practice
+
+//comunicating a simple click between directives 
+https://stackblitz.com/edit/angular-sibling-components-interaction?file=src%2Fapp%2Fchild-two.component.ts
+
+
+//UI
+https://www.w3schools.com/howto/howto_js_fullscreen_overlay.asp
+//change style 
+https://www.digitalocean.com/community/tutorials/angular-using-renderer2
+
+
+https://stackblitz.com/edit/angular-sibling-components-interaction
+
+https://morioh.com/p/0495caf131c1
+
+https://morioh.com/p/0495caf131c1
