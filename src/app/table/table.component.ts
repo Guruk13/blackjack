@@ -4,7 +4,7 @@ import { DealerService } from '../dealer.service';
 import { Card } from '../cards.model';
 //store related import 
 import { selectCards, selectPickRandomOne } from '../state/cards.selector';
-import { selectAllPlayers, selectPlayerById, selectDealer } from '../state/playerhands.selector';
+import { selectAllPlayers, selectPlayerById, selectDealer } from '../state/player.selector';
 import {
   createdPack,
   addCard,
@@ -65,9 +65,9 @@ export class TableComponent implements OnInit {
       .subscribe((somepack) => this.store.dispatch(createdPack({ somepack })));
 
     let imoney: number = 500;
-    let dealer: PlayerHand = { id: 0, name: "Mr.House", hand: [], money: imoney }
-    let Youc: PlayerHand = { id: 1, hand: [], name: "You", money: imoney };
-    let MissFortune: PlayerHand = { id: 2, hand: [], name: "Miss Fortune", money: imoney }
+    let dealer: PlayerHand = { id: 0, name: "Mr.House", money: imoney }
+    let Youc: PlayerHand = { id: 1, name: "You", money: imoney };
+    let MissFortune: PlayerHand = { id: 2, name: "Miss Fortune", money: imoney }
     let somePlayers: ReadonlyArray<PlayerHand> = [dealer, Youc, MissFortune]
     this.store.dispatch(createPlayers({ somePlayers }));
     this.game();
@@ -76,7 +76,6 @@ export class TableComponent implements OnInit {
   }
 
   game() {
-
     this.dealrandom(0);
     this.dealrandom(0);
     this.dealrandom(1);

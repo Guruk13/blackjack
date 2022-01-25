@@ -19,10 +19,12 @@ import { HandComponent } from './hand/hand.component';
 //Store related imports
 import { StoreModule } from '@ngrx/store';
 import { packReducer } from './state/pack.reducer';
-import { playerHandsReducer } from './state/playerhandsreducer';
+import { playerReducer } from './state/playerReducer';
+import { possessedCardReducer } from './state/possessedCardsReducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { DealerComponent } from './dealer/dealer.component';
+
 
 
 
@@ -48,7 +50,7 @@ import { DealerComponent } from './dealer/dealer.component';
     MatGridListModule,
 
     //Store related imports 
-    StoreModule.forRoot({ playerHand: playerHandsReducer, pack: packReducer }),
+    StoreModule.forRoot({ players: playerReducer, pack: packReducer, possessedCard: possessedCardReducer }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [],

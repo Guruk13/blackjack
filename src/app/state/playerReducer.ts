@@ -6,7 +6,7 @@ import { state } from '@angular/animations';
 
 export const initialState: ReadonlyArray<PlayerHand> = [];
 
-export const playerHandsReducer = createImmerReducer(
+export const playerReducer = createReducer(
   initialState,
   on(createPlayers, (state, { somePlayers }) => somePlayers),
   on(dealCard, (state, { tempoplayer, cardToDeal }) => {
@@ -15,7 +15,7 @@ export const playerHandsReducer = createImmerReducer(
       [tempoplayer.id] : {
         ...state[tempoplayer.id],
         id: tempoplayer.id,
-        hand: [...state[tempoplayer.id].hand, cardToDeal]
+
       }
     }
   })

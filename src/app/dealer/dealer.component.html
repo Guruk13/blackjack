@@ -1,6 +1,5 @@
 <mat-card>
 
-    <mat-card-title> {{ dealer$.name  }}</mat-card-title>
-    <mat-card-content> {{ dealer$.hand  }}</mat-card-content>
-</mat-card>
-<button (click)="lol()">lol</button>
+    <mat-card-title *ngIf="dealer$"> {{ dealer$.name }}</mat-card-title>
+    <mat-card-content *ngFor="let card of cards$">{{ card.id }}</mat-card-content>
+

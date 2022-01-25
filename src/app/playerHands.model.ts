@@ -5,5 +5,4 @@ export interface PlayerHand {
     name:string
     id: number,
     money:number,
-    hand: Array<Card>
 }

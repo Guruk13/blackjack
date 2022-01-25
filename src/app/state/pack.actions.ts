@@ -17,20 +17,20 @@ export const createdPack = createAction(
   props<{ somepack: ReadonlyArray<Card> }>()
 );
 
-
-
-export interface DealCardPayload{
+export interface DealCardPayload {
   playerIdToDeal: number,
   cardToDeal: Card
 }
 
 export const dealCard = createAction(
   'Dealing a random card to a player',
-  props<{  tempoplayer: PlayerHand,
-    cardToDeal: Card }>()
+  props<{
+    tempoplayer: PlayerHand,
+    cardToDeal: Card
+  }>()
 )
 
 export const createPlayers = createAction(
   '[Players] Creating players... success',
-  props<{somePlayers: ReadonlyArray<PlayerHand>}>()
+  props<{ somePlayers: ReadonlyArray<PlayerHand> }>()
 )

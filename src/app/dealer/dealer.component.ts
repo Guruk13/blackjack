@@ -2,7 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { PlayerHand } from 'app/playerHands.model';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectDealer } from 'app/state/playerhands.selector';
+import { selectCardsp, selectDealer } from 'app/state/player.selector';
+import { PossessedCard } from 'app/possessedCards.model';
 
 @Component({
   selector: 'app-dealer',
@@ -10,20 +11,24 @@ import { selectDealer } from 'app/state/playerhands.selector';
   styleUrls: ['./dealer.component.css']
 })
 export class DealerComponent implements OnInit {
-    public dealer$: PlayerHand; 
+  public dealer$: PlayerHand;
+  public cards$: any;
 
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
+    this.store.select(selectCardsp()).subscribe(cards => {
+      this.cards$ = cards
+    });
+
+
     this.store.select(selectDealer()).subscribe(dealere => {
-      this.dealer$ = dealere[0]
-    })
-
+      this.dealer$ = dealere
+    });
   }
 
-  lol(){
-    console.log(this.dealer$)
-  }
+  get playerInfo ()  { return (this.dealer$) ? this.dealer$ : null }
+
 
 }
