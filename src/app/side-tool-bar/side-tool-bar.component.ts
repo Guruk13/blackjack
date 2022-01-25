@@ -7,12 +7,17 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2, Directive } from '
   styleUrls: ['./side-tool-bar.component.css']
 })
 export class SideToolBarComponent implements OnInit {
+
+  event: Event; 
+
   constructor() {
 
   }
-  openNav(){
-    
+  openNav(event: Event){
+    this.event = event;    
   }
+
+
 
   ngOnInit(): void {
 

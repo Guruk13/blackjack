@@ -11,7 +11,7 @@ export class SideOpenerDirective {
 
   @Output() eventChange = new EventEmitter<Event>();
 
-  onClick(event: Event) {
+  openingClick(event: Event) {
     this.eventChange.emit(event);
   }
 
