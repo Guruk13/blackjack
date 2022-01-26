@@ -1,7 +1,8 @@
 import { Directive, ElementRef, Renderer2, Input,} from '@angular/core';
 
 @Directive({
-  selector: '[SideWrapperDirective]'
+  selector: '[SideWrapperDirective]',
+  exportAs: 'openmedaddy'
 })
 export class SideBarWrapperDirective {
 
@@ -9,6 +10,10 @@ export class SideBarWrapperDirective {
 
   open(){
     this.renderer.setStyle(this.el.nativeElement,"width", "100%" )
+  }
+
+  close(){
+    this.renderer.setStyle(this.el.nativeElement,"width", "0%" )
   }
 
   @Input()

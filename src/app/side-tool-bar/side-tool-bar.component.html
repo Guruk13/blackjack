@@ -1,6 +1,6 @@
-<div id="wrapper">
-<div SideWrapperDirective #sideBarWrapper [event]="event" class="overlay">
-    <a  class="closebtn" onclick="closeNav()"></a>
+
+<div SideWrapperDirective #a='openmedaddy' class="overlay">
+    <button  class="closebtn"  (click)="a.close()"> heyo</button>
     <div class="overlay-content">
         <a href="#">About</a>
         <a href="#">Services</a>
@@ -9,11 +9,11 @@
     </div>
 </div>
 
-<button class="play-button"        
-SideOpener
-(click)="openingClick($event)" (eventChange)="onChange($event)" >Play</button>
+<button id="opener" (click)="a.open()">O</button>
 
-</div>
+
+
+
 
 
 

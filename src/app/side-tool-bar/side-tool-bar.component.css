@@ -47,3 +47,10 @@
     right: 35px;
     }
   }
+  #opener{
+    position: absolute;
+    top: 50vh;
+    left: 10px; 
+    z-index: 1;
+    vertical-align: middle;
+  }
