@@ -1,10 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import { createImmerReducer } from 'ngrx-immer/store'
 import { addCard, dealCard, drawCard, createPlayers } from './pack.actions';
-import { PlayerHand, } from 'app/playerHands.model';
+import { Player } from '../models/playerHands.model';
 import { state } from '@angular/animations';
 
-export const initialState: ReadonlyArray<PlayerHand> = [];
+export const initialState: ReadonlyArray<Player> = [];
 
 export const playerReducer = createReducer(
   initialState,

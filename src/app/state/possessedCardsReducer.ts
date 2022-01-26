@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { createPlayers, dealCard, } from './pack.actions';
-import { PossessedCard } from 'app/possessedCards.model';
+import { PossessedCard } from '../models/possessedCards.model';
 import { state } from '@angular/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 

@@ -1,7 +1,22 @@
 import { Injectable } from '@angular/core';
-import { of} from 'rxjs';
+import { of } from 'rxjs';
 import { map } from 'rxjs/operators'
-import { Card } from './cards.model';
+import { Card } from './models/cards.model';
+
+
+//store related import 
+import { selectCards, selectPickRandomOne } from './state/cards.selector';
+import { selectAllPlayers, selectPlayerById, selectDealer } from './state/player.selector';
+import {
+  createdPack,
+  addCard,
+  drawCard,
+  dealCard,
+  createPlayers
+} from './state/pack.actions';
+import { Store } from '@ngrx/store';
+import { Player } from './models/playerHands.model';
+
 
 
 @Injectable({
@@ -9,20 +24,42 @@ import { Card } from './cards.model';
 })
 export class DealerService {
 
-  constructor() {
+  constructor(private store: Store,) {    
 
   }
 
+  pack$ = this.store.select(selectCards);
+  players$ = this.store.select(selectAllPlayers);
+  dealer$ = this.store.select(selectDealer)
 
+  onAdd(cardId: string) {
+    this.store.dispatch(addCard({ cardId }));
+  }
+
+  dealrandom(playerId: number) {
+    let randomCard!: Card;
+    let tempoplayer!: Player;
+    this.store.select(selectPickRandomOne).subscribe(
+      res => { randomCard = res }, error => { console.log("Could'nt pick a random card..") })
+    this.store.select(selectPlayerById(playerId)).subscribe(
+      (res) => { tempoplayer = res }, error => { console.log("Could'nt find player with id" + playerId) });
+    if (tempoplayer != undefined) {
+
+    }
+    let tempPayload = { tempoplayer, cardToDeal: randomCard }
+    this.store.dispatch(dealCard(tempPayload))
+  }
+
+  onRemove(cardId: string) {
+    this.store.dispatch(drawCard({ cardId }));
+  }
+
+  //generate a new deck 
   createPack() {
     let suits = [
       "hearts", "pikes", "spades", "clubs"
     ];
-
     let deck: Card[] = []
-
-
-    //generate a new deck 
     suits.forEach(suit => {
       for (let i = 0; i < 13; i++) {
         var newcard = <Card>{};
@@ -46,12 +83,38 @@ export class DealerService {
         }
         deck.push(newcard)
       }
-
     })
-    let ret = of(deck);
+
+    let somepack = deck ; 
+    this.store.dispatch(createdPack({ somepack }))
     
-    return ret.pipe(map((cards)=>cards || [] ) );
   }
+
+  initGame() {
+    //todo create pack generator + modify card ids 
+    this.createPack()
+    let imoney: number = 500;
+    let dealer: Player = { id: 0, name: "Mr.House", money: imoney }
+    let Youc: Player = { id: 1, name: "You", money: imoney };
+    let MissFortune: Player = { id: 2, name: "Miss Fortune", money: imoney }
+    let somePlayers: ReadonlyArray<Player> = [dealer, Youc, MissFortune]
+    this.store.dispatch(createPlayers({ somePlayers }));
+    this.game();
+
+
+  }
+
+  game() {
+    this.dealrandom(0);
+    this.dealrandom(0);
+    this.dealrandom(1);
+    this.dealrandom(1);
+    this.dealrandom(2);
+    this.dealrandom(2);
+
+  }
+
+
 
 
 }

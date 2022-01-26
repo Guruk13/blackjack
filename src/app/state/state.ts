@@ -1,9 +1,9 @@
-import { Card } from "../cards.model";
-import { PlayerHand } from "app/playerHands.model";
-import { PossessedCard } from "app/possessedCards.model";
+import { Card } from "../models/cards.model";
+import { Player } from "../models/playerHands.model";
+import { PossessedCard } from "../models/possessedCards.model";
 
 export interface AppState {
   pack: ReadonlyArray<string>  ;
   possessedCard: ReadonlyArray<PossessedCard>  ;
-  playerHand: ReadonlyArray<PlayerHand> ;
+  playerHand: ReadonlyArray<Player> ;
 }
