@@ -1,5 +1,5 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { Player } from '../models/playerHands.model';
+import { Player } from '../models/player.model';
 import { PossessedCard } from '../models/possessedCards.model';
 
 export const selectPlayers = createFeatureSelector<ReadonlyArray<Player>>('players');

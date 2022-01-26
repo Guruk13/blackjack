@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Card } from '../models/cards.model';
-import { Player } from '../models/playerHands.model'
+import { Player } from '../models/player.model'
 
 export const addCard = createAction(
   '[Pack] add card',

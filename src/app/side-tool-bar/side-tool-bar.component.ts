@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, Directive } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-side-tool-bar',
@@ -8,16 +7,8 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2, Directive } from '
 })
 export class SideToolBarComponent implements OnInit {
 
-  event: Event; 
-
   constructor() {
-
   }
-  openNav(event: Event){
-    this.event = event;    
-  }
-
-
 
   ngOnInit(): void {
 

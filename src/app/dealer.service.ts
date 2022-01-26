@@ -15,7 +15,7 @@ import {
   createPlayers
 } from './state/pack.actions';
 import { Store } from '@ngrx/store';
-import { Player } from './models/playerHands.model';
+import { Player } from './models/player.model';
 
 
 
