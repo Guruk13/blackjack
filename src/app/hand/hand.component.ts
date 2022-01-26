@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output,EventEmitter } from '@angular/core';
-import { Card } from '../cards.model';
+import { Card } from '../models/cards.model';
 
 @Component({
   selector: 'app-hand',

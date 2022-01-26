@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DealerService } from 'app/dealer.service';
 
 @Component({
   selector: 'app-side-tool-bar',
@@ -7,11 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideToolBarComponent implements OnInit {
 
-  constructor() {
+  constructor(private dealerService: DealerService) {
+
   }
 
   ngOnInit(): void {
 
   }
+  initGame(){
+    this.dealerService.initGame();
+
+  }
+  
 
 }

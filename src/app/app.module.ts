@@ -28,6 +28,7 @@ import { DealerComponent } from './dealer/dealer.component';
 //ToolBar for game parameters
 import { SideToolBarComponent } from './side-tool-bar/side-tool-bar.component';
 import { SideBarWrapperDirective } from './side-tool-bar/side-wrapper.directive';
+import { PlayerComponent } from './player/player.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { SideBarWrapperDirective } from './side-tool-bar/side-wrapper.directive'
     DealerComponent,
     SideToolBarComponent,
     SideBarWrapperDirective,
+    PlayerComponent,
 
 
   ],

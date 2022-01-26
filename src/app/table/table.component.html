@@ -5,9 +5,11 @@
   <mat-grid-tile [colspan]=3>
     <app-dealer ></app-dealer>
   </mat-grid-tile>
-  <mat-grid-tile>You</mat-grid-tile>
-  <mat-grid-tile>3</mat-grid-tile>
-  <mat-grid-tile>4</mat-grid-tile>
+
+  <mat-grid-tile *ngFor="let player of players$"> <app-player [player]="player" ></app-player>  </mat-grid-tile>
+
+
+
 </mat-grid-list>
 
 

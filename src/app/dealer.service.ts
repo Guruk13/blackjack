@@ -97,11 +97,10 @@ export class DealerService {
     let dealer: Player = { id: 0, name: "Mr.House", money: imoney }
     let Youc: Player = { id: 1, name: "You", money: imoney };
     let MissFortune: Player = { id: 2, name: "Miss Fortune", money: imoney }
-    let somePlayers: ReadonlyArray<Player> = [dealer, Youc, MissFortune]
+    let some: Player = { id: 2, name: "Theubald", money: imoney }
+    let somePlayers: ReadonlyArray<Player> = [dealer, Youc, MissFortune,some]
     this.store.dispatch(createPlayers({ somePlayers }));
     this.game();
-
-
   }
 
   game() {
@@ -111,11 +110,11 @@ export class DealerService {
     this.dealrandom(1);
     this.dealrandom(2);
     this.dealrandom(2);
-
   }
 
-
-
+  selectAllPlayers(){
+     let players = this.store.select(selectAllPlayers());
+  }
 
 }
 

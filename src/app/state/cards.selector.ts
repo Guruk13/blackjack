@@ -1,6 +1,6 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { create } from 'domain';
-import { Card } from '../cards.model';
+import { Card } from '../models/cards.model';
 
 export const selectCards = createFeatureSelector<ReadonlyArray<Card>>('pack');
 
