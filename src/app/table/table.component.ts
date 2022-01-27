@@ -13,12 +13,11 @@ import { Store } from '@ngrx/store';
 export class TableComponent implements OnInit {
   public players$: Player[];
 
-  constructor(private store: Store) { }
-  test() {
-    console.log(this.players$);
-  }
+  constructor(private store: Store, private dealerService: DealerService) { }
+
 
   ngOnInit() {
+    this.dealerService.initGame();
     this.store.select(selectAllPlayers()).subscribe(
       players => {
         this.players$ = players;

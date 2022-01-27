@@ -15,9 +15,16 @@ export class SideToolBarComponent implements OnInit {
   ngOnInit(): void {
 
   }
-  initGame(){
-    this.dealerService.initGame();
+  game(){
+    this.dealerService.game();
+  }
 
+  turn(){
+    this.dealerService.turn();
+  }
+
+  test(){
+    this.dealerService.test();
   }
   
 

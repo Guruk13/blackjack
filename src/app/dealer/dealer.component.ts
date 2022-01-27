@@ -18,6 +18,7 @@ export class DealerComponent implements OnInit {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
+    //@TODO access dealer from dealerservice
     this.store.select(selectDealer()).subscribe(dealer => {
       this.dealer$ = dealer;
       if(dealer){
@@ -26,8 +27,6 @@ export class DealerComponent implements OnInit {
         });
       }
     });
-
-
   }
 
 

@@ -13,7 +13,7 @@ export class SideBarWrapperDirective {
   }
 
   close(){
-    this.renderer.setStyle(this.el.nativeElement,"width", "0%" )
+    this.renderer.setStyle(this.el.nativeElement,"width", "10%" )
   }
 
   @Input()

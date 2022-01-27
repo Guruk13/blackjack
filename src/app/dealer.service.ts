@@ -3,14 +3,11 @@ import { of } from 'rxjs';
 import { map } from 'rxjs/operators'
 import { Card } from './models/cards.model';
 
-
 //store related import 
 import { selectCards, selectPickRandomOne } from './state/cards.selector';
-import { selectAllPlayers, selectPlayerById, selectDealer } from './state/player.selector';
+import { selectUnfoldedPlayers, selectPlayerById, selectDealer } from './state/player.selector';
 import {
   createdPack,
-  addCard,
-  drawCard,
   dealCard,
   createPlayers
 } from './state/pack.actions';
@@ -24,19 +21,14 @@ import { Player } from './models/player.model';
 })
 export class DealerService {
 
-  constructor(private store: Store,) {    
-
+  constructor(private store: Store,) {
   }
-
+  //@TODO fix type problem 
   pack$ = this.store.select(selectCards);
-  players$ = this.store.select(selectAllPlayers);
-  dealer$ = this.store.select(selectDealer)
+  unfoldedplayers$: any;
+  dealer$: Player;
 
-  onAdd(cardId: string) {
-    this.store.dispatch(addCard({ cardId }));
-  }
-
-  dealrandom(playerId: number) {
+  dealRandom(playerId: number) {
     let randomCard!: Card;
     let tempoplayer!: Player;
     this.store.select(selectPickRandomOne).subscribe(
@@ -48,10 +40,6 @@ export class DealerService {
     }
     let tempPayload = { tempoplayer, cardToDeal: randomCard }
     this.store.dispatch(dealCard(tempPayload))
-  }
-
-  onRemove(cardId: string) {
-    this.store.dispatch(drawCard({ cardId }));
   }
 
   //generate a new deck 
@@ -85,36 +73,63 @@ export class DealerService {
       }
     })
 
-    let somepack = deck ; 
+    let somepack = deck;
     this.store.dispatch(createdPack({ somepack }))
-    
+
   }
 
   initGame() {
     //todo create pack generator + modify card ids 
     this.createPack()
-    let imoney: number = 500;
-    let dealer: Player = { id: 0, name: "Mr.House", money: imoney }
-    let Youc: Player = { id: 1, name: "You", money: imoney };
-    let MissFortune: Player = { id: 2, name: "Miss Fortune", money: imoney }
-    let some: Player = { id: 2, name: "Theubald", money: imoney }
-    let somePlayers: ReadonlyArray<Player> = [dealer, Youc, MissFortune,some]
-    this.store.dispatch(createPlayers({ somePlayers }));
-    this.game();
+    this.addPlayers();
+
+    //selecting dealer + unfolded players into properties 
+    this.store.select(selectUnfoldedPlayers()).subscribe(res => {
+
+      this.unfoldedplayers$ = res;
+    })
+
+    this.store.select(selectDealer()).subscribe(dealer => {
+      this.dealer$ = dealer;
+    }
+    )
+
+
   }
+
+  addPlayers() {
+    //todo create pack generator + modify card ids 
+    let imoney: number = 500;
+    let dealer: Player = { id: 0, name: "Mr.House", chips: imoney }
+    let You: Player = { id: 1, name: "You", chips: imoney }
+    let MissFortune: Player = { id: 2, name: "Miss Fortune", chips: imoney }
+    let some: Player = { id: 3 , name: "Theubald", chips: imoney }
+    let somePlayers: ReadonlyArray<Player> = [dealer, You, MissFortune, some]
+    this.store.dispatch(createPlayers({ somePlayers }));
+  }
+
 
   game() {
-    this.dealrandom(0);
-    this.dealrandom(0);
-    this.dealrandom(1);
-    this.dealrandom(1);
-    this.dealrandom(2);
-    this.dealrandom(2);
+
   }
 
-  selectAllPlayers(){
-     let players = this.store.select(selectAllPlayers());
+  turn() {
+    //dealing card to Mr.house
+    this.dealRandom(this.dealer$.id)
+    let players: any;
+    players = this.unfoldedplayers$;
+    //Cards have to be dealt clockwise 
+  
+    players.slice().reverse().forEach((x: Player) => (
+      this.dealRandom(x.id)))
   }
+
+  test() {
+    
+  }
+
+
+
 
 }
 
