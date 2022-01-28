@@ -29,6 +29,7 @@ import { DealerComponent } from './dealer/dealer.component';
 import { SideToolBarComponent } from './side-tool-bar/side-tool-bar.component';
 import { SideBarWrapperDirective } from './side-tool-bar/side-wrapper.directive';
 import { PlayerComponent } from './player/player.component';
+import { CardAreaComponent } from './card-area/card-area.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { PlayerComponent } from './player/player.component';
     SideToolBarComponent,
     SideBarWrapperDirective,
     PlayerComponent,
+    CardAreaComponent,
 
 
   ],

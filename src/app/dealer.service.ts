@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators'
 import { Card } from './models/cards.model';
 
@@ -26,7 +26,7 @@ export class DealerService {
   //@TODO fix type problem 
   pack$ = this.store.select(selectCards);
   unfoldedplayers$: any;
-  dealer$: Player;
+  dealer$: Observable<Player> ; 
 
   dealRandom(playerId: number) {
     let randomCard!: Card;
@@ -89,12 +89,12 @@ export class DealerService {
       this.unfoldedplayers$ = res;
     })
 
-    this.store.select(selectDealer()).subscribe(dealer => {
-      this.dealer$ = dealer;
-    }
-    )
+    this.dealer$ = this.store.select(selectDealer)
+    
 
-
+  }
+  getDealer():Observable<Player>{
+    return this.dealer$ ;
   }
 
   addPlayers() {
@@ -115,7 +115,7 @@ export class DealerService {
 
   turn() {
     //dealing card to Mr.house
-    this.dealRandom(this.dealer$.id)
+    //this.dealRandom(this.dealer$.id)
     let players: any;
     players = this.unfoldedplayers$;
     //Cards have to be dealt clockwise 

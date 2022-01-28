@@ -2,7 +2,7 @@
 <div SideWrapperDirective #a='openmedaddy' class="overlay">
     <button  class="closebtn"  (click)="a.close()"> heyo</button>
     <div class="overlay-content">
-        <button (click)="game()">Init game</button> 
+        <a (click)="game()">Game</a> 
         <a (click)=turn()>Turn</a>
         <a href="#">Clients</a>
         <a (click)=test()>test  </a>
@@ -10,10 +10,6 @@
 </div>
 
 <button id="opener" (click)="a.open()">O</button>
-
-
-
-
 
 
 

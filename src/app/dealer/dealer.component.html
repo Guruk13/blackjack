@@ -1,5 +1,7 @@
-<mat-card>
+<mat-card *ngIf="dealer$ | async as dealer">
 
-    <mat-card-title *ngIf="dealer$"> {{ dealer$.name }}</mat-card-title>
-    <mat-card-content *ngFor="let card of cards$">{{ card.id }}</mat-card-content>
+    <mat-card-title  > {{ dealer.name }} hey</mat-card-title>
+    <mat-card-content><app-card-area  [player]="dealer.id"></app-card-area> </mat-card-content>
+    
+
 

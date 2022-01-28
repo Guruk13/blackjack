@@ -8,14 +8,15 @@ export const selectCards = createFeatureSelector<ReadonlyArray<PossessedCard>>('
 
 
 
-export const selectDealer = () =>
-  createSelector(selectPlayers, (players) => {
+export const selectDealer =  
+  createSelector(selectPlayers, (players) =>{
     return players.find(
       (player:Player) =>
         player.name === "Mr.House"
     )
   }
   );
+
 
 
 export const selectPlayerById = (id: number) =>
