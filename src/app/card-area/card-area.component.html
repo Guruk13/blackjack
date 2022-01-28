@@ -1,1 +1,1 @@
-<p>yes, {{ playerId }} there is a player in there</p>
+<div *ngFor="let card of cards$ | async as cards">{{card.id}}</div>
