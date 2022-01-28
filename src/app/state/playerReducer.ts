@@ -9,17 +9,4 @@ export const initialState: ReadonlyArray<Player> = [];
 export const playerReducer = createReducer(
   initialState,
   on(createPlayers, (state, { somePlayers }) => somePlayers),
-  on(dealCard, (state, { tempoplayer, cardToDeal }) => {
-    return {
-      ...state,
-      [tempoplayer.id] : {
-        ...state[tempoplayer.id],
-        id: tempoplayer.id,
-
-      }
-    }
-  })
-
-
-
 );

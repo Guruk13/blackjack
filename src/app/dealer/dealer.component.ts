@@ -29,19 +29,9 @@ export class DealerComponent implements OnInit {
 
   }
 
-  ngOnChanges(changes) {
-
-      // deal with asynchronous Observable result
-      console.log("Observeable dealer$ changed, here is what happened");
-      
-    
-  }
-
-
   ngOnInit(): void {
     this.dealer$ = this.dealerService.getDealer()
-    //this.dealer = of(1, 2, 3, 4, 5)//);
-    //console.log(this.dealer);
+
     //@TODO access dealer from dealerservice
     /*      this.dealerService.getDealer().subscribe(dealer => {
           this.dealer = dealer;

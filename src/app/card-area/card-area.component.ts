@@ -1,5 +1,6 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { Player } from 'app/models/player.model';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-card-area',
@@ -7,10 +8,11 @@ import { Player } from 'app/models/player.model';
   styleUrls: ['./card-area.component.css']
 })
 export class CardAreaComponent implements OnInit {
-  @Input() player:number;
+  @Input() playerId:number;
   constructor() { }
 
   ngOnInit(): void {
+    //this.store
   }
 
 }

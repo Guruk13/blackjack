@@ -1,7 +1,7 @@
 <mat-card *ngIf="dealer$ | async as dealer">
 
     <mat-card-title  > {{ dealer.name }} hey</mat-card-title>
-    <mat-card-content><app-card-area  [player]="dealer.id"></app-card-area> </mat-card-content>
+    <mat-card-content><app-card-area  [playerId]="dealer.id"></app-card-area> </mat-card-content>
     
 
 

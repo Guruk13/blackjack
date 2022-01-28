@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DealerService } from '../dealer.service';
 import { Player } from 'app/models/player.model';
-import { selectAllPlayers } from 'app/state/player.selector';
+import { selectAllPlayers,selectPlayers } from 'app/state/player.selector';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -11,19 +12,13 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./table.component.css']
 })
 export class TableComponent implements OnInit {
-  public players$: Player[];
+  players$;
 
   constructor(private store: Store, private dealerService: DealerService) { }
 
-
   ngOnInit() {
     this.dealerService.initGame();
-    this.store.select(selectAllPlayers()).subscribe(
-      players => {
-        this.players$ = players;
-
-      }
-    )
+    this.players$ = this.store.select(selectAllPlayers);
   }
 
 

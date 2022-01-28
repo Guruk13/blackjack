@@ -8,14 +8,13 @@ export const selectCards = createFeatureSelector<ReadonlyArray<PossessedCard>>('
 
 
 
-export const selectDealer =  
-  createSelector(selectPlayers, (players) =>{
+export const selectDealer =
+  createSelector(selectPlayers, (players) => {
     return players.find(
-      (player:Player) =>
+      (player: Player) =>
         player.name === "Mr.House"
     )
-  }
-  );
+  });
 
 
 
@@ -24,22 +23,21 @@ export const selectPlayerById = (id: number) =>
 
 
 
-export const selectAllPlayers = () =>
-  createSelector(selectPlayers, (players) =>
-    players.filter(
-      player => player.name != "Mr.House"
+export const selectAllPlayers =
+  createSelector(selectPlayers, (players) => {
+    return players.filter(
+      (player) => player.name != "Mr.House"
     )
-  )
+  });
+
 
 //Players that are still playing 
-export const selectUnfoldedPlayers = () =>
-  createSelector(selectAllPlayers(), (players) =>
+export const selectUnfoldedPlayers =
+  createSelector(selectAllPlayers, (players) =>
     players.filter(
       player => player.name != "Mr.House"
     )
   )
-
-
 
 export const selectPossessedCards = (playerId: number) =>
   createSelector(selectCards, (cards) =>

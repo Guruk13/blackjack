@@ -26,7 +26,7 @@ export class DealerService {
   //@TODO fix type problem 
   pack$ = this.store.select(selectCards);
   unfoldedplayers$: any;
-  dealer$: Observable<Player> ; 
+  dealer$: Observable<Player>;
 
   dealRandom(playerId: number) {
     let randomCard!: Card;
@@ -79,22 +79,20 @@ export class DealerService {
   }
 
   initGame() {
-    //todo create pack generator + modify card ids 
+
     this.createPack()
+    //the dealer is stored in the function below 
     this.addPlayers();
-
     //selecting dealer + unfolded players into properties 
-    this.store.select(selectUnfoldedPlayers()).subscribe(res => {
-
+    this.store.select(selectUnfoldedPlayers).subscribe(res => {
       this.unfoldedplayers$ = res;
     })
 
-    this.dealer$ = this.store.select(selectDealer)
-    
+    this.dealer$ = this.store.select(selectDealer);
 
   }
-  getDealer():Observable<Player>{
-    return this.dealer$ ;
+  getDealer(): Observable<Player> {
+    return this.dealer$;
   }
 
   addPlayers() {
@@ -103,7 +101,7 @@ export class DealerService {
     let dealer: Player = { id: 0, name: "Mr.House", chips: imoney }
     let You: Player = { id: 1, name: "You", chips: imoney }
     let MissFortune: Player = { id: 2, name: "Miss Fortune", chips: imoney }
-    let some: Player = { id: 3 , name: "Theubald", chips: imoney }
+    let some: Player = { id: 3, name: "Theubald", chips: imoney }
     let somePlayers: ReadonlyArray<Player> = [dealer, You, MissFortune, some]
     this.store.dispatch(createPlayers({ somePlayers }));
   }
@@ -115,17 +113,22 @@ export class DealerService {
 
   turn() {
     //dealing card to Mr.house
-    //this.dealRandom(this.dealer$.id)
+    let houseId: number; 
+    this.dealer$.subscribe((res) => {houseId = res.id})
+    this.dealRandom(houseId);
+
     let players: any;
     players = this.unfoldedplayers$;
-    //Cards have to be dealt clockwise 
-  
+    //Cards have to be dealt clockwise   
     players.slice().reverse().forEach((x: Player) => (
       this.dealRandom(x.id)))
   }
 
   test() {
-    
+    let random: any;
+    this.store.select(selectDealer).subscribe((res) => { random = res });
+    console.log(random);
+    this.dealRandom(0);
   }
 
 
