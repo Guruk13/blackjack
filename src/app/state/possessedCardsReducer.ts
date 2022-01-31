@@ -11,15 +11,16 @@ export const possessedCardReducer = createReducer(
   initialState,
 
   on(dealCard, (state, { tempoplayer, cardToDeal }) => {
-    return [
-      ...state,
-      {
-        ...cardToDeal,
-        userId: tempoplayer.id,
+      return [
+        ...state,
+        {
+          ...cardToDeal,
+          userId: tempoplayer.id,
 
-      }
-    ]
+        }
+      ]
   }
+
   )
 
 

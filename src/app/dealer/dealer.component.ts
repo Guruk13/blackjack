@@ -31,18 +31,6 @@ export class DealerComponent implements OnInit {
 
   ngOnInit(): void {
     this.dealer$ = this.dealerService.getDealer()
-
-    //@TODO access dealer from dealerservice
-    /*      this.dealerService.getDealer().subscribe(dealer => {
-          this.dealer = dealer;
-          console.log(dealer);
-          if(dealer){
-            this.store.select(selectPossessedCards(this.dealer.id)).subscribe(cards => {
-              this.cards$ = cards
-            });
-          }
-        });  */
-
   }
 
 

@@ -16,8 +16,6 @@ export const selectDealer =
     )
   });
 
-
-
 export const selectPlayerById = (id: number) =>
   createSelector(selectPlayers, (playersSelected) => playersSelected[id]);
 
@@ -35,9 +33,22 @@ export const selectAllPlayers =
 export const selectUnfoldedPlayers =
   createSelector(selectAllPlayers, (players) =>
     players.filter(
-      player => player.name != "Mr.House"
-    )
+      player => player.isOut == false
+    ).reverse()
   )
+
+
+
+export const selectDecidingPLayer =
+  createSelector(selectUnfoldedPlayers, (players) =>
+    players.find(
+      player => player.isDeciding == true
+    ))
+
+/* export const selectNextDecidingPlayer = createSelector(
+    selectUnfoldedPlayers
+    ) */
+
 
 export const selectPossessedCards = (playerId: number) =>
   createSelector(selectCards, (cards) =>

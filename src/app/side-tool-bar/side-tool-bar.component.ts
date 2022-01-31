@@ -19,12 +19,15 @@ export class SideToolBarComponent implements OnInit {
     this.dealerService.game();
   }
 
-  turn(){
-    this.dealerService.turn();
+  dealAll(){
+    this.dealerService.dealAll();
   }
 
   test(){
     this.dealerService.test();
+  }
+  shiftDecision(){
+    this.dealerService.shiftDecision();
   }
   
 
