@@ -34,12 +34,21 @@ export const createPlayers = createAction(
   '[Players] Creating players... success',
   props<{ somePlayers: ReadonlyArray<Player> }>()
 )
+
 export const shiftDecision = createAction(
   '[Players] Shifting decision between players',
   props<{
-    currentPlayer:Player,
-    nextPlayer:Player,
-    currentIndex:number,
-    nextIndex:number, 
+    currentPlayer: Player,
+    nextPlayer: Player | undefined,
+    currentIndex: number,
+    nextIndex: number | undefined,
   }>()
-)
+);
+
+export const changeChipCount = createAction(
+    '[Chips] Some player is losing/winning money',
+    props<{ playerId:number, chips: number }>()
+  );
+
+
+

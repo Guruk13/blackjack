@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { createImmerReducer } from 'ngrx-immer/store'
-import { addCard, dealCard, drawCard, createPlayers } from './pack.actions';
+import { addCard, dealCard, drawCard, createPlayers, changeChipCount } from './pack.actions';
 import { shiftDecision } from './pack.actions';
 import { Player } from '../models/player.model';
 import { state } from '@angular/animations';
@@ -15,12 +15,28 @@ export const playerReducer = createReducer(
     let array = [
       ...state,
     ]
-    array[nextIndex] = { ...nextPlayer, isDeciding: true, }
     array[currentIndex] = { ...currentPlayer, isDeciding: false };
-
+    if (nextPlayer && nextIndex) {
+      array[nextIndex] = { ...nextPlayer, isDeciding: true, }
+    }
     return array
 
-  }));
+  }),
+  on(changeChipCount, ( state,{ playerId, chips }) => {
+    let array = [
+      ...state
+    ]
+    
+    array.map((x)=>{
+      if(x.id === playerId){
+        x.chips = x.chips + chips
+      }
+    })
+    return array
+  }
+  
+  ),
+)
 
 
 

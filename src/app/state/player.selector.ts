@@ -37,18 +37,11 @@ export const selectUnfoldedPlayers =
     ).reverse()
   )
 
-
-
 export const selectDecidingPLayer =
   createSelector(selectUnfoldedPlayers, (players) =>
     players.find(
       player => player.isDeciding == true
     ))
-
-/* export const selectNextDecidingPlayer = createSelector(
-    selectUnfoldedPlayers
-    ) */
-
 
 export const selectPossessedCards = (playerId: number) =>
   createSelector(selectCards, (cards) =>

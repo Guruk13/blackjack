@@ -11,6 +11,7 @@ import {
   dealCard,
   createPlayers,
   shiftDecision,
+  changeChipCount,
 } from './state/pack.actions';
 import { Store } from '@ngrx/store';
 import { Player } from './models/player.model';
@@ -30,29 +31,31 @@ export class DealerService {
   dealer$: Observable<Player>;
   decisionIndex: number;
 
-  dealRandom(playerId: number) {
-    let randomCard!: Card;
-    let tempoplayer!: Player;
-    let remainingCards: number
+  dealRandom(playerId: number, seconds) {
+    setTimeout(() => {
+      let randomCard!: Card;
+      let tempoplayer!: Player;
+      let remainingCards: number
 
 
-    this.pack$.subscribe((res) => {
-      remainingCards = res.length;
-    })
-    if (remainingCards > 0) {
-      this.store.select(selectPickRandomOne).subscribe(
-        res => { randomCard = res }, error => { console.log("Could'nt pick a random card..") })
-      this.store.select(selectPlayerById(playerId)).subscribe(
-        (res) => { tempoplayer = res }, error => { console.log("Could'nt find player with id" + playerId) });
-      if (tempoplayer != undefined) {
+      this.pack$.subscribe((res) => {
+        remainingCards = res.length;
+      })
+      if (remainingCards > 0) {
+        this.store.select(selectPickRandomOne).subscribe(
+          res => { randomCard = res }, error => { console.log("Could'nt pick a random card..") })
+        this.store.select(selectPlayerById(playerId)).subscribe(
+          (res) => { tempoplayer = res }, error => { console.log("Could'nt find player with id" + playerId) });
+        if (tempoplayer != undefined) {
 
+        }
+        let tempPayload = { tempoplayer, cardToDeal: randomCard }
+        this.store.dispatch(dealCard(tempPayload));
       }
-      let tempPayload = { tempoplayer, cardToDeal: randomCard }
-      this.store.dispatch(dealCard(tempPayload));
-    }
-    else {
-      console.log("no cards left");
-    }
+      else {
+        console.log("no cards left");
+      }
+    }, seconds);
 
   }
 
@@ -115,8 +118,8 @@ export class DealerService {
 
     let dealer: Player = { id: 0, name: "Mr.House", chips: imoney, isDeciding: false, isOut: false, }
     let You: Player = { id: 1, name: "You", chips: imoney, isDeciding: false, isOut: false, }
-    let MissFortune: Player = { id: 2, name: "Miss Fortune", chips: imoney, isDeciding: true, isOut: false, }
-    let some: Player = { id: 3, name: "Theubald", chips: imoney, isDeciding: false, isOut: false, }
+    let MissFortune: Player = { id: 2, name: "Miss Fortune", chips: imoney, isDeciding: false, isOut: false, }
+    let some: Player = { id: 3, name: "Theubald", chips: imoney, isDeciding: true, isOut: false, }
     let somePlayers: ReadonlyArray<Player> = [dealer, You, MissFortune, some]
     this.store.dispatch(createPlayers({ somePlayers }));
   }
@@ -126,20 +129,22 @@ export class DealerService {
 
   }
 
-  dealAll() {
 
+
+  dealAll() {
     //dealing card to Mr.house
     let houseId: number;
     this.dealer$.subscribe((res) => { houseId = res.id })
-    this.dealRandom(houseId);
+    this.dealRandom(houseId, 0);
     let players: any;
     //@todo check for no players
     this.unfoldedplayers$.subscribe((res) => {
       players = res
     })
+
     //Cards have to be dealt clockwise   
-    players.forEach((x: Player) => (
-      this.dealRandom(x.id)))
+    players.forEach((x: Player, index = 2) => (
+      this.dealRandom(x.id, index * 1000)))
   }
 
   shiftDecision() {
@@ -158,51 +163,42 @@ export class DealerService {
     //Global Array
     this.store.select(selectPlayers).subscribe(res => globalArray = res);
     //
-    currentIndex = globalArray.findIndex(function (player) {
-      if (player.id == currentPlayer.id) {
-
-        return player.id == currentPlayer.id
-      }
-    })
-
-
+    currentIndex = globalArray.findIndex(player => {
+      return player.id == currentPlayer.id
+    });
     this.store.select(selectUnfoldedPlayers).subscribe(res => unfoldeds = res)
-
-    currentDecidingIndex = unfoldeds.findIndex(function (player) {
-      if (player.id == currentPlayer.id) {
-        return player.id == currentPlayer.id
-      }
-    })
-
-    if (currentDecidingIndex == unfoldeds.length) {
+    currentDecidingIndex = unfoldeds.findIndex(player => {
+      return player.id == currentPlayer.id
+    });
+    if (currentDecidingIndex == unfoldeds.length-1) {
       console.log("out of players");
+      this.store.dispatch(shiftDecision({ currentPlayer, nextPlayer, currentIndex, nextIndex }));
     } else {
       nextPlayer = unfoldeds[currentDecidingIndex + 1];
-      nextIndex = globalArray.findIndex(function (player) {
-        if (player.id == nextPlayer.id) {
-          return player.id == nextPlayer.id
-        }
+      nextIndex = globalArray.findIndex(player => {
+        return player.id == nextPlayer.id
       })
+      //Find index in Array 
+      this.store.dispatch(shiftDecision({ currentPlayer, nextPlayer, currentIndex, nextIndex }));
     }
-    console.log({ currentPlayer, nextPlayer, currentIndex, nextIndex });
-    //Find index in Array 
-    this.store.dispatch(shiftDecision({ currentPlayer, nextPlayer, currentIndex, nextIndex }));
+  }
 
-
-
-
-
-
-
-
-
+  chips(){
+    let playerId =3; 
+    let chips = 100; 
+    this.store.dispatch(changeChipCount({playerId, chips}));
   }
 
   test() {
     let random: any;
     this.store.select(selectDealer).subscribe((res) => { random = res });
-    console.log(random);
-    this.dealRandom(0);
+    this.dealRandom(0, 0);
+  }
+  start() {
+
+  }
+  endturn() {
+    console.log("End of turn")
   }
 
 

@@ -29,6 +29,10 @@ export class SideToolBarComponent implements OnInit {
   shiftDecision(){
     this.dealerService.shiftDecision();
   }
+
+  chips(){
+    this.dealerService.chips()
+  }
   
 
 }
