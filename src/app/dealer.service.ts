@@ -141,15 +141,12 @@ export class DealerService {
     this.unfoldedplayers$.subscribe((res) => {
       players = res
     })
-
     //Cards have to be dealt clockwise   
     players.forEach((x: Player, index = 2) => (
       this.dealRandom(x.id, index * 1000)))
   }
 
   shiftDecision() {
-
-
     let currentIndex: number;
     let nextIndex: number;
     let currentDecidingIndex: number;
@@ -157,7 +154,6 @@ export class DealerService {
     let nextPlayer: Player;
     let globalArray: any;
     let unfoldeds: Array<Player>;
-
     //current PLayer
     this.store.select(selectDecidingPLayer).subscribe(res => currentPlayer = res);
     //Global Array
@@ -170,7 +166,7 @@ export class DealerService {
     currentDecidingIndex = unfoldeds.findIndex(player => {
       return player.id == currentPlayer.id
     });
-    if (currentDecidingIndex == unfoldeds.length-1) {
+    if (currentDecidingIndex == unfoldeds.length - 1) {
       console.log("out of players");
       this.store.dispatch(shiftDecision({ currentPlayer, nextPlayer, currentIndex, nextIndex }));
     } else {
@@ -183,17 +179,16 @@ export class DealerService {
     }
   }
 
-  chips(){
-    let playerId =3; 
-    let chips = 100; 
-    this.store.dispatch(changeChipCount({playerId, chips}));
+  chips() {
+    let playerId = 3;
+    let chips = 100;
+    this.store.dispatch(changeChipCount({ playerId, chips }));
   }
 
   test() {
-    let random: any;
-    this.store.select(selectDealer).subscribe((res) => { random = res });
-    this.dealRandom(0, 0);
+
   }
+
   start() {
 
   }

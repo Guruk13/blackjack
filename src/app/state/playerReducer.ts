@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { createImmerReducer } from 'ngrx-immer/store'
+import { immerOn } from 'ngrx-immer/store';
 import { addCard, dealCard, drawCard, createPlayers, changeChipCount } from './pack.actions';
 import { shiftDecision } from './pack.actions';
 import { Player } from '../models/player.model';
@@ -22,17 +22,14 @@ export const playerReducer = createReducer(
     return array
 
   }),
-  on(changeChipCount, ( state,{ playerId, chips }) => {
-    let array = [
-      ...state
-    ]
-    
-    array.map((x)=>{
+  //using ImmerOn because entity would need to be implemented 
+  immerOn(changeChipCount, ( state,{ playerId, chips }) => {
+    state.map((x)=>{
       if(x.id === playerId){
         x.chips = x.chips + chips
       }
     })
-    return array
+    return state
   }
   
   ),
