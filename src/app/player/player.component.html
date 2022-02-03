@@ -3,7 +3,9 @@
     <mat-card-title> {{ player.name }}</mat-card-title>
     <mat-card-subtitle>{{player.chips}}</mat-card-subtitle>
     <p *ngIf="player.isDeciding">v</p>
-    <mat-card-content>
-        <app-card-area [playerId]="player.id"></app-card-area>
-    </mat-card-content>
-    <mat-slider vertical></mat-slider>
+    <div class="ressources">
+        <mat-card-content>
+            <app-card-area [playerId]="player.id"></app-card-area>
+        </mat-card-content>
+        <mat-slider vertical></mat-slider>
+    </div>
