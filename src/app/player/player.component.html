@@ -1,11 +1,11 @@
-<mat-card>
+<mat-card class="player-zone" [ngClass]="player.isDeciding ? 'decides': 'waits'">
 
     <mat-card-title> {{ player.name }}</mat-card-title>
     <mat-card-subtitle>{{player.chips}}</mat-card-subtitle>
-    <p *ngIf="player.isDeciding">v</p>
+
     <div class="ressources">
         <mat-card-content>
-            <app-card-area [playerId]="player.id"></app-card-area>
+            <app-card-area [hands]="player.hands"></app-card-area>
         </mat-card-content>
         <mat-slider vertical></mat-slider>
     </div>

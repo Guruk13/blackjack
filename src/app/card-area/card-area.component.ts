@@ -1,7 +1,9 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { Player } from 'app/models/player.model';
 import { Store } from '@ngrx/store';
+import {Card} from 'app/models/cards.model'
 import { selectPossessedCards } from 'app/state/player.selector';
+import { Playerhand } from 'app/models/playerHand';
 
 @Component({
   selector: 'app-card-area',
@@ -9,12 +11,12 @@ import { selectPossessedCards } from 'app/state/player.selector';
   styleUrls: ['./card-area.component.css']
 })
 export class CardAreaComponent implements OnInit {
-  @Input() playerId:number;
-  cards$
+  @Input() hands:Array<Playerhand>;
+
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.cards$ = this.store.select(selectPossessedCards(this.playerId));
+    
   }
 
 

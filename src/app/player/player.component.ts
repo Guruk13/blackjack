@@ -11,7 +11,7 @@ import { selectPossessedCards } from 'app/state/player.selector';
 })
 export class PlayerComponent implements OnInit {
   @Input() player: Player;
-  @Input() cards: PossessedCard[] | undefined ; 
+ 
 
   constructor(
     private store:Store
@@ -22,10 +22,9 @@ export class PlayerComponent implements OnInit {
     
   }
 
-  ngOnInit(): void {
-    this.store.select(selectPossessedCards(this.player.id)).subscribe(cards => {
-      this.cards = cards
-    });
+  ngOnInit(): void { 
+    
   }
+
 
 }

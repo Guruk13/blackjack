@@ -1,5 +1,13 @@
-<div class="container">
-<div class="card" *ngFor="let card of cards$ | async as cards">
-    {{card.id}}
+
+
+<div class="hand" *ngFor="let hand of hands">
+    <div class="container">
+        <div class="card" *ngFor="let card of hand.cards ">
+        {{card.id}}
+        </div>
+        {{hand.chipsraised}}
+    </div>
 </div>
-</div>
+
+
+

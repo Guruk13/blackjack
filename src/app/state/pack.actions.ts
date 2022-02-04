@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { PlayerComponent } from 'app/player/player.component';
 import { Card } from '../models/cards.model';
 import { Player } from '../models/player.model'
 
@@ -26,8 +27,9 @@ export const dealCard = createAction(
   'Dealing a random card to a player',
   props<{
     tempoplayer: Player,
-    cardToDeal: Card
-  }>()
+    cardToDeal: Card,
+    handIndex:number
+    }>()
 )
 
 export const createPlayers = createAction(
@@ -41,9 +43,19 @@ export const shiftDecision = createAction(
     currentPlayer: Player,
     nextPlayer: Player | undefined,
     currentIndex: number,
-    nextIndex: number | undefined,
+    nextIndex: number | undefined
   }>()
 );
+
+export const splitPair = createAction(
+  '[Player] Splitting a pair in half with the initial bet',
+  props<{
+    tempoplayer: Player ,
+    pairedHandIndex: number
+  }>()
+)
+
+
 
 export const changeChipCount = createAction(
     '[Chips] Some player is losing/winning money',

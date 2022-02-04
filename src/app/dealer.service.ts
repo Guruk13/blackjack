@@ -12,9 +12,11 @@ import {
   createPlayers,
   shiftDecision,
   changeChipCount,
+  splitPair,
 } from './state/pack.actions';
 import { Store } from '@ngrx/store';
 import { Player } from './models/player.model';
+
 
 
 
@@ -31,7 +33,9 @@ export class DealerService {
   dealer$: Observable<Player>;
   decisionIndex: number;
 
-  dealRandom(playerId: number, seconds) {
+
+  //deal a random card to player's first hand 
+  dealRandom(playerId: number, seconds, handIndex:number) {
     setTimeout(() => {
       let randomCard!: Card;
       let tempoplayer!: Player;
@@ -49,14 +53,14 @@ export class DealerService {
         if (tempoplayer != undefined) {
 
         }
-        let tempPayload = { tempoplayer, cardToDeal: randomCard }
+        console.log(handIndex);
+        let tempPayload = { tempoplayer, cardToDeal: randomCard, handIndex }
         this.store.dispatch(dealCard(tempPayload));
       }
       else {
         console.log("no cards left");
       }
     }, seconds);
-
   }
 
   //generate a new deck 
@@ -115,11 +119,11 @@ export class DealerService {
   addPlayers() {
     //todo create pack generator + modify card ids 
     let imoney: number = 500;
-
-    let dealer: Player = { id: 0, name: "Mr.House", chips: imoney, isDeciding: false, isOut: false, }
-    let You: Player = { id: 1, name: "You", chips: imoney, isDeciding: false, isOut: false, }
-    let MissFortune: Player = { id: 2, name: "Miss Fortune", chips: imoney, isDeciding: false, isOut: false, }
-    let some: Player = { id: 3, name: "Theubald", chips: imoney, isDeciding: true, isOut: false, }
+    let iPlayerHand = {chipsraised: 0, cards: [] }
+    let dealer: Player = { id: 0, name: "Mr.House", chips: imoney, isDeciding: false, isOut: false, hands: [iPlayerHand] }
+    let You: Player = { id: 1, name: "You", chips: imoney, isDeciding: false, isOut: false, hands: [iPlayerHand] }
+    let MissFortune: Player = { id: 2, name: "Miss Fortune", chips: imoney, isDeciding: false, isOut: false, hands: [iPlayerHand]}
+    let some: Player = { id: 3, name: "Theubald", chips: imoney, isDeciding: true, isOut: false, hands: [iPlayerHand]}
     let somePlayers: ReadonlyArray<Player> = [dealer, You, MissFortune, some]
     this.store.dispatch(createPlayers({ somePlayers }));
   }
@@ -135,7 +139,7 @@ export class DealerService {
     //dealing card to Mr.house
     let houseId: number;
     this.dealer$.subscribe((res) => { houseId = res.id })
-    this.dealRandom(houseId, 0);
+    this.dealRandom(houseId, 0,0 );
     let players: any;
     //@todo check for no players
     this.unfoldedplayers$.subscribe((res) => {
@@ -143,7 +147,8 @@ export class DealerService {
     })
     //Cards have to be dealt clockwise   
     players.forEach((x: Player, index = 2) => (
-      this.dealRandom(x.id, index * 1000)))
+      this.dealRandom(x.id, index * 1000, 0)
+      ))
   }
 
   shiftDecision() {
@@ -188,10 +193,24 @@ export class DealerService {
   test() {
 
   }
+  split(){
+        //dealing card to Mr.house
+        let house: Player;
+        
+        this.dealer$.subscribe((res) => { house = res })
+        let number = 0; 
+        if(house.hands[number].cards.length>1){
+          this.store.dispatch(splitPair({tempoplayer: house, pairedHandIndex: number}))
+        }else{
+          console.log("Not enough cards in that hand to split");
+        }
+
+  }
 
   start() {
 
   }
+
   endturn() {
     console.log("End of turn")
   }

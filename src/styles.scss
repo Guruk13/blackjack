@@ -2,6 +2,8 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+$table-color: rgb(40, 40, 60);
 
 
-@import "scss/components/am-components/am-tabs";
+@import "./app//scss//components/am-components/am-cards.scss";
+@import "./app//scss//components//cards.scss";

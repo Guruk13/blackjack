@@ -18,6 +18,10 @@ export class SideToolBarComponent implements OnInit {
   game(){
     this.dealerService.game();
   }
+  
+  split(){
+    this.dealerService.split();
+  }
 
   dealAll(){
     this.dealerService.dealAll();

@@ -8,7 +8,7 @@ import { PossessedCard } from 'app/models/possessedCards.model';
 import { DealerService } from 'app/dealer.service';
 
 // RxJS v6+
-import { of } from 'rxjs';
+import { Playerhand } from 'app/models/playerHand';
 //emits any number of provided values in sequence
 
 
@@ -18,9 +18,11 @@ import { of } from 'rxjs';
   templateUrl: './dealer.component.html',
   styleUrls: ['./dealer.component.css']
 })
+
+
 export class DealerComponent implements OnInit {
   public dealer$: Observable<Player>;
-  public cards$: PossessedCard[] | undefined;
+  public cards$: Array<Playerhand>
 
 
   constructor(private store: Store, private dealerService: DealerService) { }
