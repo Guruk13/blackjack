@@ -5,7 +5,7 @@ import { Card } from './models/cards.model';
 
 //store related import 
 import { selectCards, selectPickRandomOne } from './state/cards.selector';
-import { selectUnfoldedPlayers, selectPlayerById, selectDealer, selectDecidingPLayer, selectPlayers } from './state/player.selector';
+import { selectUnfoldedPlayers, selectPlayerById, selectDealer, selectDecidingPLayer, selectPlayers, selectAllPlayers } from './state/player.selector';
 import {
   createdPack,
   dealCard,
@@ -13,6 +13,7 @@ import {
   shiftDecision,
   changeChipCount,
   splitPair,
+  raiseInitialBet
 } from './state/pack.actions';
 import { Store } from '@ngrx/store';
 import { Player } from './models/player.model';
@@ -27,21 +28,23 @@ export class DealerService {
 
   constructor(private store: Store,) {
   }
-  //@TODO fix type problem 
   pack$ = this.store.select(selectCards);
   unfoldedplayers$: any;
   dealer$: Observable<Player>;
   decisionIndex: number;
 
+  getDealer(): Observable<Player> {
+    return this.dealer$;
+  }
 
-  //deal a random card to player's first hand 
+
+
+  //deal a random card to player's hand 
   dealRandom(playerId: number, seconds, handIndex:number) {
     setTimeout(() => {
       let randomCard!: Card;
       let tempoplayer!: Player;
       let remainingCards: number
-
-
       this.pack$.subscribe((res) => {
         remainingCards = res.length;
       })
@@ -53,12 +56,12 @@ export class DealerService {
         if (tempoplayer != undefined) {
 
         }
-        console.log(handIndex);
         let tempPayload = { tempoplayer, cardToDeal: randomCard, handIndex }
         this.store.dispatch(dealCard(tempPayload));
       }
       else {
         console.log("no cards left");
+        this.createPack();
       }
     }, seconds);
   }
@@ -93,27 +96,22 @@ export class DealerService {
         deck.push(newcard)
       }
     })
-
     let somepack = deck;
     this.store.dispatch(createdPack({ somepack }))
 
   }
 
   initGame() {
-
     this.createPack()
     //the dealer is stored in the function below 
     this.addPlayers();
     //selecting dealer + unfolded players into properties 
     this.unfoldedplayers$ = this.store.select(selectUnfoldedPlayers);
     this.dealer$ = this.store.select(selectDealer);
-
     this.unfoldedplayers$.subscribe((res) => {
       this.decisionIndex = res.indexOfLast
     })
-  }
-  getDealer(): Observable<Player> {
-    return this.dealer$;
+    this.dealFirstHand(23);
   }
 
   addPlayers() {
@@ -128,12 +126,27 @@ export class DealerService {
     this.store.dispatch(createPlayers({ somePlayers }));
   }
 
-
-  game() {
+  dealFirstHand(initialBet){
+     //dealing card to Mr.house
+     let houseId: number;
+     this.dealer$.subscribe((res) => { houseId = res.id })
+     this.dealRandom(houseId, 0,0 );
+     let players: any;
+     //@todo check for no players
+     this.unfoldedplayers$.subscribe((res) => {
+       players = res
+     })
+     //Cards have to be dealt clockwise   
+     players.forEach((x: Player, seconds = 2) => (
+       this.dealRandom(x.id, seconds * 1000, 0)
+       ));
+      //Cards have to be dealt clockwise   
+     players.forEach((x: Player, seconds = 2) => (
+      this.dealRandom(x.id, seconds * 1000, 0)
+      ));
+      this.store.dispatch(raiseInitialBet({initialBet}));
 
   }
-
-
 
   dealAll() {
     //dealing card to Mr.house
@@ -146,10 +159,13 @@ export class DealerService {
       players = res
     })
     //Cards have to be dealt clockwise   
-    players.forEach((x: Player, index = 2) => (
-      this.dealRandom(x.id, index * 1000, 0)
+    players.forEach((x: Player, seconds = 2) => (
+      this.dealRandom(x.id, seconds * 1000, 0)
       ))
   }
+  //Excessively long function because I didnt use entities.
+  // It resulted in the use in Immer and in global mess pf the code 
+  // Could've used Angmat's stepper ? , yes makes total sense with disabling the aria 
 
   shiftDecision() {
     let currentIndex: number;
@@ -191,28 +207,22 @@ export class DealerService {
   }
 
   test() {
-
+    let initialBet = 27 ; 
+    this.store.dispatch(raiseInitialBet({initialBet}));
   }
   split(){
         //dealing card to Mr.house
-        let house: Player;
-        
-        this.dealer$.subscribe((res) => { house = res })
-        let number = 0; 
-        if(house.hands[number].cards.length>1){
-          this.store.dispatch(splitPair({tempoplayer: house, pairedHandIndex: number}))
-        }else{
-          console.log("Not enough cards in that hand to split");
+        let house: Player;"'"
+        let arrayplayers: Array<Player>;
+        this.store.select(selectAllPlayers).subscribe((res)=> arrayplayers = res )
+        if(arrayplayers){
+          arrayplayers.forEach(element => {
+            if(element.hands)
+            this.store.dispatch(splitPair({tempoplayer: element, pairedHandIndex: 0}))
+          });
+          
         }
 
-  }
-
-  start() {
-
-  }
-
-  endturn() {
-    console.log("End of turn")
   }
 
 

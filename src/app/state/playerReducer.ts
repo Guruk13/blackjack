@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { immerOn } from 'ngrx-immer/store';
-import { addCard, dealCard, drawCard, createPlayers, changeChipCount,splitPair } from './pack.actions';
+import { addCard, dealCard, drawCard, createPlayers, changeChipCount,splitPair, raiseInitialBet } from './pack.actions';
 import { shiftDecision } from './pack.actions';
 import { Player } from '../models/player.model';
 import { state } from '@angular/animations';
@@ -42,12 +42,32 @@ export const playerReducer = createReducer(
   }),
   immerOn(splitPair,(state,{tempoplayer, pairedHandIndex}) =>{
     //splicing the second card 
-    let card = state.find((player)=>player.id == tempoplayer.id).hands[pairedHandIndex].cards.splice(1,2); 
-    let futurePlayerhand:Playerhand ={chipsraised: 0, cards:[card[0]] }
+    let card :Array<Card> = state.find((player)=>player.id == tempoplayer.id).hands[pairedHandIndex].cards.splice(1,2) ; 
+    //getting chipsraised for that hand 
+    let chipsToSplit:number = state.find((player)=>player.id == tempoplayer.id).hands[pairedHandIndex].chipsraised
+
+
+    let futurePlayerhand:Playerhand ={chipsraised: chipsToSplit, cards:[card[0]] }
     state.find((player) =>player.id ==tempoplayer.id)
-    .hands.splice(pairedHandIndex+1,1, futurePlayerhand)
+    .hands.splice(pairedHandIndex+1,0, futurePlayerhand)
   }
-)
+),
+immerOn(raiseInitialBet,(state,{initialBet}) =>{
+  state.map((player)=>{
+    //could use selector 
+    if(player.name != "Mr.House"){
+      if(player.chips>=initialBet){
+        player.hands[0].chipsraised = initialBet;
+        player.chips = player.chips - initialBet
+      }else{
+        player.hands[0].chipsraised = player.chips;
+        player.chips = 0;
+      }
+
+    }
+  })
+
+})
 )
 
 

@@ -1,0 +1,13 @@
+todo 
+
+change player area 
+
+When splitting a pair , manage chips : player.chips< pair to deal chips ? 
+
+write double, 
+write fold 
+write win condition 
+write drawcard for a hand 
+
+implement snackbar from angmat , mr house is going to be verbose ! 
+

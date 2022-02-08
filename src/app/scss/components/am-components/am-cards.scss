@@ -1,7 +1,8 @@
 
 .mat-card.player-zone{
    background-color:  white;
-   //height: 180px;
+
+
 }
 
 .mat-card.decides{
@@ -10,7 +11,9 @@
     border-width: 20px;
 }
 
-
+.mat-card{
+    height:100%;
+}
 
 mat-grid-tile {
     background: $table-color;

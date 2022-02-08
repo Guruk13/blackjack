@@ -18,6 +18,11 @@ export const createdPack = createAction(
   props<{ somepack: ReadonlyArray<Card> }>()
 );
 
+export const raiseInitialBet = createAction(
+  '[Hands] Set initial bet for player hands',
+  props<{initialBet: number}>()
+);
+
 export interface DealCardPayload {
   playerIdToDeal: number,
   cardToDeal: Card

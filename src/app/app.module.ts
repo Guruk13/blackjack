@@ -10,7 +10,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
-
+import {MatInputModule} from '@angular/material/input'; 
 import { CardComponent } from './card/card.component';
 import { TableComponent } from './table/table.component';
 import { PackComponent } from './pack/pack.component';
@@ -55,6 +55,7 @@ import { CardAreaComponent } from './card-area/card-area.component';
     MatButtonModule,
     MatCardModule,
     MatGridListModule,
+    MatInputModule,
 
     //Store related imports 
     StoreModule.forRoot({ players: playerReducer, pack: packReducer }),

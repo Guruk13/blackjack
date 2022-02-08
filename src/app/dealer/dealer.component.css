@@ -1,4 +1,10 @@
-img {
-    border-radius: 50%;
-    object-fit: fill;
+
+
+  .example-card {
+    max-width: 400px;
+  }
+  
+  .example-header-image {
+    background-image: url('../../assets/MrHouse2.png');
+    background-size: cover;
   }

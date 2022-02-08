@@ -2,19 +2,14 @@
 <div SideWrapperDirective #a='openmedaddy' class="overlay">
     <button  class="closebtn"  (click)="a.close()">X</button>
     <div class="overlay-content">
-        <a (click)="game()">Game</a> 
         <a (click)=dealAll()>dealAll</a>
         <a (click)=shiftDecision()>Shift</a>
-        <a (click)=chips()>chips</a>
-        <a (click)=split()>"spit"</a>
-        <a href="#">Clients</a>
+        <a (click)=firstHand()>firstHand</a>
+        <a (click)=split()>spit</a>
+        <a (click)=test()>lol</a>
+
 
     </div>
 </div>
 
 <button id="opener" (click)="a.open()">O</button>
-
-
-
-
-

@@ -25,6 +25,9 @@ export class PlayerComponent implements OnInit {
   ngOnInit(): void { 
     
   }
+  playerChips(){
+    return 30 ; 
+  }
 
 
 }

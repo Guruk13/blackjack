@@ -19,5 +19,9 @@ export class CardAreaComponent implements OnInit {
     
   }
 
+  playerChips(){
+    return 30 ; 
+  }
+
 
 }

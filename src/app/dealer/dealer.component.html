@@ -1,7 +1,12 @@
-<img src="../../assets/MrHouse2.png" >
+
 
 <mat-card *ngIf="dealer$ | async as dealer">
+    <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>   
+        
     <mat-card-title> {{ dealer.name }}</mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+    </mat-card-header>
     <mat-card-content>
         <app-card-area [hands]="dealer.hands"></app-card-area>
     </mat-card-content>

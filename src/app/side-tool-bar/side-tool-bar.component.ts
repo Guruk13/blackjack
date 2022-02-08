@@ -15,12 +15,12 @@ export class SideToolBarComponent implements OnInit {
   ngOnInit(): void {
 
   }
-  game(){
-    this.dealerService.game();
-  }
   
   split(){
     this.dealerService.split();
+  }
+  firstHand(){
+    this.dealerService.dealFirstHand(27);
   }
 
   dealAll(){
