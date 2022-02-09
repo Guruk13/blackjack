@@ -8,9 +8,22 @@
         {{hand.chipsraised}}
         <form>
             <mat-form-field class="handDecision">
-                <input matInput type="number" value="{{hand.chipsraised}}" [max]="playerChips()">
+                <input matInput type="number" value="{{hand.chipsraised}}" [formControl]="chipsControl" >
             </mat-form-field>
         </form>
+
+        <div formArrayName="aliases">
+            <h2>Aliases</h2>
+            <button type="button" (click)="addAlias()" type="button">+ Add another alias</button>
+          
+            <div *ngFor="let alias of aliases.controls; let i=index">
+              <!-- The repeated alias template -->
+              <label for="alias-{{ i }}">Alias:</label>
+              <input id="alias-{{ i }}" type="text" [formControlName]="i">
+            </div>
+          </div>
+
+
 
     </div>
 

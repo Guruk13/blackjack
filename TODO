@@ -11,3 +11,9 @@ write drawcard for a hand
 
 implement snackbar from angmat , mr house is going to be verbose ! 
 
+https://angular.io/guide/reactive-forms#creating-dynamic-forms
+
+formcontrols :
+ ->array(
+     validators 
+ )

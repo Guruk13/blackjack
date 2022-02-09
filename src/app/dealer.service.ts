@@ -116,7 +116,7 @@ export class DealerService {
 
   addPlayers() {
     //todo create pack generator + modify card ids 
-    let imoney: number = 500;
+    let imoney: number = 10;
     let iPlayerHand = {chipsraised: 0, cards: [] }
     let dealer: Player = { id: 0, name: "Mr.House", chips: imoney, isDeciding: false, isOut: false, hands: [iPlayerHand] }
     let You: Player = { id: 1, name: "You", chips: imoney, isDeciding: false, isOut: false, hands: [iPlayerHand] }
@@ -202,7 +202,7 @@ export class DealerService {
 
   chips() {
     let playerId = 3;
-    let chips = 100;
+     let chips = 1 ; 
     this.store.dispatch(changeChipCount({ playerId, chips }));
   }
 

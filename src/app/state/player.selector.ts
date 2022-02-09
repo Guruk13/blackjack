@@ -37,6 +37,8 @@ export const selectUnfoldedPlayers =
     ).reverse()
   )
 
+
+
 export const selectDecidingPLayer =
   createSelector(selectUnfoldedPlayers, (players) =>
     players.find(

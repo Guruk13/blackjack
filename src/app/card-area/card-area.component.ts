@@ -5,6 +5,12 @@ import {Card} from 'app/models/cards.model'
 import { selectPossessedCards } from 'app/state/player.selector';
 import { Playerhand } from 'app/models/playerHand';
 
+
+//Form related imports 
+import { FormBuilder } from '@angular/forms';
+import { FormArray } from '@angular/forms';
+
+
 @Component({
   selector: 'app-card-area',
   templateUrl: './card-area.component.html',
@@ -12,16 +18,29 @@ import { Playerhand } from 'app/models/playerHand';
 })
 export class CardAreaComponent implements OnInit {
   @Input() hands:Array<Playerhand>;
+  @Input() chipsSum:number ; 
 
-  constructor(private store: Store) { }
+  profileForm = this.fb.group({
+    aliases: this.fb.array([
+
+    ])
+  });
+
+  
+
+  constructor(private store: Store, private fb: FormBuilder) { }
+
+
+  get aliases() {
+    return this.profileForm.get('aliases') as FormArray;
+  }
+
 
   ngOnInit(): void {
     
   }
 
-  playerChips(){
-    return 30 ; 
-  }
+
 
 
 }
