@@ -20,9 +20,10 @@ export class CardAreaComponent implements OnInit {
   @Input() hands:Array<Playerhand>;
   @Input() chipsSum:number ; 
 
-  profileForm = this.fb.group({
+  handsFormGroup = this.fb.group({
+    firstName: ['', ],
     aliases: this.fb.array([
-
+      this.fb.control('')
     ])
   });
 
@@ -32,7 +33,7 @@ export class CardAreaComponent implements OnInit {
 
 
   get aliases() {
-    return this.profileForm.get('aliases') as FormArray;
+    return this.handsFormGroup.get('aliases') as FormArray;
   }
 
 

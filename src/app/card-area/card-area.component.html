@@ -1,33 +1,15 @@
-
-
-<div class="hand" *ngFor="let hand of hands">
-    <div class="container">
-        <div class="card" *ngFor="let card of hand.cards ">
-        {{card.id}}
-        </div>
-        {{hand.chipsraised}}
-        <form>
-            <mat-form-field class="handDecision">
-                <input matInput type="number" value="{{hand.chipsraised}}" [formControl]="chipsControl" >
-            </mat-form-field>
-        </form>
-
-        <div formArrayName="aliases">
-            <h2>Aliases</h2>
-            <button type="button" (click)="addAlias()" type="button">+ Add another alias</button>
-          
-            <div *ngFor="let alias of aliases.controls; let i=index">
-              <!-- The repeated alias template -->
-              <label for="alias-{{ i }}">Alias:</label>
-              <input id="alias-{{ i }}" type="text" [formControlName]="i">
+<form [formGroup]="handsFormGroup" >
+    <div formArrayName="hands">
+        <div class="hand" *ngFor="let hand of hands;  let i=index">
+            <div class="container">
+                <!-- @TODO Could use han's id to use as index but heh -->
+                <div class="card" *ngFor="let card of hand.cards">
+                    {{card.id}}
+                </div>
+                {{hand.chipsraised}}
+                <input id="hand-{{ i }}" type="number" [formControlName]="i">
             </div>
-          </div>
 
-
-
+        </div>
     </div>
-
-</div>
-
-
-
+</form>

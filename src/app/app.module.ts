@@ -5,7 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import{FormControl} from '@angular/forms'
+//Form imports
+import{ReactiveFormsModule,FormsModule} from '@angular/forms';
+
 
 //Angular Material imports 
 import { MatSliderModule } from '@angular/material/slider';
@@ -51,6 +53,10 @@ import { CardAreaComponent } from './card-area/card-area.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    //Forms
+    FormsModule,
+    ReactiveFormsModule,
+
     //Angular Material related imports 
     BrowserAnimationsModule,
     MatSliderModule,
