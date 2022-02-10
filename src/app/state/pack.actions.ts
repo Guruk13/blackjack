@@ -33,7 +33,7 @@ export const dealCard = createAction(
   props<{
     tempoplayer: Player,
     cardToDeal: Card,
-    handIndex:number
+    handIdentifier :number
     }>()
 )
 
@@ -56,7 +56,7 @@ export const splitPair = createAction(
   '[Player] Splitting a pair in half with the initial bet',
   props<{
     tempoplayer: Player ,
-    pairedHandIndex: number
+    pairedHandId: number
   }>()
 )
 

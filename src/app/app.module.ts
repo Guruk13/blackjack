@@ -33,6 +33,7 @@ import { SideToolBarComponent } from './side-tool-bar/side-tool-bar.component';
 import { SideBarWrapperDirective } from './side-tool-bar/side-wrapper.directive';
 import { PlayerComponent } from './player/player.component';
 import { CardAreaComponent } from './card-area/card-area.component';
+import { posssessedCardReducer } from './state/possessedCardReducer';
 
 
 @NgModule({
@@ -66,7 +67,7 @@ import { CardAreaComponent } from './card-area/card-area.component';
     MatInputModule,
 
     //Store related imports 
-    StoreModule.forRoot({ players: playerReducer, pack: packReducer }),
+    StoreModule.forRoot({ players: playerReducer, pack: packReducer, possessedCards: posssessedCardReducer }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [],

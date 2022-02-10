@@ -36,22 +36,6 @@ export const playerReducer = createReducer(
     return state
   },
   ),
-  immerOn(dealCard, ( state,{ tempoplayer, cardToDeal, handIndex }) => {
-    state.find((player) =>player.id == tempoplayer.id).hands[handIndex].cards.push(cardToDeal);
-    return state
-  }),
-  immerOn(splitPair,(state,{tempoplayer, pairedHandIndex}) =>{
-    //splicing the second card 
-    let card :Array<Card> = state.find((player)=>player.id == tempoplayer.id).hands[pairedHandIndex].cards.splice(1,2) ; 
-    //getting chipsraised for that hand 
-    let chipsToSplit:number = state.find((player)=>player.id == tempoplayer.id).hands[pairedHandIndex].chipsraised
-
-
-    let futurePlayerhand:Playerhand ={chipsraised: chipsToSplit, cards:[card[0]] }
-    state.find((player) =>player.id ==tempoplayer.id)
-    .hands.splice(pairedHandIndex+1,0, futurePlayerhand)
-  }
-),
 immerOn(raiseInitialBet,(state,{initialBet}) =>{
   state.map((player)=>{
     //could use selector 

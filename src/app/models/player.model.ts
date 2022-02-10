@@ -8,6 +8,5 @@ export interface Player {
     chips:number,
     isOut: boolean,
     isDeciding:boolean,
-    hands: Array<Playerhand>;
 
 }
