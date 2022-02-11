@@ -1,27 +1,46 @@
 import { createReducer, on } from '@ngrx/store';
 import { immerOn } from 'ngrx-immer/store';
-import { addCard, dealCard,splitPair, } from './pack.actions';
+import { addCard, dealCard,splitPair, createHands } from './pack.actions';
+import { state } from '@angular/animations';
 
 import { PossessedCard } from 'app/models/possessedCards.model';
-import { Playerhand } from 'app/models/playerHand';
+import { PlayerHand } from 'app/models/playerHand.model';
 
-export const initialState: ReadonlyArray<Playerhand> = [];
+export const initialState: ReadonlyArray<PlayerHand> = [];
 
-export const posssessedCardReducer = createReducer(
+export const playerHandsReducer = createReducer(
   initialState,
+  on(createHands, (state, { someHands }) => someHands),
 
-/*   immerOn(dealCard, ( state,{ tempoplayer, cardToDeal , handIndex }) => {
-    let newPossCard:PossessedCard = {userId: tempoplayer.id, handInd: handIndex ,...cardToDeal}
-    state.push(newPossCard);
-  }), */
+  immerOn(dealCard, ( state,{ tempoplayer, cardToDeal , handIdentifier, chipsFirsthand}) => {
+    //create a hand if it's the first 
+    //logic should'nt be in reducers but february is my deadline 
+    let firstHand = state.find((hand) => (hand.userId == tempoplayer.id && hand.id == handIdentifier) ) 
+    if(!firstHand &&  handIdentifier == 0 ){
+      let handToPush:PlayerHand = {userId : tempoplayer.id , id:handIdentifier, chipsraised: chipsFirsthand, possessedCardsCollection: [cardToDeal] }
+      state.push(handToPush)
+    }else{
+      firstHand.possessedCardsCollection.push(cardToDeal)
+    }
+  }), 
 
-  immerOn(splitPair, ( state,{ tempoplayer, pairedHandIndex }) => {
-    let playerhandIndex =state.findIndex((playerHand)=>{
-      return (tempoplayer.id == playerHand.userId && pairedHandIndex == playerHand.handId)
-    })
-    let newHand= state[playerhandIndex]
-    newHand.handId ++; 
-    state.splice(playerhandIndex+1,0, newHand)
 
-  }),
+
+  immerOn(splitPair, ( state,{ hand }) => {
+    let newhand:PlayerHand;
+
+    let card = state.find((handToFind) => 
+      {
+        console.log("haha");
+        console.log(hand)
+        console.log()
+      return handToFind == hand 
+      }
+      ).possessedCardsCollection.slice(1,2)
+    newhand = {...hand, possessedCardsCollection:[card[0]]}
+    state.push(newhand)
+
+  })
+
+
 )

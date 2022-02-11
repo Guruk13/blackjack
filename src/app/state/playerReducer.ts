@@ -5,15 +5,13 @@ import { shiftDecision } from './pack.actions';
 import { Player } from '../models/player.model';
 import { state } from '@angular/animations';
 import {Card } from "../models/cards.model"
-import { temporaryAllocator } from '@angular/compiler/src/render3/view/util';
-import { Playerhand } from 'app/models/playerHand';
 
 export const initialState: ReadonlyArray<Player> = [];
 
 export const playerReducer = createReducer(
   initialState,
   on(createPlayers, (state, { somePlayers }) => somePlayers),
-
+  //overly complicated because of my lack of awareness of entities 
   on(shiftDecision, (state, { currentPlayer, nextPlayer, currentIndex, nextIndex }) => {
     let array = [
       ...state,
@@ -36,7 +34,7 @@ export const playerReducer = createReducer(
     return state
   },
   ),
-immerOn(raiseInitialBet,(state,{initialBet}) =>{
+/* immerOn(raiseInitialBet,(state,{initialBet}) =>{
   state.map((player)=>{
     //could use selector 
     if(player.name != "Mr.House"){
@@ -51,7 +49,7 @@ immerOn(raiseInitialBet,(state,{initialBet}) =>{
     }
   })
 
-})
+}) */
 )
 
 

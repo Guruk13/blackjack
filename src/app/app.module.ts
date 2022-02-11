@@ -27,6 +27,7 @@ import { playerReducer } from './state/playerReducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { DealerComponent } from './dealer/dealer.component';
+import {playerHandsReducer} from './state/playerHandReducer'
 
 //ToolBar for game parameters
 import { SideToolBarComponent } from './side-tool-bar/side-tool-bar.component';
@@ -67,7 +68,7 @@ import { posssessedCardReducer } from './state/possessedCardReducer';
     MatInputModule,
 
     //Store related imports 
-    StoreModule.forRoot({ players: playerReducer, pack: packReducer, possessedCards: posssessedCardReducer }),
+    StoreModule.forRoot({ players: playerReducer, pack: packReducer , playerHands: playerHandsReducer}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [],

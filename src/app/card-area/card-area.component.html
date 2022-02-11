@@ -1,9 +1,8 @@
 <form [formGroup]="handsFormGroup" >
-    <div formArrayName="hands">
-        <div class="hand" *ngFor="let hand of hands;  let i=index">
+    <div formArrayName="aliases">
+        <div class="hand" *ngFor="let hand of playerHandState$ | async;  let i=index">
             <div class="container">
-                <!-- @TODO Could use han's id to use as index but heh -->
-                <div class="card" *ngFor="let card of hand.cards">
+                <div class="card" *ngFor="let card of hand.possessedCardsCollection">
                     {{card.id}}
                 </div>
                 {{hand.chipsraised}}
@@ -13,3 +12,5 @@
         </div>
     </div>
 </form>
+
+

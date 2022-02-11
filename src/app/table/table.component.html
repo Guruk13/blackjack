@@ -1,5 +1,7 @@
 <app-side-tool-bar></app-side-tool-bar>
 
+
+
 <mat-grid-list cols="3" rowHeight="50vh" id=list gutterSize="0" >
   <mat-grid-tile [colspan]=3>
     <app-dealer class="houseCard"></app-dealer>
@@ -7,5 +9,9 @@
     <mat-grid-tile  *ngFor="let player of players$ | async as players">
       <app-player class="playerCard" [player]="player"></app-player>
     </mat-grid-tile>
+
+
+
+
 
 </mat-grid-list>

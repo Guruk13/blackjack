@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DealerService } from '../dealer.service';
 import { Player } from 'app/models/player.model';
 import { selectAllPlayers,selectPlayers } from 'app/state/player.selector';
+import { selectPlayerHand, selectPlayerHandCollection} from 'app/state/playerHand.selector';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -13,13 +14,19 @@ import { Observable } from 'rxjs';
 })
 export class TableComponent implements OnInit {
   players$;
+  playerHandCards$;
+
 
   constructor(private store: Store, private dealerService: DealerService) { }
 
   ngOnInit() {
     this.dealerService.initGame();
     this.players$ = this.store.select(selectAllPlayers);
+
+    
   }
+
+
 
 
 

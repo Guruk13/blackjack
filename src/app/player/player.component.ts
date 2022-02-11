@@ -22,14 +22,6 @@ export class PlayerComponent implements OnInit {
     
   }
 
-  sumAllChips(){
-    let sum :number ; 
-    this.player.hands.forEach(element => {
-      sum += element.chipsraised;
-    });
-    return sum; 
-  }
-
   ngOnInit(): void { 
     
   }

@@ -16,9 +16,7 @@ export class SideToolBarComponent implements OnInit {
 
   }
   
-  split(){
-    this.dealerService.split();
-  }
+
   firstHand(){
     this.dealerService.dealFirstHand(27);
   }
@@ -29,6 +27,14 @@ export class SideToolBarComponent implements OnInit {
 
   test(){
     this.dealerService.test();
+  }
+  
+  split(){
+    this.dealerService.split();
+  }
+
+  dealRandom(){
+    this.dealerService.dealRandom(3)
   }
   shiftDecision(){
     this.dealerService.shiftDecision();

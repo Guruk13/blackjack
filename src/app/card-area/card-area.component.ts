@@ -3,7 +3,8 @@ import { Player } from 'app/models/player.model';
 import { Store } from '@ngrx/store';
 import {Card} from 'app/models/cards.model'
 import { selectPossessedCards } from 'app/state/player.selector';
-import { Playerhand } from 'app/models/playerHand';
+import { selectPlayerHand, selectPlayerHandCollections} from 'app/state/playerHand.selector';
+import { PlayerHand } from 'app/models/playerHand.model';
 
 
 //Form related imports 
@@ -17,8 +18,9 @@ import { FormArray } from '@angular/forms';
   styleUrls: ['./card-area.component.css']
 })
 export class CardAreaComponent implements OnInit {
-  @Input() hands:Array<Playerhand>;
-  @Input() chipsSum:number ; 
+  @Input() playerId:number;
+  @Input() chipsSum:number ;
+  playerHandState$
 
   handsFormGroup = this.fb.group({
     firstName: ['', ],
@@ -38,10 +40,11 @@ export class CardAreaComponent implements OnInit {
 
 
   ngOnInit(): void {
-    
+    this.playerHandState$ = this.store.select(selectPlayerHandCollections(this.playerId));
   }
 
 
 
 
 }
+

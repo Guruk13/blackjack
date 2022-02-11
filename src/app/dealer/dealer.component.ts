@@ -8,7 +8,7 @@ import { PossessedCard } from 'app/models/possessedCards.model';
 import { DealerService } from 'app/dealer.service';
 
 // RxJS v6+
-import { Playerhand } from 'app/models/playerHand';
+import { PlayerHand } from 'app/models/playerHand.model';
 //emits any number of provided values in sequence
 
 
@@ -22,7 +22,7 @@ import { Playerhand } from 'app/models/playerHand';
 
 export class DealerComponent implements OnInit {
   public dealer$: Observable<Player>;
-  public cards$: Array<Playerhand>
+  public cards$: Array<PlayerHand>
 
 
   constructor(private store: Store, private dealerService: DealerService) { }
@@ -33,6 +33,7 @@ export class DealerComponent implements OnInit {
 
   ngOnInit(): void {
     this.dealer$ = this.dealerService.getDealer()
+    
   }
 
 
