@@ -1,12 +1,12 @@
 <form [formGroup]="handsFormGroup" >
     <div formArrayName="aliases">
-        <div class="hand" *ngFor="let hand of playerHandState$ | async;  let i=index">
+        <div class="hand" *ngFor="let hand of playerHandState$ | async; ">
             <div class="container">
                 <div class="card" *ngFor="let card of hand.possessedCardsCollection">
                     {{card.id}}
                 </div>
                 {{hand.chipsraised}}
-                <input id="hand-{{ i }}" type="number" [formControlName]="i">
+                <input id="hand-{{ hand.id }}" type="number" [formControlName]="hand.id">
             </div>
 
         </div>

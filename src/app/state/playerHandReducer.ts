@@ -44,10 +44,6 @@ export const playerHandsReducer = createReducer(
     let card = state[theIndex].possessedCardsCollection.slice(1,2); 
     state[theIndex] = handToRepush;
 
-
-    
-
-
     newhand = { ...hand, possessedCardsCollection: [card[0]], id: card[0].id }
     state.push(newhand)
 

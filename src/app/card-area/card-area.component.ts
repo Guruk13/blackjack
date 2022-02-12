@@ -5,6 +5,12 @@ import {Card} from 'app/models/cards.model'
 import { selectPossessedCards } from 'app/state/player.selector';
 import { selectPlayerHand, selectPlayerHandCollections} from 'app/state/playerHand.selector';
 import { PlayerHand } from 'app/models/playerHand.model';
+//rxjs 
+//https://medium.com/bytelimes/truly-reactive-forms-in-angular-a-unique-approach-cae9be6d7459
+import {filter } from 'rxjs/operators'
+import { map } from "rxjs/operators"; 
+import{Observable} from 'rxjs'
+import 'rxjs/add/operator/map';
 
 
 //Form related imports 
@@ -21,11 +27,15 @@ export class CardAreaComponent implements OnInit {
   @Input() playerId:number;
   @Input() chipsSum:number ;
   playerHandState$
+  //to help determine forms and such 
+  handSubscription; 
+  formArray$
+
+  form:Observable<FormArray>
 
   handsFormGroup = this.fb.group({
     firstName: ['', ],
     aliases: this.fb.array([
-      this.fb.control('')
     ])
   });
 
@@ -41,6 +51,14 @@ export class CardAreaComponent implements OnInit {
 
   ngOnInit(): void {
     this.playerHandState$ = this.store.select(selectPlayerHandCollections(this.playerId));
+    //@TODO an observeable of hands.chips 
+
+    this.formArray$ = this.playerHandState$.pipe(
+      map(posts => this.fb.array(posts.map(post => this.fb.group(post))))
+    );
+
+
+
   }
 
 
