@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DealerService } from '../dealer.service';
 import { Player } from 'app/models/player.model';
 import { selectAllPlayers,selectPlayers } from 'app/state/player.selector';
-import { selectPlayerHand, selectPlayerHandCollection} from 'app/state/playerHand.selector';
+import { selectPlayerHand, selectPlayerHandCollections} from 'app/state/playerHand.selector';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 

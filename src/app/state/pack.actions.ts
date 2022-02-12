@@ -24,17 +24,14 @@ export const raiseInitialBet = createAction(
   props<{initialBet: number}>()
 );
 
-export interface DealCardPayload {
-  playerIdToDeal: number,
-  cardToDeal: Card
-}
+
 
 export const dealCard = createAction(
   'Dealing a random card to a player',
   props<{
     tempoplayer: Player,
     cardToDeal: Card,
-    handIdentifier :number
+    handIdentifier :string,
     chipsFirsthand: number,
     }>()
 )

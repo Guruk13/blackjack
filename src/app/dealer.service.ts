@@ -19,8 +19,9 @@ import {
 import { Store } from '@ngrx/store';
 import { Player } from './models/player.model';
 import { PlayerHand } from './models/playerHand.model';
-import { selectPlayerHand } from './state/playerHand.selector';
+import { selectPlayerHandVanilla,selectPlayerHandCollections } from './state/playerHand.selector';
 import { element } from 'protractor';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -45,7 +46,7 @@ export class DealerService {
 
 
   //deal a random card to a player's first hand 
-  dealRandom(playerId: number) {
+  dealRandom(playerId: number, handId:string ) {
 
 
     let randomCard!: Card;
@@ -63,13 +64,13 @@ export class DealerService {
       if (tempoplayer != undefined) {
 
       }
-      let tempPayload = { tempoplayer, cardToDeal: randomCard, handIdentifier: 0, chipsFirsthand: chipsforFirsthand }
+      let tempPayload = { tempoplayer, cardToDeal: randomCard, handIdentifier: handId , chipsFirsthand: chipsforFirsthand }
       this.store.dispatch(dealCard(tempPayload));
     }
     else {
       console.log("no cards left");
       this.createPack();
-      this.dealRandom(playerId);
+      this.dealRandom(playerId,handId);
 
     }
 
@@ -138,7 +139,7 @@ export class DealerService {
     //dealing card to Mr.house
     let houseId: number;
     this.dealer$.subscribe((res) => { houseId = res.id })
-    this.dealRandom(houseId);
+    this.dealRandom(houseId, "tempo");
     let players: any;
     //@todo check for no players
     this.unfoldedplayers$.subscribe((res) => {
@@ -146,11 +147,11 @@ export class DealerService {
     })
     //Cards have to be dealt clockwise   
     players.forEach((x: Player, seconds = 2) => (
-      this.dealRandom(x.id,)
+      this.dealRandom(x.id, "tempo")
     ));
     //Cards have to be dealt clockwise   
     players.forEach((x: Player, seconds = 2) => (
-      this.dealRandom(x.id,)
+      this.dealRandom(x.id, "tempo")
     ));
     this.store.dispatch(raiseInitialBet({ initialBet }));
 
@@ -160,7 +161,7 @@ export class DealerService {
     //dealing card to Mr.house
     let houseId: number;
     this.dealer$.subscribe((res) => { houseId = res.id })
-    this.dealRandom(houseId,);
+    this.dealRandom(houseId, "tempo");
     let players: any;
     //@todo check for no players
     this.unfoldedplayers$.subscribe((res) => {
@@ -168,7 +169,7 @@ export class DealerService {
     })
     //Cards have to be dealt clockwise   
     players.forEach((x: Player, seconds = 2) => (
-      this.dealRandom(x.id,)
+      this.dealRandom(x.id, "tempo")
     ))
   }
   //Excessively long function because I didnt use entities.
@@ -220,21 +221,24 @@ export class DealerService {
   }
   split() {
     let playerHands;
-    this.store.select(selectPlayerHand).subscribe(
-      (res) => {
-        res.map((hand: PlayerHand) => {
-          if (hand.userId != 0) {
-            this.store.dispatch(splitPair({ hand }))
-          }
-        }
-        )
+    this.store.select(selectPlayerHandVanilla).subscribe(
+      (res) => {playerHands = res
       }
     )
-
-
+    playerHands.forEach(element => {
+      if (element.userId != 0) {
+        this.store.dispatch(splitPair({ hand: element }))
+      }
+      
+    });
 
 
   }
+
+
+
+
+
 
 
 

@@ -10,18 +10,14 @@ export const selectPlayerHand = createFeatureSelector<ReadonlyArray<PlayerHand>>
 
 
 
-export const selectPlayerHandCollection = (id: number) =>
-  createSelector(selectPlayerHand, (playerHands) => {
-    
-    let aplayer =  playerHands.find((playerHand) => playerHand.userId == id )
-    return aplayer}
-    )
+export const selectPlayerHandVanilla = 
+  createSelector(selectPlayerHand, (playerHands) => playerHands
 
-    export const selectPlayerHandCollections = (id: number) =>
-    createSelector(selectPlayerHand, (playerHands) => {
-      
-      let aplayer =  playerHands.filter((playerHand) => playerHand.userId == id )
-      console.log(aplayer);
-      return aplayer}
-      )
-    
+  )
+
+export const selectPlayerHandCollections = (id: number) =>
+  createSelector(selectPlayerHand, (playerHands) => {
+    let aplayer = playerHands.filter((playerHand) => playerHand.userId == id)
+    return aplayer
+  }
+  )
