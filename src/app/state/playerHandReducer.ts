@@ -18,7 +18,7 @@ export const playerHandsReducer = createReducer(
     let firstHand = state.find((hand) => (hand.userId == tempoplayer.id ))
     //let firstHand = state.find((hand) => (hand.userId == tempoplayer.id && hand.id == handIdentifier))
     if (!firstHand) {
-      let handToPush: PlayerHand = { userId: tempoplayer.id, id: cardToDeal.id, chipsraised: chipsFirsthand, possessedCardsCollection: [cardToDeal] }
+      let handToPush:PlayerHand = {userId : tempoplayer.id, id: cardToDeal.id, chipsraised: chipsFirsthand, possessedCardsCollection: [cardToDeal] }
       state.push(handToPush)
     } else {
       firstHand.possessedCardsCollection.push(cardToDeal)

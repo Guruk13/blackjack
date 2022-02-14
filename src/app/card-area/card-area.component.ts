@@ -4,18 +4,18 @@ import { Store } from '@ngrx/store';
 import {Card} from 'app/models/cards.model'
 import { selectPossessedCards } from 'app/state/player.selector';
 import { selectPlayerHand, selectPlayerHandCollections} from 'app/state/playerHand.selector';
-import { PlayerHand } from 'app/models/playerHand.model';
+import { PlayerHand, TrickyHand } from 'app/models/playerHand.model';
 //rxjs 
 //https://medium.com/bytelimes/truly-reactive-forms-in-angular-a-unique-approach-cae9be6d7459
 import {filter } from 'rxjs/operators'
 import { map } from "rxjs/operators"; 
-import{Observable} from 'rxjs'
-import 'rxjs/add/operator/map';
+import{Observable} from 'rxjs/observable'
 
 
 //Form related imports 
 import { FormBuilder } from '@angular/forms';
 import { FormArray } from '@angular/forms';
+import { playerHandsReducer } from 'app/state/playerHandReducer';
 
 
 @Component({
@@ -53,9 +53,12 @@ export class CardAreaComponent implements OnInit {
     this.playerHandState$ = this.store.select(selectPlayerHandCollections(this.playerId));
     //@TODO an observeable of hands.chips 
 
-    this.formArray$ = this.playerHandState$.pipe(
-      map(posts => this.fb.array(posts.map(post => this.fb.group(post))))
-    );
+    this.playerHandState$.subscribe((res) => {return res}).pipe(map((ph : PlayerHand [] )=>{
+      const fgs = ph.map( PlayerHand.asFormGroup)
+      return new FormArray(fgs);
+    }
+    
+    ))
 
 
 
