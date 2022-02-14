@@ -9,15 +9,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import{ReactiveFormsModule,FormsModule} from '@angular/forms';
 
 
-//Angular Material imports 
+//Angular Material imports
 import { MatSliderModule } from '@angular/material/slider';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
-import {MatInputModule} from '@angular/material/input'; 
+import {MatInputModule} from '@angular/material/input';
 import { CardComponent } from './card/card.component';
 import { TableComponent } from './table/table.component';
 import { PackComponent } from './pack/pack.component';
+import {MatTableModule} from '@angular/material/table'
 import { HandComponent } from './hand/hand.component';
 
 //Store related imports
@@ -59,15 +60,16 @@ import { posssessedCardReducer } from './state/possessedCardReducer';
     FormsModule,
     ReactiveFormsModule,
 
-    //Angular Material related imports 
+    //Angular Material related imports
     BrowserAnimationsModule,
     MatSliderModule,
     MatButtonModule,
     MatCardModule,
     MatGridListModule,
     MatInputModule,
+    MatTableModule,
 
-    //Store related imports 
+    //Store related imports
     StoreModule.forRoot({ players: playerReducer, pack: packReducer , playerHands: playerHandsReducer}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],

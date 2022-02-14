@@ -4,16 +4,19 @@ import { Store } from '@ngrx/store';
 import {Card} from 'app/models/cards.model'
 import { selectPossessedCards } from 'app/state/player.selector';
 import { selectPlayerHand, selectPlayerHandCollections} from 'app/state/playerHand.selector';
-import { PlayerHand, TrickyHand } from 'app/models/playerHand.model';
+import { PlayerHand} from 'app/models/playerHand.model';
 //rxjs 
 //https://medium.com/bytelimes/truly-reactive-forms-in-angular-a-unique-approach-cae9be6d7459
 import {filter } from 'rxjs/operators'
 import { map } from "rxjs/operators"; 
 import{Observable} from 'rxjs/observable'
+import { MatTableDataSource } from '@angular/material/table/table-data-source';
+
+
 
 
 //Form related imports 
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormArray } from '@angular/forms';
 import { playerHandsReducer } from 'app/state/playerHandReducer';
 
@@ -28,10 +31,11 @@ export class CardAreaComponent implements OnInit {
   @Input() chipsSum:number ;
   playerHandState$
   //to help determine forms and such 
-  handSubscription; 
-  formArray$
+ 
 
-  form:Observable<FormArray>
+  form: FormGroup;
+  dataSource:MatTableDataSource<any>;
+
 
   handsFormGroup = this.fb.group({
     firstName: ['', ],
@@ -53,15 +57,20 @@ export class CardAreaComponent implements OnInit {
     this.playerHandState$ = this.store.select(selectPlayerHandCollections(this.playerId));
     //@TODO an observeable of hands.chips 
 
+    //chain subscription is bad ima do it yes i am 
     this.playerHandState$.subscribe((res) => {return res}).pipe(map((ph : PlayerHand [] )=>{
       const fgs = ph.map( PlayerHand.asFormGroup)
       return new FormArray(fgs);
-    }
-    
-    ))
+    }))
+    //almuservice
+    .subscribe(playerhands =>{
+      this.form.setControl('playerhands',playerhands);
+    })
+    this.dataSource = new MatTableDataSource((this.form.get('playerhands') as FormArray).controls);
 
-
-
+  }
+  get playerhands():FormArray{
+    return this.form.get('playerhands') as FormArray;
   }
 
 

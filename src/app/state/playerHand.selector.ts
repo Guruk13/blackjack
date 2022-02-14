@@ -11,9 +11,7 @@ export const selectPlayerHand = createFeatureSelector<ReadonlyArray<PlayerHand>>
 
 
 export const selectPlayerHandVanilla = 
-  createSelector(selectPlayerHand, (playerHands:PlayerHand[]) => playerHands
-
-  )
+  createSelector(selectPlayerHand, (playerHands) => playerHands)
 
 export const selectPlayerHandCollections = (id: number) =>
   createSelector(selectPlayerHand, (playerHands) => {
