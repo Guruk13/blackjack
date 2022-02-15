@@ -5,20 +5,11 @@ import{FormControl, FormGroup, Validators} from '@angular/forms';
 
 
 //possessedCardId is the first card id due to technical limitattions (possessedcard collection cannot be used within array state.method)
-export class PlayerHand {
+export interface PlayerHand {
     userId:number;
-    id: string; 
+    id: string;
     chipsraised:number;
     possessedCardsCollection: Array<Card>;
-
-    static asFormGroup(playerhand: PlayerHand): FormGroup {
-      const fg = new FormGroup({
-
-        userId: new FormControl(playerhand.userId, Validators.required),
-        id: new FormControl(playerhand.id, Validators.required),
-      });
-      return fg;
-    }
 
 
 }

@@ -13,8 +13,8 @@ export const playerHandsReducer = createReducer(
   on(createHands, (state, { someHands }) => someHands),
 
   immerOn(dealCard, (state, { tempoplayer, cardToDeal, handIdentifier, chipsFirsthand }) => {
-    //create a hand if it's the first 
-    //logic should'nt be in reducers but february is my deadline 
+    //create a hand if it's the first
+    //logic should'nt be in reducers but february is my deadline
     let firstHand = state.find((hand) => (hand.userId == tempoplayer.id ))
     //let firstHand = state.find((hand) => (hand.userId == tempoplayer.id && hand.id == handIdentifier))
     if (!firstHand) {
@@ -31,7 +31,7 @@ export const playerHandsReducer = createReducer(
     let newhand: PlayerHand;
 
     //console.log(hand.possessedCardsCollection[0])
-    //cannot use find in an array 
+    //cannot use find in an array
       let theIndex = state.findIndex((handToFind) =>
 
       handToFind.id == hand.id
@@ -40,8 +40,7 @@ export const playerHandsReducer = createReducer(
     );
     //rebuilding hand ... @ODD
     let handToRepush:PlayerHand = {...state[theIndex], possessedCardsCollection:[state[theIndex].possessedCardsCollection[0]]}
-    console.log(handToRepush)
-    let card = state[theIndex].possessedCardsCollection.slice(1,2); 
+    let card = state[theIndex].possessedCardsCollection.slice(1,2);
     state[theIndex] = handToRepush;
 
     newhand = { ...hand, possessedCardsCollection: [card[0]], id: card[0].id }
