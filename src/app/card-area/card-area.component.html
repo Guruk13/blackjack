@@ -1,5 +1,5 @@
 <form [formGroup]="form" autocomplete="off">
-  <mat-table [dataSource]="dataSource">
+  <mat-table #myTable [dataSource]="dataSource">
 
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
@@ -7,11 +7,20 @@
 
     <!-- User Column -->
     <ng-container matColumnDef="id">
-      <mat-header-cell *matHeaderCellDef> User </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> handid </mat-header-cell>
       <mat-cell *matCellDef="let element" [formGroup]="element">
         <mat-form-field floatLabel="never">
           <input matInput placeholder="Title" formControlName="id" required>
         </mat-form-field>
+      </mat-cell>
+    </ng-container>
+
+    
+    <!-- User Column -->
+    <ng-container matColumnDef="cards">
+      <mat-header-cell *matHeaderCellDef> Cards </mat-header-cell>
+      <mat-cell *matCellDef="let element" >
+        {{element.possessedCardsColletion[0]}}
       </mat-cell>
     </ng-container>
 
@@ -22,7 +31,7 @@
       <mat-header-cell *matHeaderCellDef> chipsraised </mat-header-cell>
       <mat-cell *matCellDef="let element;" [formGroup]="element">
         <mat-form-field floatLabel="never">
-          <input matInput placeholder="Title" formControlName="chipsraised" required>
+          <input matInput type="number" placeholder="0" formControlName="chipsraised" required>
         </mat-form-field>
       </mat-cell>
     </ng-container>
