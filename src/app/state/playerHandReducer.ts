@@ -26,8 +26,9 @@ export const playerHandsReducer = createReducer(
   }),
 
 
-
+  //accepts a two card hand
   immerOn(splitPair, (state, { hand }) => {
+
     let newhand: PlayerHand;
 
     //console.log(hand.possessedCardsCollection[0])
@@ -44,7 +45,7 @@ export const playerHandsReducer = createReducer(
     state[theIndex] = handToRepush;
 
     newhand = { ...hand, possessedCardsCollection: [card[0]], id: card[0].id }
-    state.push(newhand)
+    state.splice(theIndex+1,0, newhand)
 
   })
 

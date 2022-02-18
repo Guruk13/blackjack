@@ -28,13 +28,10 @@ export class SideToolBarComponent implements OnInit {
   test(){
     this.dealerService.test();
   }
-  
-  split(){
-    this.dealerService.split();
-  }
+
 
   dealRandom(){
-
+    
   }
   shiftDecision(){
     this.dealerService.shiftDecision();

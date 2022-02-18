@@ -14,12 +14,16 @@ import { Observable } from 'rxjs/observable'
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTable } from '@angular/material/table';
 
+import { DealerService } from '../dealer.service';
+
+
 
 
 //Form related imports
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormArray } from '@angular/forms';
 import { playerHandsReducer } from 'app/state/playerHandReducer';
+import { splitPair } from 'app/state/pack.actions';
 
 
 @Component({
@@ -29,19 +33,19 @@ import { playerHandsReducer } from 'app/state/playerHandReducer';
 })
 export class CardAreaComponent implements OnInit {
   @Input() playerId: number;
-  @Input() chipsSum: number;
   @ViewChild(MatTable) myTable!: MatTable<any>;
   playerHandState$
   //to help determine forms and such
+  splitable = true ;
 
 
   form: FormGroup;
   dataSource: MatTableDataSource<any>;
-  displayedColumns = ['id', 'chipsraised']
+  displayedColumns = [ 'chipsraised', 'pcardsCol', 'raiseSplit']
 
 
 
-  constructor(private store: Store, private fb: FormBuilder) { }
+  constructor(private store: Store, private fb: FormBuilder, private dealerService: DealerService) { }
 
 
   randomarray: Array<string>;
@@ -55,43 +59,71 @@ export class CardAreaComponent implements OnInit {
     //@TODO an observeable of hands.chips
 
 
-this.playerHandState$.pipe(map((ph: PlayerHand[]) => {
+    this.playerHandState$.pipe(map((ph: PlayerHand[]) => {
       const fgs = ph.map(
         (phToFG) => {
           return new FormGroup({
             userId: new FormControl(phToFG.userId, Validators.required),
             id: new FormControl(phToFG.id, Validators.required),
             chipsraised: new FormControl(phToFG.chipsraised, Validators.required),
+            playerhands: new FormArray(phToFG.possessedCardsCollection.map((card) => {
+              return new FormControl(card)
+            }))
           });
         })
       return fgs;
     }))
-    //very inneficient : should handle new hands and add to form array instead of clearing all of them . then an observeable could be fed into the datasource
-    //what it does clear form , push every formgroup
-    .subscribe(playerhands => {
-      this.playerhands.clear()
-      playerhands.map((playerhand) => {
-        this.playerhands.push(playerhand);
+
+      //very inneficient : should handle new hands and add to form array instead of clearing all of them . then an observeable could be fed into the datasource or use ngrx effect ? 
+      //what it does clear form , push every formgroup
+      .subscribe(playerhands => {
+        this.playerhands.clear()
+        playerhands.map((playerhand) => {
+          this.playerhands.push(playerhand);
+        })
+
+        this.playerhands.controls.forEach(
+          control => {
+            control.valueChanges.subscribe(
+              () => {
+                let sumChips= 0 ;  
+                this.playerhands.controls.forEach((control)=>{
+                  sumChips += control.get('chipsraised').value;
+                })
+                console.log(sumChips)
+                console.log(this.playerhands.controls.indexOf(control)) // logs index of changed item in form array
+                if(sumChips>100)
+                control.get('chipsraised').setErrors({'notEnoughChips': true})
+
+              }
+            )
+          }
+        )
+        if (this.myTable) { this.myTable.renderRows(); }
       })
-      if(this.myTable){this.myTable.renderRows();}
-    })
-    this.dataSource = new MatTableDataSource( (this.form.get('playerhands') as FormArray).controls
-      );
-
-
-
-
-
+    this.dataSource = new MatTableDataSource((this.form.get('playerhands') as FormArray).controls);
+    
 
   }
+
   get playerhands(): FormArray {
     return this.form.get('playerhands') as FormArray;
   }
-
-  logForm() {
-    this.myTable.renderRows();
-    console.log((this.form.get('playerhands') as FormArray).controls);
+  lograndom(string:string){
+    console.log(string)
   }
+
+  getCard(playerid, handId) {
+    this.dealerService.dealRandom(playerid, handId);
+  }
+
+  split(pplayerId, pid) {
+    this.dealerService.split(pplayerId, pid)
+  }
+
+
+
+
 
 
 

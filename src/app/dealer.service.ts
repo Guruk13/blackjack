@@ -19,7 +19,7 @@ import {
 import { Store } from '@ngrx/store';
 import { Player } from './models/player.model';
 import { PlayerHand } from './models/playerHand.model';
-import { selectPlayerHandVanilla,selectPlayerHandCollections } from './state/playerHand.selector';
+import { selectPlayerHandVanilla,selectPlayerHandCollections, selectPlayerHandByIds } from './state/playerHand.selector';
 import { element } from 'protractor';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -47,8 +47,6 @@ export class DealerService {
 
   //deal a random card to a player's first hand 
   dealRandom(playerId: number, handId:string ) {
-
-
     let randomCard!: Card;
     let tempoplayer!: Player;
     let remainingCards: number
@@ -219,20 +217,13 @@ export class DealerService {
     let initialBet = 27;
     this.store.dispatch(raiseInitialBet({ initialBet }));
   }
-  split() {
-    let playerHands;
-    this.store.select(selectPlayerHandVanilla).subscribe(
-      (res) => {playerHands = res
+  split(playerId, id) {
+    let playerHand;
+    this.store.select(selectPlayerHandByIds(playerId,id)).subscribe(
+      (res) => {playerHand = res
       }
     )
-    playerHands.forEach(element => {
-      if (element.userId != 0) {
-        this.store.dispatch(splitPair({ hand: element }))
-      }
-      
-    });
-
-
+    this.store.dispatch(splitPair({ hand: playerHand }))
   }
 
   

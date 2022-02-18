@@ -64,3 +64,9 @@ https://vocon-it.com/2018/09/04/how-to-get-rid-of-nested-subscriptions-using-rxj
 https://stackoverflow.com/questions/44593900/rxjs-one-observable-feeding-into-another
 
 https://stackoverflow.com/questions/58369440/how-to-validate-formarray-in-angular
+https://stackoverflow.com/questions/43553544/how-can-i-manually-set-an-angular-form-field-as-invalid
+
+
+
+//cardarea is messy i should run a memory leak test 
+https://medium.datadriveninvestor.com/how-to-find-memory-leaks-in-javascript-b898c85995a3

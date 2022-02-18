@@ -5,39 +5,48 @@
           The actual rendered columns are set as a property on the row definition" -->
 
 
+
+
     <!-- User Column -->
-    <ng-container matColumnDef="id">
+    <ng-container matColumnDef="pcardsCol">
       <mat-header-cell *matHeaderCellDef> handid </mat-header-cell>
-      <mat-cell *matCellDef="let element" [formGroup]="element">
-        <mat-form-field floatLabel="never">
-          <input matInput placeholder="Title" formControlName="id" required>
-        </mat-form-field>
-      </mat-cell>
-    </ng-container>
-
-    
-    <!-- User Column -->
-    <ng-container matColumnDef="cards">
-      <mat-header-cell *matHeaderCellDef> Cards </mat-header-cell>
-      <mat-cell *matCellDef="let element" >
-        {{element.possessedCardsColletion[0]}}
+      <mat-cell *matCellDef="let element">
+        <div *ngFor="let card of element.get('playerhands').getRawValue()">
+          {{card.id}}
+        </div>
       </mat-cell>
     </ng-container>
 
 
-
-    <!-- Title Column -->
-    <ng-container matColumnDef="chipsraised">
+    <!-- ChipsRaised -->
+    <ng-container matColumnDef="chipsraised" >
       <mat-header-cell *matHeaderCellDef> chipsraised </mat-header-cell>
-      <mat-cell *matCellDef="let element;" [formGroup]="element">
+      <mat-cell *matCellDef="let element;" [formGroup]="element" >
         <mat-form-field floatLabel="never">
-          <input matInput type="number" placeholder="0" formControlName="chipsraised" required>
+          <input matInput type="number" placeholder="0" formControlName="chipsraised" #somechips required>
         </mat-form-field>
+        {{element.controls.chipsraised.value.chipsraised}}
+        <mat-error *ngIf="element.controls.chipsraised.errors?.notEnoughChips" >Not enough chips....</mat-error>
+        <button (click)="lograndom(element.controls.chipsraised)">hehehe</button>
       </mat-cell>
     </ng-container>
+
+    <!-- User Column -->
+    <ng-container matColumnDef="raiseSplit">
+      <mat-header-cell *matHeaderCellDef> random </mat-header-cell>
+      <mat-cell *matCellDef="let element" [formGroup]="element">
+       <button (click)="getCard(element.value.userId, element.value.id)"> FetCard</button>
+       <button (click)="split(element.value.userId, element.value.id)"> Split</button>
+      </mat-cell>
+    </ng-container>
+
+
+
+
+
+
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 </form>
-<button (click)="logForm()">Heh </button>

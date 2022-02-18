@@ -15,7 +15,12 @@ export const selectPlayerHandVanilla =
 
 export const selectPlayerHandCollections = (id: number) =>
   createSelector(selectPlayerHand, (playerHands) => {
-    let aplayer = playerHands.filter((playerHand) => playerHand.userId == id)
-    return aplayer
-  }
-  )
+    let somePH = playerHands.filter((playerHand) => playerHand.userId == id)
+    return somePH
+  })
+
+  export const selectPlayerHandByIds = (playerId, id) =>
+  createSelector(selectPlayerHand, (playerHands) => {
+    let aplayerHand = playerHands.find((playerHand) => (playerHand.userId == playerId && playerHand.id == id ) )
+    return aplayerHand; 
+  })
