@@ -32,13 +32,17 @@ export const dealCard = createAction(
     tempoplayer: Player,
     cardToDeal: Card,
     handIdentifier :string,
-    chipsFirsthand: number,
     }>()
 )
 
 export const createPlayers = createAction(
   '[Players] Creating players... success',
   props<{ somePlayers: ReadonlyArray<Player> }>()
+);
+
+export const emptyHand = createAction(
+  '[Hand]Creating first hands',
+  props<{ tempoplayer: Player }>()
 );
 
 export const createHands = createAction(

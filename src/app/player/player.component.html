@@ -1,12 +1,15 @@
 <mat-card class="player-zone" [ngClass]="player.isDeciding ? 'decides': 'waits'">
     <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>   
-    <mat-card-title> {{ player.name }}</mat-card-title>
-    <mat-card-subtitle>{{player.chips}}</mat-card-subtitle>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title> {{ player.name }}</mat-card-title>
+        <mat-card-subtitle>{{player.chips}}</mat-card-subtitle>
     </mat-card-header>
 
     <div class="ressources">
         <mat-card-content>
-            <app-card-area [playerId]="player.id" ></app-card-area>
+            <app-card-area [playerId]="player.id"></app-card-area>
         </mat-card-content>
-</div>
+
+    </div>
+    <button (click)=check()>check </button>
+</mat-card>

@@ -15,11 +15,6 @@ export class SideToolBarComponent implements OnInit {
   ngOnInit(): void {
 
   }
-  
-
-  firstHand(){
-    this.dealerService.dealFirstHand(27);
-  }
 
   dealAll(){
     this.dealerService.dealAll();
@@ -37,9 +32,6 @@ export class SideToolBarComponent implements OnInit {
     this.dealerService.shiftDecision();
   }
 
-  chips(){
-    this.dealerService.chips()
-  }
-  
+
 
 }

@@ -14,7 +14,8 @@ import {
   changeChipCount,
   splitPair,
   raiseInitialBet,
-  createHands
+  createHands,
+  emptyHand,
 } from './state/pack.actions';
 import { Store } from '@ngrx/store';
 import { Player } from './models/player.model';
@@ -50,7 +51,6 @@ export class DealerService {
     let randomCard!: Card;
     let tempoplayer!: Player;
     let remainingCards: number
-    let chipsforFirsthand = 50;
     this.pack$.subscribe((res) => {
       remainingCards = res.length;
     })
@@ -62,7 +62,7 @@ export class DealerService {
       if (tempoplayer != undefined) {
 
       }
-      let tempPayload = { tempoplayer, cardToDeal: randomCard, handIdentifier: handId , chipsFirsthand: chipsforFirsthand }
+      let tempPayload = { tempoplayer, cardToDeal: randomCard, handIdentifier: handId  }; 
       this.store.dispatch(dealCard(tempPayload));
     }
     else {
@@ -119,12 +119,13 @@ export class DealerService {
     this.unfoldedplayers$.subscribe((res) => {
       this.decisionIndex = res.indexOfLast
     })
-    this.dealFirstHand(23);
+    this.emptyHands()
+    
   }
 
   addPlayers() {
     //todo create pack generator + modify card ids 
-    let imoney: number = 10;
+    let imoney: number = 60;
     let dealer: Player = { id: 0, name: "Mr.House", chips: imoney, isDeciding: false, isOut: false, }
     let You: Player = { id: 1, name: "You", chips: imoney, isDeciding: false, isOut: false, }
     let MissFortune: Player = { id: 2, name: "Miss Fortune", chips: imoney, isDeciding: false, isOut: false, }
@@ -133,27 +134,44 @@ export class DealerService {
     this.store.dispatch(createPlayers({ somePlayers }));
   }
 
-  dealFirstHand(initialBet) {
+  dealFirstHand() {
     //dealing card to Mr.house
     let houseId: number;
     this.dealer$.subscribe((res) => { houseId = res.id })
-    this.dealRandom(houseId, "tempo");
+    this.dealRandom(houseId, "firstHand");
     let players: any;
     //@todo check for no players
     this.unfoldedplayers$.subscribe((res) => {
       players = res
     })
     //Cards have to be dealt clockwise   
-    players.forEach((x: Player, seconds = 2) => (
-      this.dealRandom(x.id, "tempo")
+    players.forEach((x: Player, ) => (
+      this.dealRandom(x.id, "firstHand")
     ));
     //Cards have to be dealt clockwise   
-    players.forEach((x: Player, seconds = 2) => (
-      this.dealRandom(x.id, "tempo")
+    players.forEach((x: Player,) => (
+      this.dealRandom(x.id, "firstHand")
     ));
-    this.store.dispatch(raiseInitialBet({ initialBet }));
 
   }
+
+
+  emptyHands(){
+    let players: any;
+    let house: Player;
+
+    this.unfoldedplayers$.subscribe((res) => {
+      players = res
+    })
+    this.dealer$.subscribe(res => house =res)
+    this.store.dispatch(emptyHand({tempoplayer: house}))
+    players.forEach((x: Player) => (
+      this.store.dispatch(emptyHand({tempoplayer: x}))
+    ));
+  }
+
+
+
 
   dealAll() {
     //dealing card to Mr.house
@@ -166,14 +184,14 @@ export class DealerService {
       players = res
     })
     //Cards have to be dealt clockwise   
-    players.forEach((x: Player, seconds = 2) => (
+    players.forEach((x: Player, ) => (
       this.dealRandom(x.id, "tempo")
     ))
   }
-  //Excessively long function because I didnt use entities.
-  // It resulted in the use in Immer and in global mess pf the code 
-  // Could've used Angmat's stepper ? , yes makes total sense with disabling the aria 
 
+  //Excessively long function because I didnt use entities.
+  // It resulted in the use of Immer and in global mess pf the code 
+  // Could've used Angmat's stepper ? 
   shiftDecision() {
     let currentIndex: number;
     let nextIndex: number;
@@ -186,7 +204,6 @@ export class DealerService {
     this.store.select(selectDecidingPLayer).subscribe(res => currentPlayer = res);
     //Global Array
     this.store.select(selectPlayers).subscribe(res => globalArray = res);
-    //
     currentIndex = globalArray.findIndex(player => {
       return player.id == currentPlayer.id
     });
@@ -197,6 +214,7 @@ export class DealerService {
     if (currentDecidingIndex == unfoldeds.length - 1) {
       console.log("out of players");
       this.store.dispatch(shiftDecision({ currentPlayer, nextPlayer, currentIndex, nextIndex }));
+      this.dealFirstHand();
     } else {
       nextPlayer = unfoldeds[currentDecidingIndex + 1];
       nextIndex = globalArray.findIndex(player => {
@@ -207,11 +225,6 @@ export class DealerService {
     }
   }
 
-  chips() {
-    let playerId = 3;
-    let chips = 1;
-    this.store.dispatch(changeChipCount({ playerId, chips }));
-  }
 
   test() {
     let initialBet = 27;
@@ -225,6 +238,9 @@ export class DealerService {
     )
     this.store.dispatch(splitPair({ hand: playerHand }))
   }
+
+
+
 
   
 

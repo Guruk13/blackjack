@@ -10,8 +10,6 @@ export interface PlayerHand {
     id: string;
     chipsraised:number;
     possessedCardsCollection: Array<Card>;
-
-
 }
 
 

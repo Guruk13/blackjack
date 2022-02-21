@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { immerOn } from 'ngrx-immer/store';
-import { addCard, dealCard, splitPair, createHands } from './pack.actions';
+import { addCard, dealCard, splitPair, createHands, emptyHand } from './pack.actions';
 import { state } from '@angular/animations';
 
 import { PossessedCard } from 'app/models/possessedCards.model';
@@ -12,26 +12,23 @@ export const playerHandsReducer = createReducer(
   initialState,
   on(createHands, (state, { someHands }) => someHands),
 
-  immerOn(dealCard, (state, { tempoplayer, cardToDeal, handIdentifier, chipsFirsthand }) => {
-    //create a hand if it's the first
-    //logic should'nt be in reducers but february is my deadline
-    let firstHand = state.find((hand) => (hand.userId == tempoplayer.id ))
-    //let firstHand = state.find((hand) => (hand.userId == tempoplayer.id && hand.id == handIdentifier))
-    if (!firstHand) {
-      let handToPush:PlayerHand = {userId : tempoplayer.id, id: cardToDeal.id, chipsraised: chipsFirsthand, possessedCardsCollection: [cardToDeal] }
-      state.push(handToPush)
-    } else {
-      firstHand.possessedCardsCollection.push(cardToDeal)
-    }
+  immerOn(dealCard, (state, { tempoplayer, cardToDeal, handIdentifier }) => {
+    let firstHand = state.find((hand) => 
+      hand.userId === tempoplayer.id && handIdentifier === hand.id)
+
+    firstHand.possessedCardsCollection.push(cardToDeal)
+  
+  }),
+
+  immerOn(emptyHand, (state, { tempoplayer, }) => {
+      let handToPush:PlayerHand = {userId : tempoplayer.id, id: "firstHand", chipsraised: 0, possessedCardsCollection:[]  }
+      state.push(handToPush);
   }),
 
 
   //accepts a two card hand
   immerOn(splitPair, (state, { hand }) => {
-
     let newhand: PlayerHand;
-
-    //console.log(hand.possessedCardsCollection[0])
     //cannot use find in an array
       let theIndex = state.findIndex((handToFind) =>
 

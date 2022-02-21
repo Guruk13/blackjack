@@ -13,6 +13,7 @@ import { Observable } from 'rxjs/observable'
 
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTable } from '@angular/material/table';
+import {selectPlayerById} from '../state/player.selector'
 
 import { DealerService } from '../dealer.service';
 
@@ -24,6 +25,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { FormArray } from '@angular/forms';
 import { playerHandsReducer } from 'app/state/playerHandReducer';
 import { splitPair } from 'app/state/pack.actions';
+import { parseHostBindings } from '@angular/compiler';
 
 
 @Component({
@@ -36,12 +38,13 @@ export class CardAreaComponent implements OnInit {
   @ViewChild(MatTable) myTable!: MatTable<any>;
   playerHandState$
   //to help determine forms and such
-  splitable = true ;
+  splitable = true;
+  availableMoney:number;
 
 
   form: FormGroup;
   dataSource: MatTableDataSource<any>;
-  displayedColumns = [ 'chipsraised', 'pcardsCol', 'raiseSplit']
+  displayedColumns = ['chipsraised', 'pcardsCol', 'raiseSplit']
 
 
 
@@ -57,6 +60,7 @@ export class CardAreaComponent implements OnInit {
 
     this.playerHandState$ = this.store.select(selectPlayerHandCollections(this.playerId));
     //@TODO an observeable of hands.chips
+    this.store.select(selectPlayerById(this.playerId)).subscribe(res => this.availableMoney = res.chips);
 
 
     this.playerHandState$.pipe(map((ph: PlayerHand[]) => {
@@ -65,7 +69,7 @@ export class CardAreaComponent implements OnInit {
           return new FormGroup({
             userId: new FormControl(phToFG.userId, Validators.required),
             id: new FormControl(phToFG.id, Validators.required),
-            chipsraised: new FormControl(phToFG.chipsraised, Validators.required),
+            chipsraised: new FormControl(phToFG.chipsraised, [Validators.required, Validators.min(phToFG.chipsraised), Validators.max(this.availableMoney)]),
             playerhands: new FormArray(phToFG.possessedCardsCollection.map((card) => {
               return new FormControl(card)
             }))
@@ -73,6 +77,9 @@ export class CardAreaComponent implements OnInit {
         })
       return fgs;
     }))
+
+
+
 
       //very inneficient : should handle new hands and add to form array instead of clearing all of them . then an observeable could be fed into the datasource or use ngrx effect ? 
       //what it does clear form , push every formgroup
@@ -84,32 +91,32 @@ export class CardAreaComponent implements OnInit {
 
         this.playerhands.controls.forEach(
           control => {
+            
             control.valueChanges.subscribe(
               () => {
-                let sumChips= 0 ;  
-                this.playerhands.controls.forEach((control)=>{
-                  sumChips += control.get('chipsraised').value;
-                })
-                console.log(sumChips)
-                console.log(this.playerhands.controls.indexOf(control)) // logs index of changed item in form array
-                if(sumChips>100)
-                control.get('chipsraised').setErrors({'notEnoughChips': true})
 
+                if( control.get('chipsraised').value > this.availableMoney){
+                  control.get('chipsraised').setErrors({maxChips: true})
+                }else{
+                  control.get('chipsraised').setErrors({maxChips: false})
+                }
               }
             )
           }
         )
-        if (this.myTable) { this.myTable.renderRows(); }
       })
-    this.dataSource = new MatTableDataSource((this.form.get('playerhands') as FormArray).controls);
+
+
     
+    this.dataSource = new MatTableDataSource((this.form.get('playerhands') as FormArray).controls);
+
 
   }
 
   get playerhands(): FormArray {
     return this.form.get('playerhands') as FormArray;
   }
-  lograndom(string:string){
+  lograndom(string: string) {
     console.log(string)
   }
 
@@ -120,6 +127,8 @@ export class CardAreaComponent implements OnInit {
   split(pplayerId, pid) {
     this.dealerService.split(pplayerId, pid)
   }
+
+
 
 
 

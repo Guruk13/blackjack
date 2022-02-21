@@ -23,10 +23,10 @@
       <mat-header-cell *matHeaderCellDef> chipsraised </mat-header-cell>
       <mat-cell *matCellDef="let element;" [formGroup]="element" >
         <mat-form-field floatLabel="never">
-          <input matInput type="number" placeholder="0" formControlName="chipsraised" #somechips required>
+          <input matInput type="number" placeholder="0" max="availableMoney" formControlName="chipsraised" type="number"  required>
         </mat-form-field>
-        {{element.controls.chipsraised.value.chipsraised}}
-        <mat-error *ngIf="element.controls.chipsraised.errors?.notEnoughChips" >Not enough chips....</mat-error>
+        <mat-error *ngIf="element.controls.chipsraised.errors?.min" >Those chips are commited...</mat-error>
+        <mat-error *ngIf="element.controls.chipsraised.errors?.notEnoughChips" >Not enough chips </mat-error>
         <button (click)="lograndom(element.controls.chipsraised)">hehehe</button>
       </mat-cell>
     </ng-container>
@@ -48,5 +48,6 @@
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
   </mat-table>
 </form>

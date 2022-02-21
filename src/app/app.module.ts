@@ -64,6 +64,7 @@ import { SideBarWrapperDirective } from './side-tool-bar/side-wrapper.directive'
 import { PlayerComponent } from './player/player.component';
 import { CardAreaComponent } from './card-area/card-area.component';
 import { posssessedCardReducer } from './state/possessedCardReducer';
+import { EffectsModule } from '@ngrx/effects';
 
 
 
@@ -126,7 +127,8 @@ import { posssessedCardReducer } from './state/possessedCardReducer';
 
     //Store related imports
     StoreModule.forRoot({ players: playerReducer, pack: packReducer , playerHands: playerHandsReducer}),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([])
   ],
   providers: [],
   bootstrap: [AppComponent]

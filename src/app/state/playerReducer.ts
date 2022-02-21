@@ -34,23 +34,8 @@ export const playerReducer = createReducer(
     return state
   },
   ),
-/* immerOn(raiseInitialBet,(state,{initialBet}) =>{
-  state.map((player)=>{
-    //could use selector 
-    if(player.name != "Mr.House"){
-      if(player.chips>=initialBet){
-        player.hands[0].chipsraised = initialBet;
-        player.chips = player.chips - initialBet
-      }else{
-        player.hands[0].chipsraised = player.chips;
-        player.chips = 0;
-      }
-
-    }
-  })
-
-}) */
 )
+
 
 
 

@@ -3,6 +3,7 @@ import { Player } from 'app/models/player.model';
 import { PossessedCard } from 'app/models/possessedCards.model';
 import { Store } from '@ngrx/store';
 import { selectPossessedCards } from 'app/state/player.selector';
+import {DealerService} from '../dealer.service'
 
 @Component({
   selector: 'app-player',
@@ -14,7 +15,8 @@ export class PlayerComponent implements OnInit {
  
 
   constructor(
-    private store:Store
+    private store:Store,
+    private dealerService:DealerService
   ) { }
 
   //could use effect 
@@ -25,6 +27,11 @@ export class PlayerComponent implements OnInit {
   ngOnInit(): void { 
     
   }
+
+  check(){
+    this.dealerService.shiftDecision();
+  }
+
 
 
 
