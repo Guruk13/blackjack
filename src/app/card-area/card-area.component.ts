@@ -24,7 +24,7 @@ import { DealerService } from '../dealer.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormArray } from '@angular/forms';
 import { playerHandsReducer } from 'app/state/playerHandReducer';
-import { splitPair } from 'app/state/pack.actions';
+import { splitPair, setSplittable, changeChipCount } from 'app/state/pack.actions';
 import { parseHostBindings } from '@angular/compiler';
 
 
@@ -43,8 +43,8 @@ export class CardAreaComponent implements OnInit {
 
 
   form: FormGroup;
-  dataSource: MatTableDataSource<any>;
-  displayedColumns = ['chipsraised', 'pcardsCol', 'raiseSplit']
+  dataSource = new MatTableDataSource<PlayerHand>();
+  displayedColumns = ['pcardsCol', 'chipsraised',  'raiseSplit']
 
 
 
@@ -61,63 +61,19 @@ export class CardAreaComponent implements OnInit {
     this.playerHandState$ = this.store.select(selectPlayerHandCollections(this.playerId));
     //@TODO an observeable of hands.chips
     this.store.select(selectPlayerById(this.playerId)).subscribe(res => this.availableMoney = res.chips);
-
-
-    this.playerHandState$.pipe(map((ph: PlayerHand[]) => {
-      const fgs = ph.map(
-        (phToFG) => {
-          return new FormGroup({
-            userId: new FormControl(phToFG.userId, Validators.required),
-            id: new FormControl(phToFG.id, Validators.required),
-            chipsraised: new FormControl(phToFG.chipsraised, [Validators.required, Validators.min(phToFG.chipsraised), Validators.max(this.availableMoney)]),
-            playerhands: new FormArray(phToFG.possessedCardsCollection.map((card) => {
-              return new FormControl(card)
-            }))
-          });
-        })
-      return fgs;
-    }))
-
-
-
-
-      //very inneficient : should handle new hands and add to form array instead of clearing all of them . then an observeable could be fed into the datasource or use ngrx effect ? 
-      //what it does clear form , push every formgroup
-      .subscribe(playerhands => {
-        this.playerhands.clear()
-        playerhands.map((playerhand) => {
-          this.playerhands.push(playerhand);
-        })
-
-        this.playerhands.controls.forEach(
-          control => {
-            
-            control.valueChanges.subscribe(
-              () => {
-
-                if( control.get('chipsraised').value > this.availableMoney){
-                  control.get('chipsraised').setErrors({maxChips: true})
-                }else{
-                  control.get('chipsraised').setErrors({maxChips: false})
-                }
-              }
-            )
-          }
-        )
-      })
-
-
-    
-    this.dataSource = new MatTableDataSource((this.form.get('playerhands') as FormArray).controls);
-
+    //is it splitable ?
+    this.playerHandState$.subscribe((phs)=>{
+      this.dataSource.data = phs;
+    })
 
   }
 
   get playerhands(): FormArray {
     return this.form.get('playerhands') as FormArray;
   }
+
   lograndom(string: string) {
-    console.log(string)
+
   }
 
   getCard(playerid, handId) {
@@ -128,6 +84,21 @@ export class CardAreaComponent implements OnInit {
     this.dealerService.split(pplayerId, pid)
   }
 
+  increaseRaise(playerId, chipsraised,phandId){
+    if(this.availableMoney>0){
+      let pchipsraised =  chipsraised +1 ;
+      let newchips = this.availableMoney - 1 ;
+      this.store.dispatch(changeChipCount({playerId: playerId,handId: phandId, pchips : newchips , newchipsraised: pchipsraised}))
+    }
+  }
+
+  decreaseRaise(playerId, chipsraised,phandId){
+    if(chipsraised>0){
+      let pchipsraised =  chipsraised -1 ;
+      let newchips = this.availableMoney + 1 ;
+      this.store.dispatch(changeChipCount({playerId: playerId,handId: phandId, pchips : newchips , newchipsraised: pchipsraised}))
+    }
+  }
 
 
 

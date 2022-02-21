@@ -9,7 +9,8 @@ export interface PlayerHand {
     userId:number;
     id: string;
     chipsraised:number;
-    possessedCardsCollection: Array<Card>;
+    possessedCardsCollection: Array<Card>
+    splittable:boolean; 
 }
 
 

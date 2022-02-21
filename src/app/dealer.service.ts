@@ -20,7 +20,7 @@ import {
 import { Store } from '@ngrx/store';
 import { Player } from './models/player.model';
 import { PlayerHand } from './models/playerHand.model';
-import { selectPlayerHandVanilla,selectPlayerHandCollections, selectPlayerHandByIds } from './state/playerHand.selector';
+import { selectPlayerHandVanilla, selectPlayerHandCollections, selectPlayerHandByIds } from './state/playerHand.selector';
 import { element } from 'protractor';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -47,7 +47,7 @@ export class DealerService {
 
 
   //deal a random card to a player's first hand 
-  dealRandom(playerId: number, handId:string ) {
+  dealRandom(playerId: number, handId: string) {
     let randomCard!: Card;
     let tempoplayer!: Player;
     let remainingCards: number
@@ -62,13 +62,13 @@ export class DealerService {
       if (tempoplayer != undefined) {
 
       }
-      let tempPayload = { tempoplayer, cardToDeal: randomCard, handIdentifier: handId  }; 
+      let tempPayload = { tempoplayer, cardToDeal: randomCard, handIdentifier: handId };
       this.store.dispatch(dealCard(tempPayload));
     }
     else {
       console.log("no cards left");
       this.createPack();
-      this.dealRandom(playerId,handId);
+      this.dealRandom(playerId, handId);
 
     }
 
@@ -108,7 +108,6 @@ export class DealerService {
     this.store.dispatch(createdPack({ somepack }))
 
   }
-
   initGame() {
     this.createPack()
     //the dealer is stored in the function below 
@@ -120,9 +119,8 @@ export class DealerService {
       this.decisionIndex = res.indexOfLast
     })
     this.emptyHands()
-    
-  }
 
+  }
   addPlayers() {
     //todo create pack generator + modify card ids 
     let imoney: number = 60;
@@ -133,7 +131,6 @@ export class DealerService {
     let somePlayers: ReadonlyArray<Player> = [dealer, You, MissFortune, some]
     this.store.dispatch(createPlayers({ somePlayers }));
   }
-
   dealFirstHand() {
     //dealing card to Mr.house
     let houseId: number;
@@ -145,7 +142,7 @@ export class DealerService {
       players = res
     })
     //Cards have to be dealt clockwise   
-    players.forEach((x: Player, ) => (
+    players.forEach((x: Player,) => (
       this.dealRandom(x.id, "firstHand")
     ));
     //Cards have to be dealt clockwise   
@@ -154,24 +151,18 @@ export class DealerService {
     ));
 
   }
-
-
-  emptyHands(){
+  emptyHands() {
     let players: any;
     let house: Player;
-
     this.unfoldedplayers$.subscribe((res) => {
       players = res
     })
-    this.dealer$.subscribe(res => house =res)
-    this.store.dispatch(emptyHand({tempoplayer: house}))
+    this.dealer$.subscribe(res => house = res)
+    this.store.dispatch(emptyHand({ tempoplayer: house }))
     players.forEach((x: Player) => (
-      this.store.dispatch(emptyHand({tempoplayer: x}))
+      this.store.dispatch(emptyHand({ tempoplayer: x }))
     ));
   }
-
-
-
 
   dealAll() {
     //dealing card to Mr.house
@@ -184,7 +175,7 @@ export class DealerService {
       players = res
     })
     //Cards have to be dealt clockwise   
-    players.forEach((x: Player, ) => (
+    players.forEach((x: Player,) => (
       this.dealRandom(x.id, "tempo")
     ))
   }
@@ -232,8 +223,9 @@ export class DealerService {
   }
   split(playerId, id) {
     let playerHand;
-    this.store.select(selectPlayerHandByIds(playerId,id)).subscribe(
-      (res) => {playerHand = res
+    this.store.select(selectPlayerHandByIds(playerId, id)).subscribe(
+      (res) => {
+        playerHand = res
       }
     )
     this.store.dispatch(splitPair({ hand: playerHand }))
@@ -242,7 +234,7 @@ export class DealerService {
 
 
 
-  
+
 
 
 

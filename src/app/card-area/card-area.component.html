@@ -1,53 +1,50 @@
-<form [formGroup]="form" autocomplete="off">
-  <mat-table #myTable [dataSource]="dataSource">
+<mat-table #myTable [dataSource]="dataSource">
 
-    <!--- Note that these columns can be defined in any order.
+  <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
 
 
 
-    <!-- User Column -->
-    <ng-container matColumnDef="pcardsCol">
-      <mat-header-cell *matHeaderCellDef> handid </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <div *ngFor="let card of element.get('playerhands').getRawValue()">
-          {{card.id}}
-        </div>
-      </mat-cell>
-    </ng-container>
+  <!-- User Column -->
+  <ng-container matColumnDef="pcardsCol">
+    <mat-header-cell *matHeaderCellDef> cards </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <div *ngFor="let card of element.possessedCardsCollection">
+        {{card.id}}
+      </div>
+    </mat-cell>
+  </ng-container>
 
 
-    <!-- ChipsRaised -->
-    <ng-container matColumnDef="chipsraised" >
-      <mat-header-cell *matHeaderCellDef> chipsraised </mat-header-cell>
-      <mat-cell *matCellDef="let element;" [formGroup]="element" >
-        <mat-form-field floatLabel="never">
-          <input matInput type="number" placeholder="0" max="availableMoney" formControlName="chipsraised" type="number"  required>
-        </mat-form-field>
-        <mat-error *ngIf="element.controls.chipsraised.errors?.min" >Those chips are commited...</mat-error>
-        <mat-error *ngIf="element.controls.chipsraised.errors?.notEnoughChips" >Not enough chips </mat-error>
-        <button (click)="lograndom(element.controls.chipsraised)">hehehe</button>
-      </mat-cell>
-    </ng-container>
 
-    <!-- User Column -->
-    <ng-container matColumnDef="raiseSplit">
-      <mat-header-cell *matHeaderCellDef> random </mat-header-cell>
-      <mat-cell *matCellDef="let element" [formGroup]="element">
-       <button (click)="getCard(element.value.userId, element.value.id)"> FetCard</button>
-       <button (click)="split(element.value.userId, element.value.id)"> Split</button>
-      </mat-cell>
-    </ng-container>
+  <!-- ChipsRaised -->
+  <ng-container matColumnDef="chipsraised">
+    <mat-header-cell *matHeaderCellDef> chipsraised </mat-header-cell>
+    <mat-cell *matCellDef="let element;">
+      <button (click)="increaseRaise(element.userId, element.chipsraised, element.id)">M</button>
+      {{ element.chipsraised }}
+      <button (click)="decreaseRaise(element.userId, element.chipsraised, element.id)">V</button>
 
+    </mat-cell> 
+  </ng-container>
 
+  <!-- User Column -->
+  <ng-container matColumnDef="raiseSplit">
+    <mat-header-cell *matHeaderCellDef> random </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <button (click)="getCard(element.userId, element.id)"> FetCard</button>
+      <button (click)="split(element.userId, element.id)" *ngIf="element.splittable"> Split</button>
+    </mat-cell>
+  </ng-container>
 
 
 
 
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
-  </mat-table>
-</form>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+</mat-table>

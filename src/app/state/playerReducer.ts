@@ -24,11 +24,11 @@ export const playerReducer = createReducer(
 
   }),
   //using ImmerOn because entity would need to be implemented,
-  immerOn(changeChipCount, ( state,{ playerId, chips }) => {
+  immerOn(changeChipCount, ( state,{ playerId, pchips }) => {
     //could use find 
-    state.map((x)=>{
+    state.find((x)=>{
       if(x.id === playerId){
-        x.chips = x.chips + chips
+        x.chips  = pchips;
       }
     })
     return state

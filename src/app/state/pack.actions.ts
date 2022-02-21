@@ -24,8 +24,6 @@ export const raiseInitialBet = createAction(
   props<{initialBet: number}>()
 );
 
-
-
 export const dealCard = createAction(
   'Dealing a random card to a player',
   props<{
@@ -51,6 +49,11 @@ export const createHands = createAction(
 );
 
 
+export const setSplittable = createAction(
+  '[Hand] Setting/ unsetting splittability  ',
+  props<{ id:string , userId:number, yesOrNo:boolean }>()
+);
+
 export const shiftDecision = createAction(
   '[Players] Shifting decision between players',
   props<{
@@ -72,7 +75,7 @@ export const splitPair = createAction(
 
 export const changeChipCount = createAction(
     '[Chips] Some player is losing/winning money',
-    props<{ playerId:number, chips: number }>()
+    props<{ playerId:number, pchips: number,handId:string, newchipsraised }>()
   );
 
 
