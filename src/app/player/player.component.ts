@@ -1,9 +1,13 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Player } from 'app/models/player.model';
 import { PossessedCard } from 'app/models/possessedCards.model';
 import { Store } from '@ngrx/store';
-import { selectPossessedCards } from 'app/state/player.selector';
-import {DealerService} from '../dealer.service'
+import { selectPlayerById, selectPossessedCards, selectUnfoldedPlayers } from 'app/state/player.selector';
+import { DealerService } from '../dealer.service'
+import { selectPlayerHandCollections } from 'app/state/playerHand.selector';
+import { acessor, isOut } from '../state/pack.actions'
+
+
 
 @Component({
   selector: 'app-player',
@@ -12,27 +16,21 @@ import {DealerService} from '../dealer.service'
 })
 export class PlayerComponent implements OnInit {
   @Input() player: Player;
- 
+
 
   constructor(
-    private store:Store,
-    private dealerService:DealerService
+    private store: Store,
+    private dealerService: DealerService
   ) { }
 
-  //could use effect 
-  checkTurn(){
-    
+  ngOnInit(): void {
+    this.store.select(selectUnfoldedPlayers).subscribe((res) => {
+    })
   }
-
-  ngOnInit(): void { 
-    
-  }
-
-  check(){
-    this.dealerService.shiftDecision();
-  }
-
-
-
 
 }
+
+
+
+
+

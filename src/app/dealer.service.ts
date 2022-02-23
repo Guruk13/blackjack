@@ -16,6 +16,7 @@ import {
   raiseInitialBet,
   createHands,
   emptyHand,
+  isOut
 } from './state/pack.actions';
 import { Store } from '@ngrx/store';
 import { Player } from './models/player.model';
@@ -43,6 +44,8 @@ export class DealerService {
   getDealer(): Observable<Player> {
     return this.dealer$;
   }
+
+  indexCurrentPlayer = 0 ; 
 
 
 
@@ -88,17 +91,22 @@ export class DealerService {
         switch (i) {
           case 0:
             newcard.title = "Ace";
+            newcard.handValue = 11;
             break;
           case 10:
             newcard.title = "Jack";
+            newcard.handValue = 10;
             break;
           case 11:
             newcard.title = "Queen";
+            newcard.handValue = 10;
             break;
           case 12:
             newcard.title = "King";
+            newcard.handValue = 10;
             break;
           default:
+            newcard.handValue = i+1;
             break;
         }
         deck.push(newcard)
@@ -180,43 +188,6 @@ export class DealerService {
     ))
   }
 
-  //Excessively long function because I didnt use entities.
-  // It resulted in the use of Immer and in global mess pf the code 
-  // Could've used Angmat's stepper ? 
-  shiftDecision() {
-    let currentIndex: number;
-    let nextIndex: number;
-    let currentDecidingIndex: number;
-    let currentPlayer: Player;
-    let nextPlayer: Player;
-    let globalArray: any;
-    let unfoldeds: Array<Player>;
-    //current PLayer
-    this.store.select(selectDecidingPLayer).subscribe(res => currentPlayer = res);
-    //Global Array
-    this.store.select(selectPlayers).subscribe(res => globalArray = res);
-    currentIndex = globalArray.findIndex(player => {
-      return player.id == currentPlayer.id
-    });
-    this.store.select(selectUnfoldedPlayers).subscribe(res => unfoldeds = res)
-    currentDecidingIndex = unfoldeds.findIndex(player => {
-      return player.id == currentPlayer.id
-    });
-    if (currentDecidingIndex == unfoldeds.length - 1) {
-      console.log("out of players");
-      this.store.dispatch(shiftDecision({ currentPlayer, nextPlayer, currentIndex, nextIndex }));
-      this.dealFirstHand();
-    } else {
-      nextPlayer = unfoldeds[currentDecidingIndex + 1];
-      nextIndex = globalArray.findIndex(player => {
-        return player.id == nextPlayer.id
-      })
-      //Find index in Array 
-      this.store.dispatch(shiftDecision({ currentPlayer, nextPlayer, currentIndex, nextIndex }));
-    }
-  }
-
-
   test() {
     let initialBet = 27;
     this.store.dispatch(raiseInitialBet({ initialBet }));
@@ -230,6 +201,8 @@ export class DealerService {
     )
     this.store.dispatch(splitPair({ hand: playerHand }))
   }
+
+
 
 
 

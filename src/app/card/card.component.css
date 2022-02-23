@@ -1,0 +1,24 @@
+.card{
+    min-width: 300;
+    min-height: 500;
+}
+
+
+.mat-header-row{
+    display: flex; 
+}
+.mat-header-cell.pcardsCol{
+    flex-grow: 4;
+}
+
+.mat-cell{
+    flex-grow:1;
+}
+
+.mat-cell{
+    flex-grow: 1;
+}
+
+.mat-cell.pcardsCol{
+    flex-grow: 4;
+}

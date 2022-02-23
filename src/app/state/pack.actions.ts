@@ -51,7 +51,7 @@ export const createHands = createAction(
 
 export const setSplittable = createAction(
   '[Hand] Setting/ unsetting splittability  ',
-  props<{ id:string , userId:number, yesOrNo:boolean }>()
+  props<{ id:string , userId:number, statusSplittable:string }>()
 );
 
 export const shiftDecision = createAction(
@@ -76,6 +76,19 @@ export const splitPair = createAction(
 export const changeChipCount = createAction(
     '[Chips] Some player is losing/winning money',
     props<{ playerId:number, pchips: number,handId:string, newchipsraised }>()
+  );
+
+
+  export const isOut = createAction(
+    '[Player] Is out of this round ... ',
+    props<{ playerId:number, }>()
+  );
+
+
+  //didnt use entities so gotta use this to speed things up 
+  export const acessor = createAction(
+    '[Player] Player modified ',
+    props<{ player:Player, }>()
   );
 
 

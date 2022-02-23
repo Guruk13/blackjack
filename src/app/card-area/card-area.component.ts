@@ -44,7 +44,7 @@ export class CardAreaComponent implements OnInit {
 
   form: FormGroup;
   dataSource = new MatTableDataSource<PlayerHand>();
-  displayedColumns = ['pcardsCol', 'chipsraised',  'raiseSplit']
+  displayedColumns = ['pcardsCol', 'chipsraised',  'raiseSplit', 'cardsValueCol' ]
 
 
 
@@ -69,7 +69,7 @@ export class CardAreaComponent implements OnInit {
   }
 
   get playerhands(): FormArray {
-    return this.form.get('playerhands') as FormArray;
+    return this.form.get('playerhnds') as FormArray;
   }
 
   lograndom(string: string) {
@@ -91,7 +91,6 @@ export class CardAreaComponent implements OnInit {
       this.store.dispatch(changeChipCount({playerId: playerId,handId: phandId, pchips : newchips , newchipsraised: pchipsraised}))
     }
   }
-
   decreaseRaise(playerId, chipsraised,phandId){
     if(chipsraised>0){
       let pchipsraised =  chipsraised -1 ;
@@ -99,6 +98,9 @@ export class CardAreaComponent implements OnInit {
       this.store.dispatch(changeChipCount({playerId: playerId,handId: phandId, pchips : newchips , newchipsraised: pchipsraised}))
     }
   }
+
+
+
 
 
 

@@ -9,8 +9,10 @@ export interface PlayerHand {
     userId:number;
     id: string;
     chipsraised:number;
+    chipscommited: number; 
     possessedCardsCollection: Array<Card>
-    splittable:boolean; 
+    status:string;
+    cardsValue:number
 }
 
 

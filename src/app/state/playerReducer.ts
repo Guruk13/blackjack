@@ -1,10 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 import { immerOn } from 'ngrx-immer/store';
-import { addCard, dealCard, drawCard, createPlayers, changeChipCount,splitPair, raiseInitialBet } from './pack.actions';
+import { isOut, addCard, dealCard, drawCard, createPlayers, changeChipCount,splitPair, raiseInitialBet, acessor } from './pack.actions';
 import { shiftDecision } from './pack.actions';
 import { Player } from '../models/player.model';
 import { state } from '@angular/animations';
 import {Card } from "../models/cards.model"
+
 
 export const initialState: ReadonlyArray<Player> = [];
 
@@ -32,8 +33,26 @@ export const playerReducer = createReducer(
       }
     })
     return state
-  },
-  ),
+  },),
+
+
+  immerOn(isOut, ( state,{ playerId,  }) => {
+    //could use find 
+    state.find((x)=>{
+      if(x.id === playerId){
+        x.isOut = true; 
+      }
+    })
+    return state
+  },),
+
+  immerOn(acessor, (state, { player }) => {
+    let toReplace = state.findIndex(x=> x.id == player.id );
+    state[toReplace] = player;
+  }),
+
+
+
 )
 
 

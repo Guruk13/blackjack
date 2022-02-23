@@ -28,9 +28,7 @@ export class SideToolBarComponent implements OnInit {
   dealRandom(){
     
   }
-  shiftDecision(){
-    this.dealerService.shiftDecision();
-  }
+
 
 
 
