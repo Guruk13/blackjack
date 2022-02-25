@@ -5,7 +5,7 @@ import { Card } from './models/cards.model';
 
 //store related import 
 import { selectCards, selectPickRandomOne } from './state/cards.selector';
-import { selectUnfoldedPlayers, selectPlayerById, selectDealer, selectDecidingPLayer, selectPlayers, selectAllPlayers } from './state/player.selector';
+import { selectUnfoldedPlayers, selectPlayerById, selectDealer, } from './state/player.selector';
 import {
   createdPack,
   dealCard,
@@ -16,14 +16,15 @@ import {
   raiseInitialBet,
   createHands,
   emptyHand,
-  isOut
+  isOut,
+  trash,
+  commitChips
 } from './state/pack.actions';
 import { Store } from '@ngrx/store';
 import { Player } from './models/player.model';
 import { PlayerHand } from './models/playerHand.model';
-import { selectPlayerHandVanilla, selectPlayerHandCollections, selectPlayerHandByIds } from './state/playerHand.selector';
-import { element } from 'protractor';
-import { ReactiveFormsModule } from '@angular/forms';
+import { selectPlayerHandVanilla, selectPlayerHandCollections, selectPlayerHandByIds, selectFirstHands } from './state/playerHand.selector';
+
 
 
 
@@ -39,16 +40,12 @@ export class DealerService {
   pack$ = this.store.select(selectCards);
   unfoldedplayers$: any;
   dealer$: Observable<Player>;
-  decisionIndex: number;
+  passIndex: number;
+
 
   getDealer(): Observable<Player> {
     return this.dealer$;
   }
-
-  indexCurrentPlayer = 0 ; 
-
-
-
   //deal a random card to a player's first hand 
   dealRandom(playerId: number, handId: string) {
     let randomCard!: Card;
@@ -74,7 +71,6 @@ export class DealerService {
       this.dealRandom(playerId, handId);
 
     }
-
   }
 
   //generate a new deck 
@@ -88,6 +84,7 @@ export class DealerService {
         var newcard = <Card>{};
         newcard.id = i + 1 + suit[0];
         newcard.suit = suit;
+        newcard.rank = i+1; 
         switch (i) {
           case 0:
             newcard.title = "Ace";
@@ -106,7 +103,7 @@ export class DealerService {
             newcard.handValue = 10;
             break;
           default:
-            newcard.handValue = i+1;
+            newcard.handValue = i + 1;
             break;
         }
         deck.push(newcard)
@@ -114,8 +111,8 @@ export class DealerService {
     })
     let somepack = deck;
     this.store.dispatch(createdPack({ somepack }))
-
   }
+
   initGame() {
     this.createPack()
     //the dealer is stored in the function below 
@@ -123,22 +120,21 @@ export class DealerService {
     //selecting dealer + unfolded players into properties 
     this.unfoldedplayers$ = this.store.select(selectUnfoldedPlayers);
     this.dealer$ = this.store.select(selectDealer);
-    this.unfoldedplayers$.subscribe((res) => {
-      this.decisionIndex = res.indexOfLast
-    })
+    this.passIndex = 0;
     this.emptyHands()
-
   }
+
   addPlayers() {
     //todo create pack generator + modify card ids 
     let imoney: number = 60;
-    let dealer: Player = { id: 0, name: "Mr.House", chips: imoney, isDeciding: false, isOut: false, }
-    let You: Player = { id: 1, name: "You", chips: imoney, isDeciding: false, isOut: false, }
-    let MissFortune: Player = { id: 2, name: "Miss Fortune", chips: imoney, isDeciding: false, isOut: false, }
-    let some: Player = { id: 3, name: "Theubald", chips: imoney, isDeciding: true, isOut: false, }
+    let dealer: Player = { id: 0, name: "Mr.House", chips: imoney, isDeciding: false, isOut: false, splits: 0 }
+    let You: Player = { id: 1, name: "You", chips: imoney, isDeciding: false, isOut: false, splits: 0 }
+    let MissFortune: Player = { id: 2, name: "Miss Fortune", chips: imoney, isDeciding: false, isOut: false, splits: 0 }
+    let some: Player = { id: 3, name: "Theubald", chips: imoney, isDeciding: true, isOut: false, splits: 0 }
     let somePlayers: ReadonlyArray<Player> = [dealer, You, MissFortune, some]
     this.store.dispatch(createPlayers({ somePlayers }));
   }
+
   dealFirstHand() {
     //dealing card to Mr.house
     let houseId: number;
@@ -157,8 +153,8 @@ export class DealerService {
     players.forEach((x: Player,) => (
       this.dealRandom(x.id, "firstHand")
     ));
-
   }
+
   emptyHands() {
     let players: any;
     let house: Player;
@@ -172,50 +168,45 @@ export class DealerService {
     ));
   }
 
-  dealAll() {
-    //dealing card to Mr.house
-    let houseId: number;
-    this.dealer$.subscribe((res) => { houseId = res.id })
-    this.dealRandom(houseId, "tempo");
-    let players: any;
-    //@todo check for no players
-    this.unfoldedplayers$.subscribe((res) => {
-      players = res
-    })
-    //Cards have to be dealt clockwise   
-    players.forEach((x: Player,) => (
-      this.dealRandom(x.id, "tempo")
-    ))
-  }
 
-  test() {
-    let initialBet = 27;
-    this.store.dispatch(raiseInitialBet({ initialBet }));
-  }
-  split(playerId, id) {
-    let playerHand;
-    this.store.select(selectPlayerHandByIds(playerId, id)).subscribe(
-      (res) => {
-        playerHand = res
+
+  firstPass() {
+    //check there's a value , fold them if they don't play 
+    this.passIndex += 1;
+
+    let firstPhs: Array<PlayerHand>;
+    this.store.select(selectFirstHands()).subscribe((res) => { firstPhs = res });
+    firstPhs.forEach(element => {
+      if (element.chipsRaised == 0) {
+        this.store.dispatch(isOut({ playerId: element.userId }))
+        this.store.dispatch(trash({ playerId: element.userId }))
+      } else {
+        this.store.dispatch(commitChips({ playerHand: element }));
       }
-    )
-    this.store.dispatch(splitPair({ hand: playerHand }))
+    });
+
+    let unfold; 
+    this.unfoldedplayers$.subscribe((res) => {unfold = res}); 
+    if (unfold.length > 0) {
+      this.dealFirstHand()
+    }else{
+      // endround 
+    }
+
+
+  
   }
 
+  secondPass() {
+    //check there's a value , fold them if they don't play 
+    this.passIndex += 1;
+    let firstPhs: Array<PlayerHand>;
+    this.store.select(selectFirstHands()).subscribe((res) => { firstPhs = res });
+    firstPhs.forEach(element => {
+      this.store.dispatch(commitChips({ playerHand: element }));
+    });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+  }
 
 }
 

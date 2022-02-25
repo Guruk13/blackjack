@@ -1,15 +1,10 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { Player } from 'app/models/player.model';
 import { Store } from '@ngrx/store';
-import { Card } from 'app/models/cards.model'
-import { selectPossessedCards } from 'app/state/player.selector';
-import { selectPlayerHand, selectPlayerHandCollections } from 'app/state/playerHand.selector';
+import {  selectPlayerHandByIds, selectPlayerHandCollections } from 'app/state/playerHand.selector';
 import { PlayerHand } from 'app/models/playerHand.model';
 //rxjs
 //https://medium.com/bytelimes/truly-reactive-forms-in-angular-a-unique-approach-cae9be6d7459
-import { filter } from 'rxjs/operators'
-import { map, mergeMap } from "rxjs/operators";
-import { Observable } from 'rxjs/observable'
+
 
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTable } from '@angular/material/table';
@@ -21,11 +16,10 @@ import { DealerService } from '../dealer.service';
 
 
 //Form related imports
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormArray } from '@angular/forms';
-import { playerHandsReducer } from 'app/state/playerHandReducer';
-import { splitPair, setSplittable, changeChipCount } from 'app/state/pack.actions';
-import { parseHostBindings } from '@angular/compiler';
+import { FormBuilder,  FormGroup,  } from '@angular/forms';
+
+import { splitPair,  changeChipCount, setDoubleable } from 'app/state/pack.actions';
+
 
 
 @Component({
@@ -68,23 +62,19 @@ export class CardAreaComponent implements OnInit {
 
   }
 
-  get playerhands(): FormArray {
-    return this.form.get('playerhnds') as FormArray;
-  }
-
-  lograndom(string: string) {
-
-  }
-
   getCard(playerid, handId) {
     this.dealerService.dealRandom(playerid, handId);
   }
 
   split(pplayerId, pid) {
-    this.dealerService.split(pplayerId, pid)
+    let theHand: PlayerHand ;
+     this.store.select(selectPlayerHandByIds(pplayerId, pid)).subscribe((res)=>{
+       theHand = res
+     })
+    this.store.dispatch(splitPair({hand: theHand} ))
   }
 
-  increaseRaise(playerId, chipsraised,phandId){
+  increaseRaise(playerId, chipsraised, phandId){
     if(this.availableMoney>0){
       let pchipsraised =  chipsraised +1 ;
       let newchips = this.availableMoney - 1 ;
@@ -100,15 +90,34 @@ export class CardAreaComponent implements OnInit {
   }
 
 
+  passIndex(){
+    return this.dealerService.passIndex
+  }
+
+
+  isDoubleable(chipsCommited ,pplayerId, pid){
+
+    let theHand: PlayerHand ;
+    this.store.select(selectPlayerHandByIds(pplayerId, pid)).subscribe((res)=>{
+      theHand = res
+    })
+
+    if(chipsCommited <=  this.availableMoney && theHand.doubleable == true ){
+      return true
+    }
+    return false; 
+
+  }
+
+  double(playerId, phandId,chipsCo){
+      this.store.dispatch(changeChipCount({playerId: playerId,handId: phandId,pchips: this.availableMoney-chipsCo , newchipsraised: chipsCo}))
+      this.store.dispatch(setDoubleable({userId: playerId,id: phandId, doubleable: false}))
+      this.getCard(playerId, phandId);
+      
+    }
+  }
 
 
 
 
-
-
-
-
-
-
-}
 

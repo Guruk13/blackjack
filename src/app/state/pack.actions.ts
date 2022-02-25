@@ -2,17 +2,13 @@ import { createAction, props } from '@ngrx/store';
 import { PlayerComponent } from 'app/player/player.component';
 import { Card } from '../models/cards.model';
 import { Player } from '../models/player.model'
-import {PlayerHand} from '../models/playerHand.model'
+import { PlayerHand } from '../models/playerHand.model'
 
 export const addCard = createAction(
   '[Pack] add card',
   props<{ cardId: string }>()
 );
 
-export const drawCard = createAction(
-  '[Pack] draw a Card',
-  props<{ cardId: string }>() //random card 
-);
 
 export const createdPack = createAction(
   'Create pack with x deck, unshuffled success ',
@@ -21,7 +17,7 @@ export const createdPack = createAction(
 
 export const raiseInitialBet = createAction(
   '[Hands] Set initial bet for player hands',
-  props<{initialBet: number}>()
+  props<{ initialBet: number }>()
 );
 
 export const dealCard = createAction(
@@ -29,8 +25,8 @@ export const dealCard = createAction(
   props<{
     tempoplayer: Player,
     cardToDeal: Card,
-    handIdentifier :string,
-    }>()
+    handIdentifier: string,
+  }>()
 )
 
 export const createPlayers = createAction(
@@ -50,9 +46,16 @@ export const createHands = createAction(
 
 
 export const setSplittable = createAction(
-  '[Hand] Setting/ unsetting splittability  ',
-  props<{ id:string , userId:number, statusSplittable:string }>()
+  '[Hand] Setting/ unsetting splittability',
+  props<{ id: string, userId: number, statusSplittable: string}>()
 );
+
+
+export const setDoubleable = createAction(
+  '[Hand] Setting/ unsetting doubleabillity ',
+  props<{ id: string, userId: number,  doubleable: boolean }>()
+);
+
 
 export const shiftDecision = createAction(
   '[Players] Shifting decision between players',
@@ -67,29 +70,50 @@ export const shiftDecision = createAction(
 export const splitPair = createAction(
   '[Player] Splitting a pair in half with the initial bet',
   props<{
-      hand: PlayerHand
+    hand: PlayerHand
   }>()
 )
 
 
 
 export const changeChipCount = createAction(
-    '[Chips] Some player is losing/winning money',
-    props<{ playerId:number, pchips: number,handId:string, newchipsraised }>()
-  );
+  '[Chips] Player is putting chips in play ',
+  props<{ playerId: number, pchips: number, handId: string, newchipsraised }>()
+);
 
 
-  export const isOut = createAction(
-    '[Player] Is out of this round ... ',
-    props<{ playerId:number, }>()
-  );
+export const isOut = createAction(
+  '[Player] Is out of this round ... ',
+  props<{ playerId: number, }>()
+);
 
 
-  //didnt use entities so gotta use this to speed things up 
-  export const acessor = createAction(
-    '[Player] Player modified ',
-    props<{ player:Player, }>()
-  );
+export const trash = createAction(
+  '[PLayerHands] unsets the hands of that player ',
+  props<{ playerId: number, }>()
+);
+
+
+export const resetSplits = createAction(
+  '[Player] Resetting this Player splitCount for nextRound  ',
+  props<{ playerId: number, }>()
+);
+
+
+
+export const commitChips = createAction(
+  '[PlayerHand] Committing Chips  ',
+  props<{ playerHand:  PlayerHand, }>()
+);
+
+
+
+
+//didnt use entities so gotta use this to speed things up 
+export const acessor = createAction(
+  '[Player] Player modified ',
+  props<{ player: Player, }>()
+);
 
 
 

@@ -8,11 +8,12 @@ import{FormControl, FormGroup, Validators} from '@angular/forms';
 export interface PlayerHand {
     userId:number;
     id: string;
-    chipsraised:number;
-    chipscommited: number; 
+    chipsRaised:number;
+    chipsCommited: number; 
     possessedCardsCollection: Array<Card>
     status:string;
     cardsValue:number
+    doubleable: boolean;
 }
 
 

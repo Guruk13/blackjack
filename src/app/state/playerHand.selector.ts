@@ -24,3 +24,10 @@ export const selectPlayerHandCollections = (id: number) =>
     let aplayerHand = playerHands.find((playerHand) => (playerHand.userId == playerId && playerHand.id == id ) )
     return aplayerHand; 
   })
+
+
+  export const selectFirstHands = () =>
+  createSelector(selectPlayerHand, (playerHands) => {
+    let somePH = playerHands.filter((playerHand) => playerHand.userId != 0 && playerHand.id == "firstHand")
+    return somePH
+  })

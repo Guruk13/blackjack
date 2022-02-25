@@ -35,6 +35,9 @@ export class DealerComponent implements OnInit {
     this.dealer$ = this.dealerService.getDealer()
     
   }
+  firstTurn(){
+    this.dealerService.firstPass();
+  }
 
 
 

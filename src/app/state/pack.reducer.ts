@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { createdPack, dealCard, drawCard } from './pack.actions';
+import { createdPack, dealCard,} from './pack.actions';
 import { Card } from '../models/cards.model'
 
 export const initialState: ReadonlyArray<Card> = [];

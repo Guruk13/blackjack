@@ -1,12 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 import { immerOn } from 'ngrx-immer/store';
-import { addCard, dealCard, splitPair, createHands, emptyHand, setSplittable, changeChipCount } from './pack.actions';
+import { addCard, dealCard, splitPair, createHands, emptyHand, setSplittable, changeChipCount, trash, commitChips, setDoubleable } from './pack.actions';
 import { state } from '@angular/animations';
 
 import { PossessedCard } from 'app/models/possessedCards.model';
 import { PlayerHand } from 'app/models/playerHand.model';
 import { first } from 'rxjs/operators';
-import {Card} from '../models/cards.model'
+import { Card } from '../models/cards.model'
 import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 
 export const initialState: ReadonlyArray<PlayerHand> = [];
@@ -16,26 +16,35 @@ export const playerHandsReducer = createReducer(
   on(createHands, (state, { someHands }) => someHands),
 
   immerOn(setSplittable, (state, { id, userId, statusSplittable }) => {
-     state.find((hand) => hand.userId === userId && id === hand.id).status = statusSplittable ;
+    state.find((hand) => hand.userId === userId && id === hand.id).status = statusSplittable;
   }),
+
+  immerOn(setDoubleable, (state, { id, userId, doubleable }) => {
+    state.find((hand) => hand.userId === userId && id === hand.id).doubleable = doubleable;
+  }),
+
 
 
   //splitability is decided here , would've used pipe but state is undefined when trying to dispatch within select observeable and would've looped within subscribe
   immerOn(dealCard, (state, { tempoplayer, cardToDeal, handIdentifier }) => {
     let firstHand = state.find((hand) =>
       hand.userId === tempoplayer.id && handIdentifier === hand.id)
+
     firstHand.possessedCardsCollection.push(cardToDeal)
-    firstHand.status != "splittable" ; 
-    if(firstHand.possessedCardsCollection.length == 2){
-      if(firstHand.possessedCardsCollection[0].id[0] == firstHand.possessedCardsCollection[1].id[0])
-      firstHand.status = "splittable";
-    }
-    firstHand.cardsValue = determineValue(firstHand.possessedCardsCollection); 
-  
+    firstHand.cardsValue = determineValue(firstHand.possessedCardsCollection);
+    firstHand.status = determineStatus(firstHand.cardsValue, firstHand.possessedCardsCollection, tempoplayer.splits);
   }),
 
   immerOn(emptyHand, (state, { tempoplayer, }) => {
-    let handToPush: PlayerHand = { userId: tempoplayer.id, id: "firstHand", chipsraised: 0, possessedCardsCollection: [], status:"ok" , chipscommited: 0 ,cardsValue: 0 }
+    let handToPush: PlayerHand = {
+      userId: tempoplayer.id,
+      id: "firstHand",
+      chipsRaised: 0,
+      possessedCardsCollection: [],
+      status: "ok", chipsCommited: 0,
+      cardsValue: 0,
+      doubleable: true
+    }
     state.push(handToPush);
   }),
 
@@ -49,57 +58,74 @@ export const playerHandsReducer = createReducer(
       handToFind.userId == hand.userId
     );
     //rebuilding hand ... @ODD
-    let handToRepush: PlayerHand = { ...state[theIndex], possessedCardsCollection: [state[theIndex].possessedCardsCollection[0]] }
+    let handToRepush: PlayerHand = { ...state[theIndex], possessedCardsCollection: [state[theIndex].possessedCardsCollection[0]], status: "ok" }
     let card = state[theIndex].possessedCardsCollection.slice(1, 2);
     state[theIndex] = handToRepush;
 
-    newhand = { ...hand, possessedCardsCollection: [card[0]], id: card[0].id, cardsValue: determineValue([card[0]]),status: determineStatus(determineValue([card[0]]),[card[0]])  }
+    newhand = {
+      ...hand,
+      possessedCardsCollection: [card[0]],
+      id: card[0].id, cardsValue: determineValue([card[0]]),
+      status: determineStatus(determineValue([card[0]]),
+        [card[0]], 1)
+    }
     state.splice(theIndex + 1, 0, newhand)
   }),
 
   immerOn(changeChipCount, (state, { playerId, newchipsraised, handId }) => {
-    state.find((hand) => hand.userId === playerId && handId === hand.id).chipsraised = newchipsraised
- }),
+    state.find((hand) => hand.userId === playerId && handId === hand.id).chipsRaised = newchipsraised
+  }),
 
+  immerOn(trash, (state, { playerId, }) => {
+    let newstate = state.filter(x => x.userId != playerId)
+    return newstate
+  }),
+
+  immerOn(commitChips, (state, { playerHand }) => {
+    let index = state.findIndex(x => x.userId == playerHand.userId && x.id == playerHand.id);
+    let handTocommit = state[index];
+    handTocommit.chipsCommited = handTocommit.chipsRaised;
+    handTocommit.chipsRaised = 0;
+    state[index] = handTocommit;
+  }),
 )
 
 //returns a value and a status. Does best so value stays under 21 
-function determineValue(posCardCol : Array<Card>){
-
-  let valueHand :number = 0  ; 
-  let numberofAces = 0 ; 
-  posCardCol.forEach((x)=>  {
+function determineValue(posCardCol: Array<Card>) {
+  let valueHand: number = 0;
+  let numberofAces = 0;
+  posCardCol.forEach((x) => {
     valueHand += x.handValue
-    if(x.title=="Ace"){
-      numberofAces +=1;
+    if (x.title == "Ace") {
+      numberofAces += 1;
     }
   })
   //substracting necessary values  to be under 21 
   let i = 0
-  while(i<numberofAces && valueHand > 21 ) {
+  while (i < numberofAces && valueHand > 21) {
     i++;
-    if(valueHand>21){
-      valueHand -= 10 ;
+    if (valueHand > 21) {
+      valueHand -= 10;
     }
   };
-
   return valueHand;
 }
 
-
-function determineStatus(valueHand, posCardCol){
-
-  let status :string ; 
-  status = "ok"; 
-  if(valueHand>21){
-    status = "busted" ;
+function determineStatus(valueHand, posCardCol, splits) {
+  let status: string;
+  status = "ok";
+  if (valueHand > 21) {
+    status = "busted";
   }
-  if(posCardCol.length==2){
-    if(posCardCol[0].id[0] == posCardCol[1].id[0] ){
-      status="splittable"
+  if (posCardCol.length == 2) {
+    //@test
+    if (posCardCol[0].rank == posCardCol[1].rank) {
+      status = "splittable";
+    }
+    //this is a natural blackjak
+    if (valueHand == 21 && splits == 0) {
+      status = "blackjack";
     }
   }
-
   return status;
-
 }

@@ -1,10 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 import { immerOn } from 'ngrx-immer/store';
-import { isOut, addCard, dealCard, drawCard, createPlayers, changeChipCount,splitPair, raiseInitialBet, acessor } from './pack.actions';
+import { isOut, createPlayers, changeChipCount, resetSplits, acessor, splitPair } from './pack.actions';
 import { shiftDecision } from './pack.actions';
 import { Player } from '../models/player.model';
-import { state } from '@angular/animations';
-import {Card } from "../models/cards.model"
 
 
 export const initialState: ReadonlyArray<Player> = [];
@@ -25,31 +23,43 @@ export const playerReducer = createReducer(
 
   }),
   //using ImmerOn because entity would need to be implemented,
-  immerOn(changeChipCount, ( state,{ playerId, pchips }) => {
+  immerOn(changeChipCount, (state, { playerId, pchips }) => {
     //could use find 
-    state.find((x)=>{
-      if(x.id === playerId){
-        x.chips  = pchips;
+    state.find((x) => {
+      if (x.id === playerId) {
+        x.chips = pchips;
       }
     })
     return state
-  },),
+  }),
 
-
-  immerOn(isOut, ( state,{ playerId,  }) => {
+  // This player isOut of the Round 
+  immerOn(isOut, (state, { playerId, }) => {
     //could use find 
-    state.find((x)=>{
-      if(x.id === playerId){
-        x.isOut = true; 
+    state.find((x) => {
+      if (x.id === playerId) {
+        x.isOut = true;
       }
     })
     return state
-  },),
+  }),
 
   immerOn(acessor, (state, { player }) => {
-    let toReplace = state.findIndex(x=> x.id == player.id );
+    let toReplace = state.findIndex(x => x.id == player.id);
     state[toReplace] = player;
   }),
+
+  //resets SplitCOunt
+  immerOn(resetSplits, (state, { playerId }) => {
+    state.find(x => x.id == playerId).splits = 0;
+  }),
+
+   immerOn(splitPair, (state, { hand }) => {
+    state.find(x => x.id == hand.userId).splits += 1;
+  }), 
+
+
+
 
 
 

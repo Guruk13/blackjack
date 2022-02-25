@@ -1,1 +1,22 @@
 
+
+.mat-column-pcardsCol {
+    flex: 0 0 300px !important;
+    white-space: unset !important;
+  }
+
+  .mat-column-chipsraised{
+    flex: 0 1 80px !important;
+    white-space: unset !important;
+  }
+
+
+  .mat-column-cardsValueCol{
+    flex: 0 0 25px !important;
+    white-space: unset !important;
+  }
+
+  .mat-column-raiseSplit{
+    flex: 0 0 100px !important;
+    white-space: unset !important;
+  }

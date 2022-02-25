@@ -8,8 +8,8 @@
 
   <!-- User Column -->
   <ng-container matColumnDef="pcardsCol">
-    <mat-header-cell class="pcardsCol" *matHeaderCellDef> cards </mat-header-cell>
-    <mat-cell class="pcardsCol"  *matCellDef="let element">
+    <mat-header-cell *matHeaderCellDef> cards </mat-header-cell>
+    <mat-cell *matCellDef="let element">
       <mat-card class="card" *ngFor="let card of element.possessedCardsCollection">
         {{card.id}}
       </mat-card>
@@ -18,43 +18,44 @@
 
   <!-- ChipsRaised -->
   <ng-container matColumnDef="chipsraised">
-    <mat-header-cell class="chipsraised" *matHeaderCellDef> chipsraised </mat-header-cell>
-    <mat-cell class="chipsraised"  *matCellDef="let element;">
-      <button (click)="increaseRaise(element.userId, element.chipsraised, element.id)">M</button>
-      {{ element.chipsraised }}
-      <button (click)="decreaseRaise(element.userId, element.chipsraised, element.id)">V</button>
+    <mat-header-cell *matHeaderCellDef> chipsraised </mat-header-cell>
+    <mat-cell *matCellDef="let element;">
+      <button (click)="increaseRaise(element.userId, element.chipsRaised, element.id)"  [hidden]="passIndex()==0 ? false : true"  >M</button>
+     {{ element.chipsRaised  + element.chipsCommited }} 
+      <button *ngIf="element.chipsRaised > 0 " (click)="decreaseRaise(element.userId, element.chipsRaised, element.id)" [hidden]="passIndex()==0 ? false : true" >V</button>
     </mat-cell>
   </ng-container>
 
-
-
   <!-- ChipsRaised -->
   <ng-container matColumnDef="cardsValueCol">
-    <mat-header-cell class="cardsValueCol" *matHeaderCellDef> value </mat-header-cell>
-    <mat-cell class="cardsValueCol" *matCellDef="let element;">
+    <mat-header-cell *matHeaderCellDef> value </mat-header-cell>
+    <mat-cell *matCellDef="let element;">
       {{ element.cardsValue }}
     </mat-cell>
   </ng-container>
 
-
-
   <!-- User Column -->
-  <ng-container matColumnDef="raiseSplit">
-    <mat-header-cell  class="raiseSplitCol" *matHeaderCellDef> Actions </mat-header-cell>
-    <mat-cell class="raiseSplitCol" *matCellDef="let element">
-      <button (click)="getCard(element.userId, element.id)"> FetCard</button>
-      <button (click)="split(element.userId, element.id)"> Split</button>
+  <ng-container  matColumnDef="raiseSplit">
+    <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <div *ngIf="passIndex() == 1 ">
+      <button (click)="getCard(element.userId, element.id)">Hit</button>
+      <button *ngIf='element.status=="splittable"'(click)="split(element.userId, element.id)"> Split</button>
+      <button [hidden]="!isDoubleable(element.chipsCommited, element.userId, element.id)"
+       (click)="double(element.userId, element.id, element.chipsCommited)">Double</button>
+      </div>
     </mat-cell>
+
+
+
+    
   </ng-container>
-
-
 
 
 
 
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
 </mat-table>

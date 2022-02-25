@@ -16,17 +16,14 @@ export class SideToolBarComponent implements OnInit {
 
   }
 
-  dealAll(){
-    this.dealerService.dealAll();
+  firstPass()
+  {
+    this.dealerService.firstPass(); 
   }
 
-  test(){
-    this.dealerService.test();
-  }
-
-
-  dealRandom(){
-    
+  secondPass()
+  {
+    this.dealerService.secondPass(); 
   }
 
 
