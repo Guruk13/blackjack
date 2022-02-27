@@ -12,7 +12,7 @@ import { acessor, isOut } from '../state/pack.actions'
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
-  styleUrls: ['./player.component.css']
+  styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent implements OnInit {
   @Input() player: Player;

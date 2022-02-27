@@ -12,8 +12,10 @@ export interface PlayerHand {
     chipsCommited: number; 
     possessedCardsCollection: Array<Card>
     status:string;
-    cardsValue:number
-    doubleable: boolean;
+    cardsValue?:number
+    doubleable: boolean,
+    winloss?:string,
+    chipsGains?: number
 }
 
 

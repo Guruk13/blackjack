@@ -1,11 +1,15 @@
-
+@import"../../vars";
 .playerCard{
   height: 100%;
   width: 100%;
 }
-
-
 .houseCard{
   height: 100%;
   width: 100%;
 }
+
+
+.mat-grid-tile{
+  background-color: $table-color;
+}
+

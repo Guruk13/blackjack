@@ -25,7 +25,7 @@ import { splitPair,  changeChipCount, setDoubleable } from 'app/state/pack.actio
 @Component({
   selector: 'app-card-area',
   templateUrl: './card-area.component.html',
-  styleUrls: ['./card-area.component.css']
+  styleUrls: ['./card-area.component.scss']
 })
 export class CardAreaComponent implements OnInit {
   @Input() playerId: number;
@@ -38,7 +38,7 @@ export class CardAreaComponent implements OnInit {
 
   form: FormGroup;
   dataSource = new MatTableDataSource<PlayerHand>();
-  displayedColumns = ['pcardsCol', 'chipsraised',  'raiseSplit', 'cardsValueCol' ]
+  displayedColumns = [ 'chipsraised',  'raiseSplit', 'cardsValueCol', 'pcardsCol', ]
 
 
 

@@ -10,7 +10,7 @@ export const selectPlayerHand = createFeatureSelector<ReadonlyArray<PlayerHand>>
 
 
 
-export const selectPlayerHandVanilla = 
+export const selectPlayerHandVanilla =
   createSelector(selectPlayerHand, (playerHands) => playerHands)
 
 export const selectPlayerHandCollections = (id: number) =>
@@ -19,15 +19,22 @@ export const selectPlayerHandCollections = (id: number) =>
     return somePH
   })
 
-  export const selectPlayerHandByIds = (playerId, id) =>
+export const selectPlayerHandByIds = (playerId, id) =>
   createSelector(selectPlayerHand, (playerHands) => {
-    let aplayerHand = playerHands.find((playerHand) => (playerHand.userId == playerId && playerHand.id == id ) )
-    return aplayerHand; 
+    let aplayerHand = playerHands.find((playerHand) => (playerHand.userId == playerId && playerHand.id == id))
+    return aplayerHand;
   })
 
 
-  export const selectFirstHands = () =>
+export const selectFirstHands = () =>
   createSelector(selectPlayerHand, (playerHands) => {
     let somePH = playerHands.filter((playerHand) => playerHand.userId != 0 && playerHand.id == "firstHand")
     return somePH
   })
+
+export const selectPHwithoutHouse = (id: number) =>
+  createSelector(selectPlayerHand, (playerHands) => {
+    let somePH = playerHands.filter((playerHand) => playerHand.userId != id)
+    return somePH
+  })
+

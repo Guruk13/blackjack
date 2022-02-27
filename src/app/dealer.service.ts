@@ -10,23 +10,16 @@ import {
   createdPack,
   dealCard,
   createPlayers,
-  shiftDecision,
-  changeChipCount,
-  splitPair,
-  raiseInitialBet,
-  createHands,
   emptyHand,
   isOut,
   trash,
-  commitChips
+  commitChips,
+  setWinloss
 } from './state/pack.actions';
 import { Store } from '@ngrx/store';
 import { Player } from './models/player.model';
 import { PlayerHand } from './models/playerHand.model';
-import { selectPlayerHandVanilla, selectPlayerHandCollections, selectPlayerHandByIds, selectFirstHands } from './state/playerHand.selector';
-
-
-
+import { selectFirstHands,selectPHwithoutHouse, selectPlayerHandByIds} from './state/playerHand.selector';
 
 
 
@@ -66,10 +59,8 @@ export class DealerService {
       this.store.dispatch(dealCard(tempPayload));
     }
     else {
-      console.log("no cards left");
       this.createPack();
       this.dealRandom(playerId, handId);
-
     }
   }
 
@@ -84,7 +75,7 @@ export class DealerService {
         var newcard = <Card>{};
         newcard.id = i + 1 + suit[0];
         newcard.suit = suit;
-        newcard.rank = i+1; 
+        newcard.rank = i + 1;
         switch (i) {
           case 0:
             newcard.title = "Ace";
@@ -185,26 +176,74 @@ export class DealerService {
       }
     });
 
-    let unfold; 
-    this.unfoldedplayers$.subscribe((res) => {unfold = res}); 
+    let unfold;
+    this.unfoldedplayers$.subscribe((res) => { unfold = res });
     if (unfold.length > 0) {
       this.dealFirstHand()
-    }else{
+    } else {
       // endround 
     }
-
-
-  
   }
 
   secondPass() {
-    //check there's a value , fold them if they don't play 
+    console.log("ez");
+    //reveal house second card, display wins and losses 
     this.passIndex += 1;
-    let firstPhs: Array<PlayerHand>;
-    this.store.select(selectFirstHands()).subscribe((res) => { firstPhs = res });
-    firstPhs.forEach(element => {
-      this.store.dispatch(commitChips({ playerHand: element }));
-    });
+    let allPHs ;
+    //dealing card to Mr.house
+    let houseId: number;
+
+    this.dealer$.subscribe((res) => { houseId = res.id })
+    let houseHand;
+    this.store.select(selectPlayerHandByIds(houseId, "firstHand")).subscribe(
+      (res:PlayerHand) =>{ houseHand = res }
+    )
+
+    this.store.select(selectPHwithoutHouse(houseId)).subscribe(
+      (res)=>{
+        allPHs =res ;
+      }
+    )
+    
+
+    while(houseHand.cardsValue < 17 ){
+      this.dealRandom(houseId, "firstHand");
+    }
+    //Players are loosing against a  house blackjack 
+    if(houseHand.status =="blackjack"){
+      allPHs.forEach(element => {
+        if(element.winloss != "blackjack" &&  !typeof(element.winloss ==='string')  ){
+          this.store.dispatch(setWinloss({id: element.id, userId: element.userId, winlossString: "loss" }))
+        }
+        //a player has a blackjack too , that's a push 
+        else{
+          this.store.dispatch(setWinloss({id: element.id, userId: element.userId, winlossString: "push" }))
+        }
+      });
+    }else{
+      allPHs.forEach(element => {
+        if(element.cardsValue< houseHand.cardsValue)  {
+          this.store.dispatch(setWinloss({id: element.id, userId: element.userId, winlossString: "loss" }))
+        }
+        if(element.cardsValue > houseHand.cardsValue)  {
+          this.store.dispatch(setWinloss({id: element.id, userId: element.userId, winlossString: "win" }))
+        }
+        if(element.cardsValue == houseHand.cardsValue)  {
+          this.store.dispatch(setWinloss({id: element.id, userId: element.userId, winlossString: "push" }))
+        }
+
+
+      });
+      
+      
+    }
+
+
+    this.store.select(selectPHwithoutHouse(houseId)).subscribe(
+      (res) =>{ allPHs = res }
+    )
+    
+    
 
   }
 

@@ -50,6 +50,17 @@ export const setSplittable = createAction(
   props<{ id: string, userId: number, statusSplittable: string}>()
 );
 
+export const setWinloss = createAction(
+  '[Hand] Winning/losing ',
+  props<{ id: string, userId: number, winlossString: string}>()
+);
+
+
+export const setChipsGains = createAction(
+  '[Hand] Chips preview of wins losses  ',
+  props<{ id: string, userId: number, chipGains: number}>()
+);
+
 
 export const setDoubleable = createAction(
   '[Hand] Setting/ unsetting doubleabillity ',

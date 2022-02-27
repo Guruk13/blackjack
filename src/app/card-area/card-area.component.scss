@@ -1,13 +1,15 @@
-
+@import"../../vars";
 
 .mat-column-pcardsCol {
     flex: 0 0 300px !important;
     white-space: unset !important;
+    
   }
 
   .mat-column-chipsraised{
-    flex: 0 1 80px !important;
+    flex: 0 1 100px !important;
     white-space: unset !important;
+    flex-direction: column;
   }
 
 
@@ -20,3 +22,8 @@
     flex: 0 0 100px !important;
     white-space: unset !important;
   }
+
+  .mat-row.cdk-row{
+    border-style:none;
+  }
+

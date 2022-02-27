@@ -1,0 +1,35 @@
+@import"../../vars";
+  
+  .example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+    
+  }
+
+  .mat-card{
+    border-radius: 0px;
+    background-color: $table-color;
+    min-height: 100%;
+  }
+
+  .mat-card{
+
+  }
+  .mat-card-header{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mat-card-header>h1{
+    padding-left: 20px;
+    padding-right: 40px;
+    font-family: 'PlayerFont';
+    color: $contrast;
+  }
+
+
+  .mat-card-avatar{
+    height: 60px;
+    width: 60px ; 
+  }
+

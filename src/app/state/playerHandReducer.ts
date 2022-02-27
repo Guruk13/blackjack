@@ -1,13 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
 import { immerOn } from 'ngrx-immer/store';
-import { addCard, dealCard, splitPair, createHands, emptyHand, setSplittable, changeChipCount, trash, commitChips, setDoubleable } from './pack.actions';
-import { state } from '@angular/animations';
-
-import { PossessedCard } from 'app/models/possessedCards.model';
+import {
+  dealCard,
+  splitPair,
+  createHands,
+  emptyHand, setSplittable,
+  changeChipCount,
+  trash,
+  commitChips,
+  setDoubleable,
+  setWinloss
+} from './pack.actions';
 import { PlayerHand } from 'app/models/playerHand.model';
-import { first } from 'rxjs/operators';
 import { Card } from '../models/cards.model'
-import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
+
 
 export const initialState: ReadonlyArray<PlayerHand> = [];
 
@@ -24,6 +30,11 @@ export const playerHandsReducer = createReducer(
   }),
 
 
+  immerOn(setWinloss, (state, { id, userId, winlossString }) => {
+    state.find((hand) => hand.userId === userId && id === hand.id).winloss = winlossString;
+  }),
+
+
 
   //splitability is decided here , would've used pipe but state is undefined when trying to dispatch within select observeable and would've looped within subscribe
   immerOn(dealCard, (state, { tempoplayer, cardToDeal, handIdentifier }) => {
@@ -33,6 +44,7 @@ export const playerHandsReducer = createReducer(
     firstHand.possessedCardsCollection.push(cardToDeal)
     firstHand.cardsValue = determineValue(firstHand.possessedCardsCollection);
     firstHand.status = determineStatus(firstHand.cardsValue, firstHand.possessedCardsCollection, tempoplayer.splits);
+    firstHand.winloss = firstHand.status == "blackjack" || firstHand.status == "busted" ? firstHand.status : null;
   }),
 
   immerOn(emptyHand, (state, { tempoplayer, }) => {
@@ -42,7 +54,7 @@ export const playerHandsReducer = createReducer(
       chipsRaised: 0,
       possessedCardsCollection: [],
       status: "ok", chipsCommited: 0,
-      cardsValue: 0,
+      cardsValue: null,
       doubleable: true
     }
     state.push(handToPush);

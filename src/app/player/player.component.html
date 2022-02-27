@@ -1,8 +1,8 @@
-<mat-card class="player-zone" [ngClass]="player.isDeciding ? 'decides': 'waits'">
+<mat-card color="accent" class="player-zone">
     <mat-card-header>
         <div mat-card-avatar class="example-header-image"></div>
-        <mat-card-title> {{ player.name }}</mat-card-title>
-        <mat-card-subtitle>{{player.chips}}</mat-card-subtitle>
+        <h1> {{ player.name.toUpperCase() }}</h1>
+        <h1>{{player.chips}}</h1>
     </mat-card-header>
 
     <div >

@@ -1,61 +1,44 @@
 <mat-table #myTable [dataSource]="dataSource">
-
-  <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-
-
-
-
-  <!-- User Column -->
-  <ng-container matColumnDef="pcardsCol">
-    <mat-header-cell *matHeaderCellDef> cards </mat-header-cell>
-    <mat-cell *matCellDef="let element">
-      <mat-card class="card" *ngFor="let card of element.possessedCardsCollection">
-        {{card.id}}
-      </mat-card>
-    </mat-cell>
-  </ng-container>
-
-  <!-- ChipsRaised -->
+      <!-- ChipsRaised -->
   <ng-container matColumnDef="chipsraised">
     <mat-header-cell *matHeaderCellDef> chipsraised </mat-header-cell>
-    <mat-cell *matCellDef="let element;">
-      <button (click)="increaseRaise(element.userId, element.chipsRaised, element.id)"  [hidden]="passIndex()==0 ? false : true"  >M</button>
+    <mat-cell  *matCellDef="let element;">
+      <button  mat-raised-button color="primary" (click)="increaseRaise(element.userId, element.chipsRaised, element.id)"  [hidden]="passIndex()==0 ? false : true"  >M</button>
      {{ element.chipsRaised  + element.chipsCommited }} 
-      <button *ngIf="element.chipsRaised > 0 " (click)="decreaseRaise(element.userId, element.chipsRaised, element.id)" [hidden]="passIndex()==0 ? false : true" >V</button>
+      <button mat-raised-button color="primary" [disabled]="element.chipsRaised <= 0 " (click)="decreaseRaise(element.userId, element.chipsRaised, element.id)" [hidden]="passIndex()==0 ? false : true" >V</button>
     </mat-cell>
   </ng-container>
 
-  <!-- ChipsRaised -->
+
   <ng-container matColumnDef="cardsValueCol">
     <mat-header-cell *matHeaderCellDef> value </mat-header-cell>
-    <mat-cell *matCellDef="let element;">
+    <mat-cell  *matCellDef="let element;" >
       {{ element.cardsValue }}
     </mat-cell>
   </ng-container>
 
-  <!-- User Column -->
   <ng-container  matColumnDef="raiseSplit">
     <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
     <mat-cell *matCellDef="let element">
-      <div *ngIf="passIndex() == 1 ">
-      <button (click)="getCard(element.userId, element.id)">Hit</button>
-      <button *ngIf='element.status=="splittable"'(click)="split(element.userId, element.id)"> Split</button>
-      <button [hidden]="!isDoubleable(element.chipsCommited, element.userId, element.id)"
+      <div *ngIf="passIndex() == 1 && element.status!='busted' && element.status!='blackjack' ">
+      <button mat-raised-button color="primary" (click)="getCard(element.userId, element.id)">Hit</button>
+      <button mat-raised-button color="primary" (click)="split(element.userId, element.id)"> Split</button>
+      <button mat-raised-button color="primary" [hidden]="!isDoubleable(element.chipsCommited, element.userId, element.id)"
        (click)="double(element.userId, element.id, element.chipsCommited)">Double</button>
       </div>
     </mat-cell>
-
-
-
-    
   </ng-container>
 
 
+    <ng-container matColumnDef="pcardsCol">
+      <mat-header-cell *matHeaderCellDef> cards </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-card class="card" *ngFor="let card of element.possessedCardsCollection">
+          {{card.id}}
+        </mat-card>
+      </mat-cell>
+    </ng-container>
 
-
-
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 
 </mat-table>

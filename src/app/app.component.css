@@ -1,9 +1,0 @@
-#table{
-    min-height: 0vh;
-    max-height: 100vh;
-}
-#fullheight{
-    max-height: 100vh;
-    min-height: 100vh;
-    background-color: aqua;
-}

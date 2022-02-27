@@ -12,7 +12,7 @@ import{ReactiveFormsModule,FormsModule} from '@angular/forms';
 
 //Angular Material imports
 
-
+import {MatButtonModule} from '@angular/material/button'; 
 import {MatInputModule} from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -95,7 +95,7 @@ import { EffectsModule } from '@ngrx/effects';
     //Angular Material related imports
     BrowserModule,
     BrowserAnimationsModule,
-
+    MatButtonModule,
     MatInputModule,
     MatAutocompleteModule,
     MatDatepickerModule,

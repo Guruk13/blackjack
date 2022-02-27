@@ -7,7 +7,7 @@
     <app-dealer class="houseCard"></app-dealer>
 
   </mat-grid-tile>
-    <mat-grid-tile  *ngFor="let player of players$ | async as players" color="primary">
+    <mat-grid-tile  *ngFor="let player of players$ | async as players" color="table-color">
       <app-player class="playerCard" [player]="player"></app-player>
     </mat-grid-tile>
 
