@@ -5,6 +5,10 @@
     white-space: unset !important;
     
   }
+  .mat-table{
+    background-color: $table-color;
+
+  }
 
   .mat-column-chipsraised{
     flex: 0 1 100px !important;
@@ -14,8 +18,14 @@
 
 
   .mat-column-cardsValueCol{
-    flex: 0 0 25px !important;
+    flex: 0 0 50px !important;
     white-space: unset !important;
+  }
+
+  .mat-column-cardsValueCol>h2{
+    font-family: 'PlayerFont';
+    color: $contrast;
+
   }
 
   .mat-column-raiseSplit{
@@ -25,5 +35,38 @@
 
   .mat-row.cdk-row{
     border-style:none;
+    background-color: $table-color;
+    margin-bottom: 20px;
   }
+  .raised{
+    background-image: url(../../assets/chipicon.png) ;
+    background-size: cover;
+    display: flex;
+    min-height: 60px;
+    min-width: 60px;
+    align-items: center;    
+  }
+  .raised>h2{
+
+    margin: 0 auto;
+    font-family: 'PlayerFont';
+    color: $table-color;
+    
+  }
+
+  .arrowup{
+    background-image: url(../../assets/arrowup.png) ;
+    min-height: 25px;
+    min-width: 25px;
+    background-size: cover;
+
+  }
+  .arrowdown{
+    background-image: url(../../assets/arrowdown.png) ;
+    min-height: 25px;
+    min-width: 25px;
+    background-size: cover;
+
+  }
+
 

@@ -2,12 +2,12 @@
 
 
 
-<mat-grid-list cols="3" rowHeight="50vh" id=list gutterSize="0" >
-  <mat-grid-tile [colspan]=3>
+<mat-grid-list cols="3" rowHeight="25vh" id=list gutterSize="0" >
+  <mat-grid-tile [rowspan]="1" [colspan]=3 >
     <app-dealer class="houseCard"></app-dealer>
 
   </mat-grid-tile>
-    <mat-grid-tile  *ngFor="let player of players$ | async as players" color="table-color">
+    <mat-grid-tile [rowspan]="3" *ngFor="let player of players$ | async as players" color="table-color">
       <app-player class="playerCard" [player]="player"></app-player>
     </mat-grid-tile>
 

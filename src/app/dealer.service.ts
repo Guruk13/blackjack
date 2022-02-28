@@ -117,7 +117,7 @@ export class DealerService {
 
   addPlayers() {
     //todo create pack generator + modify card ids 
-    let imoney: number = 60;
+    let imoney: number = 200;
     let dealer: Player = { id: 0, name: "Mr.House", chips: imoney, isDeciding: false, isOut: false, splits: 0 }
     let You: Player = { id: 1, name: "You", chips: imoney, isDeciding: false, isOut: false, splits: 0 }
     let MissFortune: Player = { id: 2, name: "Miss Fortune", chips: imoney, isDeciding: false, isOut: false, splits: 0 }

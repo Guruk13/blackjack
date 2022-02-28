@@ -3,9 +3,9 @@
   <ng-container matColumnDef="chipsraised">
     <mat-header-cell *matHeaderCellDef> chipsraised </mat-header-cell>
     <mat-cell  *matCellDef="let element;">
-      <button  mat-raised-button color="primary" (click)="increaseRaise(element.userId, element.chipsRaised, element.id)"  [hidden]="passIndex()==0 ? false : true"  >M</button>
-     {{ element.chipsRaised  + element.chipsCommited }} 
-      <button mat-raised-button color="primary" [disabled]="element.chipsRaised <= 0 " (click)="decreaseRaise(element.userId, element.chipsRaised, element.id)" [hidden]="passIndex()==0 ? false : true" >V</button>
+      <div class="arrowup" (click)="increaseRaise(element.userId, element.chipsRaised, element.id)"  [hidden]="passIndex()==0 ? false : true"  ></div>
+     <div class="raised"><h2>{{ element.chipsRaised  + element.chipsCommited }}</h2></div> 
+     <div class="arrowdown"  (click)="decreaseRaise(element.userId, element.chipsRaised, element.id)" [hidden]="passIndex()==0 ? false : true" ></div>
     </mat-cell>
   </ng-container>
 
@@ -13,14 +13,15 @@
   <ng-container matColumnDef="cardsValueCol">
     <mat-header-cell *matHeaderCellDef> value </mat-header-cell>
     <mat-cell  *matCellDef="let element;" >
-      {{ element.cardsValue }}
+      <h2>{{ element.cardsValue }}</h2>
     </mat-cell>
   </ng-container>
 
   <ng-container  matColumnDef="raiseSplit">
     <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
     <mat-cell *matCellDef="let element">
-      <div *ngIf="passIndex() == 1 && element.status!='busted' && element.status!='blackjack' ">
+      <!-- <div *ngIf="passIndex() == 1 && element.status!='busted' && element.status!='blackjack' "> -->
+        <div>
       <button mat-raised-button color="primary" (click)="getCard(element.userId, element.id)">Hit</button>
       <button mat-raised-button color="primary" (click)="split(element.userId, element.id)"> Split</button>
       <button mat-raised-button color="primary" [hidden]="!isDoubleable(element.chipsCommited, element.userId, element.id)"
@@ -33,9 +34,9 @@
     <ng-container matColumnDef="pcardsCol">
       <mat-header-cell *matHeaderCellDef> cards </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-card class="card" *ngFor="let card of element.possessedCardsCollection">
-          {{card.id}}
-        </mat-card>
+        <div class="card" *ngFor="let card of element.possessedCardsCollection">
+          <app-card [card]="card"></app-card>
+        </div>
       </mat-cell>
     </ng-container>
 
