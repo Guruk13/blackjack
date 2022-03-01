@@ -3,7 +3,13 @@
 .mat-column-pcardsCol {
     flex: 0 0 300px !important;
     white-space: unset !important;
+    display: flex;
+    flex-direction: column;
     
+  }
+  .cardContainer{
+    flex-direction: row;
+    display: flex;
   }
   .mat-table{
     background-color: $table-color;
@@ -37,6 +43,8 @@
     border-style:none;
     background-color: $table-color;
     margin-bottom: 20px;
+    border:solid;
+    border-color: $contrast;
   }
   .raised{
     background-image: url(../../assets/chipicon.png) ;
@@ -67,6 +75,11 @@
     min-width: 25px;
     background-size: cover;
 
+  }
+
+  h1,h2,h3,h4,h5,p{
+    font-family: 'PlayerFont';
+    color: $contrast;
   }
 
 

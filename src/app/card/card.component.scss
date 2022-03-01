@@ -2,7 +2,7 @@
 
 .card{
     aspect-ratio: 3/5;
-    height:  100px;
+    height:  50px;
     display:flex; 
     flex-direction: column;
     border: solid;
@@ -11,10 +11,6 @@
 
 
 .suit{
-    min-height: 50%;
-    min-width: 50%;
-    height: 75px;
-    width: 75px;
     background-size: cover;
 }
 

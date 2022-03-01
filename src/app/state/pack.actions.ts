@@ -52,7 +52,7 @@ export const setSplittable = createAction(
 
 export const setWinloss = createAction(
   '[Hand] Winning/losing ',
-  props<{ id: string, userId: number, winlossString: string}>()
+  props<{ id: string, userId: number, winlossString: string, chipGained: number}>()
 );
 
 

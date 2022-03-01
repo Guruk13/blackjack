@@ -11,11 +11,11 @@ export interface PlayerHand {
     chipsRaised:number;
     chipsCommited: number; 
     possessedCardsCollection: Array<Card>
-    status:string;
+    status?:string;
     cardsValue?:number
     doubleable: boolean,
     winloss?:string,
-    chipsGains?: number
+    chipsGainsRatio?: number
 }
 
 

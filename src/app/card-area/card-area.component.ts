@@ -95,27 +95,48 @@ export class CardAreaComponent implements OnInit {
   }
 
 
-  isDoubleable(chipsCommited ,pplayerId, pid){
+  isDoubleable(chipsRaised ,pplayerId, pid){
+
 
     let theHand: PlayerHand ;
     this.store.select(selectPlayerHandByIds(pplayerId, pid)).subscribe((res)=>{
       theHand = res
     })
-
-    if(chipsCommited <=  this.availableMoney && theHand.doubleable == true ){
+    if( theHand.doubleable == true ){
       return true
     }
     return false; 
 
   }
 
+
+  
+  handRecap(situation, ratio, chips){
+    let recap: string
+    if(situation=="win"){
+      recap = "This hand got you " + (ratio * chips).toString() + " chips"; 
+    }
+    if(situation=="loss"){
+      recap = "You lost " + (ratio * chips).toString() + " chips with that hand"; 
+    }
+    if(situation=="push"){
+      recap = "Tie, have your " + (ratio * chips).toString() + "chips back"; 
+    }
+
+    return recap
+
+
+  }
+
   double(playerId, phandId,chipsCo){
-      this.store.dispatch(changeChipCount({playerId: playerId,handId: phandId,pchips: this.availableMoney-chipsCo , newchipsraised: chipsCo}))
-      this.store.dispatch(setDoubleable({userId: playerId,id: phandId, doubleable: false}))
+    this.store.dispatch(setDoubleable({userId: playerId,id: phandId, doubleable: false}))
+      this.store.dispatch(changeChipCount({playerId: playerId,handId: phandId,pchips: this.availableMoney-chipsCo , newchipsraised: chipsCo*2}));
       this.getCard(playerId, phandId);
-      
     }
   }
+
+
+
 
 
 

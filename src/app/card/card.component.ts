@@ -18,7 +18,7 @@ export class CardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.cardNumber = this.card.id[0];
+    this.cardNumber = this.card.handValue.toString();
     if (this.card.title) {
       this.cardNumber = this.card.title[0];
     }

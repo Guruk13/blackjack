@@ -19,7 +19,8 @@ import {
 import { Store } from '@ngrx/store';
 import { Player } from './models/player.model';
 import { PlayerHand } from './models/playerHand.model';
-import { selectFirstHands,selectPHwithoutHouse, selectPlayerHandByIds} from './state/playerHand.selector';
+import { selectFirstHands, selectPHwithoutHouse, selectPlayerHandByIds } from './state/playerHand.selector';
+import { element } from 'protractor';
 
 
 
@@ -172,7 +173,7 @@ export class DealerService {
         this.store.dispatch(isOut({ playerId: element.userId }))
         this.store.dispatch(trash({ playerId: element.userId }))
       } else {
-        this.store.dispatch(commitChips({ playerHand: element }));
+        //this.store.dispatch(commitChips({ playerHand: element }));
       }
     });
 
@@ -186,66 +187,88 @@ export class DealerService {
   }
 
   secondPass() {
-    console.log("ez");
     //reveal house second card, display wins and losses 
     this.passIndex += 1;
-    let allPHs ;
+    let allPHs;
     //dealing card to Mr.house
     let houseId: number;
 
     this.dealer$.subscribe((res) => { houseId = res.id })
     let houseHand;
     this.store.select(selectPlayerHandByIds(houseId, "firstHand")).subscribe(
-      (res:PlayerHand) =>{ houseHand = res }
+      (res: PlayerHand) => { houseHand = res }
     )
 
     this.store.select(selectPHwithoutHouse(houseId)).subscribe(
-      (res)=>{
-        allPHs =res ;
+      (res) => {
+        allPHs = res;
       }
     )
-    
 
-    while(houseHand.cardsValue < 17 ){
+
+    while (houseHand.cardsValue < 17) {
       this.dealRandom(houseId, "firstHand");
     }
     //Players are loosing against a  house blackjack 
-    if(houseHand.status =="blackjack"){
+    if (houseHand.status == "blackjack") {
       allPHs.forEach(element => {
-        if(element.winloss != "blackjack" &&  !typeof(element.winloss ==='string')  ){
-          this.store.dispatch(setWinloss({id: element.id, userId: element.userId, winlossString: "loss" }))
+        if (element.status != "blackjack") {
+          this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "loss", chipGained: 1 }))
         }
         //a player has a blackjack too , that's a push 
-        else{
-          this.store.dispatch(setWinloss({id: element.id, userId: element.userId, winlossString: "push" }))
+        else {
+          this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "push", chipGained: 1 }))
         }
       });
-    }else{
-      allPHs.forEach(element => {
-        if(element.cardsValue< houseHand.cardsValue)  {
-          this.store.dispatch(setWinloss({id: element.id, userId: element.userId, winlossString: "loss" }))
-        }
-        if(element.cardsValue > houseHand.cardsValue)  {
-          this.store.dispatch(setWinloss({id: element.id, userId: element.userId, winlossString: "win" }))
-        }
-        if(element.cardsValue == houseHand.cardsValue)  {
-          this.store.dispatch(setWinloss({id: element.id, userId: element.userId, winlossString: "push" }))
-        }
-
-
-      });
-      
-      
     }
+    if (houseHand.status == "busted") {
+      allPHs.forEach(element => {
+        if (element.status == "blackjack") {
+          this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "win", chipGained: 1.5 }))
+        }
+        else {
+          if (element.status == "busted") {
+            this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "loss", chipGained: 0 }))
+          } else {
+            if (element.cardsValue < houseHand.cardsValue) {
+              this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "win", chipGained: 2 }))
+            }
+          }
+        }
+      });
+    }
+    else {
 
+      allPHs.forEach(element => {
 
-    this.store.select(selectPHwithoutHouse(houseId)).subscribe(
-      (res) =>{ allPHs = res }
-    )
-    
-    
-
+        if (element.status == "blackjack") {
+          this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "win", chipGained: 1.5 }))
+        }
+        else {
+          if (element.status == "busted") {
+            this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "loss", chipGained: 1 }))
+          } else {
+            if (element.cardsValue < houseHand.cardsValue) {
+              this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "loss", chipGained: 1 }))
+            }
+            if (element.cardsValue > houseHand.cardsValue) {
+              this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "win", chipGained: 2 }))
+            }
+            if (element.cardsValue == houseHand.cardsValue) {
+              this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "push", chipGained: 1 }))
+            }
+          }
+        }
+      });
+    }
   }
+
+
+
+
+
+
+
 
 }
 

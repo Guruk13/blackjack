@@ -10,6 +10,17 @@
     background-color: $table-color;
     min-height: 100%;
   }
+  .mat-column-pcardsCol {
+    flex: 0 0 300px !important;
+    white-space: unset !important;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mat-column-cardsValueCol{
+    flex: 0 0 50px !important;
+    white-space: unset !important;
+  }
 
 
   .mat-card-header{
@@ -31,5 +42,18 @@
 
   .mat-table{
     background-color: $table-color;
+  }
 
+  h1,h2,h3,h4,h5,p{
+    font-family: 'PlayerFont';
+    color: $contrast;
+  }
+
+  .mat-row.cdk-row{
+    justify-content: center;
+    border-style:none;
+    background-color: $table-color;
+    margin-bottom: 20px;
+    border:solid;
+    border-color: $contrast;
   }

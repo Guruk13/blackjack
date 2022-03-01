@@ -30,8 +30,10 @@ export const playerHandsReducer = createReducer(
   }),
 
 
-  immerOn(setWinloss, (state, { id, userId, winlossString }) => {
-    state.find((hand) => hand.userId === userId && id === hand.id).winloss = winlossString;
+  immerOn(setWinloss, (state, { id, userId, winlossString, chipGained }) => {
+    let hand = state.find((hand) => hand.userId === userId && id === hand.id)
+    hand.winloss = winlossString;
+    hand.chipsGainsRatio = chipGained;
   }),
 
 
@@ -44,7 +46,6 @@ export const playerHandsReducer = createReducer(
     firstHand.possessedCardsCollection.push(cardToDeal)
     firstHand.cardsValue = determineValue(firstHand.possessedCardsCollection);
     firstHand.status = determineStatus(firstHand.cardsValue, firstHand.possessedCardsCollection, tempoplayer.splits);
-    firstHand.winloss = firstHand.status == "blackjack" || firstHand.status == "busted" ? firstHand.status : null;
   }),
 
   immerOn(emptyHand, (state, { tempoplayer, }) => {
@@ -53,7 +54,7 @@ export const playerHandsReducer = createReducer(
       id: "firstHand",
       chipsRaised: 0,
       possessedCardsCollection: [],
-      status: "ok", chipsCommited: 0,
+      status: null, chipsCommited: 0,
       cardsValue: null,
       doubleable: true
     }
@@ -70,7 +71,11 @@ export const playerHandsReducer = createReducer(
       handToFind.userId == hand.userId
     );
     //rebuilding hand ... @ODD
-    let handToRepush: PlayerHand = { ...state[theIndex], possessedCardsCollection: [state[theIndex].possessedCardsCollection[0]], status: "ok" }
+    let handToRepush: PlayerHand = { ...state[theIndex], possessedCardsCollection: [state[theIndex].possessedCardsCollection[0]], 
+      cardsValue:determineValue([state[theIndex].possessedCardsCollection[0]]) ,
+      status: null,
+    
+    }
     let card = state[theIndex].possessedCardsCollection.slice(1, 2);
     state[theIndex] = handToRepush;
 
@@ -87,6 +92,8 @@ export const playerHandsReducer = createReducer(
   immerOn(changeChipCount, (state, { playerId, newchipsraised, handId }) => {
     state.find((hand) => hand.userId === playerId && handId === hand.id).chipsRaised = newchipsraised
   }),
+
+  
 
   immerOn(trash, (state, { playerId, }) => {
     let newstate = state.filter(x => x.userId != playerId)
@@ -125,7 +132,7 @@ function determineValue(posCardCol: Array<Card>) {
 
 function determineStatus(valueHand, posCardCol, splits) {
   let status: string;
-  status = "ok";
+  status = null;
   if (valueHand > 21) {
     status = "busted";
   }
