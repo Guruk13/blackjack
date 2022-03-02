@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { immerOn } from 'ngrx-immer/store';
-import { isOut, createPlayers, changeChipCount, resetSplits, acessor, splitPair } from './pack.actions';
+import { isOut, createPlayers, changeChipCount, resetSplits, acessor, splitPair, winChips } from './pack.actions';
 import { shiftDecision } from './pack.actions';
 import { Player } from '../models/player.model';
 
@@ -44,6 +44,7 @@ export const playerReducer = createReducer(
     return state
   }),
 
+
   immerOn(acessor, (state, { player }) => {
     let toReplace = state.findIndex(x => x.id == player.id);
     state[toReplace] = player;
@@ -51,12 +52,21 @@ export const playerReducer = createReducer(
 
   //resets SplitCOunt
   immerOn(resetSplits, (state, { playerId }) => {
-    state.find(x => x.id == playerId).splits = 0;
+
+    let hand = state.find(x => x.id == playerId)
+
   }),
 
-   immerOn(splitPair, (state, { hand }) => {
-    state.find(x => x.id == hand.userId).splits += 1;
-  }), 
+  //resets SplitCOunt
+  immerOn(winChips, (state, { playerId, pchips }) => {
+    state.find(x => x.id == playerId).chips += pchips;
+  }),
+
+  immerOn(splitPair, (state, { hand }) => {
+    let player  = state.find(x => x.id == hand.userId);
+    player.splits += 1;
+    player.chips -= hand.chipsRaised;
+  }),
 
 
 

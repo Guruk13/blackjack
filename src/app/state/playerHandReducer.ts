@@ -38,7 +38,7 @@ export const playerHandsReducer = createReducer(
 
 
 
-  //splitability is decided here , would've used pipe but state is undefined when trying to dispatch within select observeable and would've looped within subscribe
+
   immerOn(dealCard, (state, { tempoplayer, cardToDeal, handIdentifier }) => {
     let firstHand = state.find((hand) =>
       hand.userId === tempoplayer.id && handIdentifier === hand.id)
@@ -109,6 +109,9 @@ export const playerHandsReducer = createReducer(
   }),
 )
 
+
+
+  //splitability is decided here , would've used pipe but state is undefined when trying to dispatch within select observeable and would've looped within subscribe
 //returns a value and a status. Does best so value stays under 21 
 function determineValue(posCardCol: Array<Card>) {
   let valueHand: number = 0;
@@ -141,8 +144,8 @@ function determineStatus(valueHand, posCardCol, splits) {
     if (posCardCol[0].rank == posCardCol[1].rank) {
       status = "splittable";
     }
-    //this is a natural blackjak
-    if (valueHand == 21 && splits == 0) {
+    //this is a natural blackjak 
+    if (valueHand == 21 ) {
       status = "blackjack";
     }
   }

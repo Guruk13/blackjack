@@ -38,3 +38,10 @@ export const selectPHwithoutHouse = (id: number) =>
     return somePH
   })
 
+
+  export const selectPHashand = (id: number) =>
+  createSelector(selectPlayerHand, (playerHands) => {
+     playerHands.filter((playerHand) => playerHand.userId == id)
+
+  })
+

@@ -5,7 +5,7 @@ import { Card } from './models/cards.model';
 
 //store related import 
 import { selectCards, selectPickRandomOne } from './state/cards.selector';
-import { selectUnfoldedPlayers, selectPlayerById, selectDealer, } from './state/player.selector';
+import { selectUnfoldedPlayers, selectPlayerById, selectDealer, selectAllPlayers, selectPwithhands, } from './state/player.selector';
 import {
   createdPack,
   dealCard,
@@ -13,14 +13,17 @@ import {
   emptyHand,
   isOut,
   trash,
-  commitChips,
-  setWinloss
+  winChips,
+  setWinloss,
+  resetSplits,
+  
 } from './state/pack.actions';
 import { Store } from '@ngrx/store';
 import { Player } from './models/player.model';
 import { PlayerHand } from './models/playerHand.model';
-import { selectFirstHands, selectPHwithoutHouse, selectPlayerHandByIds } from './state/playerHand.selector';
-import { element } from 'protractor';
+import { selectFirstHands, selectPHwithoutHouse, selectPlayerHandByIds,
+  selectPHashand,
+ } from './state/playerHand.selector';
 
 
 
@@ -32,7 +35,7 @@ export class DealerService {
   constructor(private store: Store,) {
   }
   pack$ = this.store.select(selectCards);
-  unfoldedplayers$: any;
+  players$: any;
   dealer$: Observable<Player>;
   passIndex: number;
 
@@ -110,7 +113,7 @@ export class DealerService {
     //the dealer is stored in the function below 
     this.addPlayers();
     //selecting dealer + unfolded players into properties 
-    this.unfoldedplayers$ = this.store.select(selectUnfoldedPlayers);
+    this.players$ = this.store.select(selectAllPlayers);
     this.dealer$ = this.store.select(selectDealer);
     this.passIndex = 0;
     this.emptyHands()
@@ -134,13 +137,19 @@ export class DealerService {
     this.dealRandom(houseId, "firstHand");
     let players: any;
     //@todo check for no players
-    this.unfoldedplayers$.subscribe((res) => {
-      players = res
-    })
-    //Cards have to be dealt clockwise   
-    players.forEach((x: Player,) => (
-      this.dealRandom(x.id, "firstHand")
-    ));
+
+    this.store.select(selectPwithhands).subscribe(res=>players = res);
+
+    console.log(players);
+    if(players){
+      players.forEach((x: Player,) => (
+        this.dealRandom(x.id, "firstHand")
+      ));
+
+    }
+
+
+
     //Cards have to be dealt clockwise   
     players.forEach((x: Player,) => (
       this.dealRandom(x.id, "firstHand")
@@ -150,14 +159,17 @@ export class DealerService {
   emptyHands() {
     let players: any;
     let house: Player;
-    this.unfoldedplayers$.subscribe((res) => {
-      players = res
+    this.players$.subscribe((res) => {
+      players = res;
     })
     this.dealer$.subscribe(res => house = res)
+
     this.store.dispatch(emptyHand({ tempoplayer: house }))
-    players.forEach((x: Player) => (
+    players.forEach((x: Player) => {
+      if(x.chips> 0){
       this.store.dispatch(emptyHand({ tempoplayer: x }))
-    ));
+      }
+    });
   }
 
 
@@ -178,11 +190,16 @@ export class DealerService {
     });
 
     let unfold;
-    this.unfoldedplayers$.subscribe((res) => { unfold = res });
+    this.store.select(selectPwithhands).subscribe(res=> unfold = res)
+
     if (unfold.length > 0) {
       this.dealFirstHand()
     } else {
-      // endround 
+      //restart round
+      this.store.dispatch(trash({playerId: 0}));  
+      this.emptyHands();
+      //reset House hand
+      this.passIndex = 0 ;
     }
   }
 
@@ -199,7 +216,7 @@ export class DealerService {
       (res: PlayerHand) => { houseHand = res }
     )
 
-    this.store.select(selectPHwithoutHouse(houseId)).subscribe(
+    this.store.select(selectPHwithoutHouse(0)).subscribe(
       (res) => {
         allPHs = res;
       }
@@ -230,9 +247,9 @@ export class DealerService {
           if (element.status == "busted") {
             this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "loss", chipGained: 0 }))
           } else {
-            if (element.cardsValue < houseHand.cardsValue) {
+            
               this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "win", chipGained: 2 }))
-            }
+            
           }
         }
       });
@@ -261,6 +278,42 @@ export class DealerService {
         }
       });
     }
+  }
+
+  //deal chips , start a new turn,
+  thirdPass(){
+    let allPHs
+    let players;
+
+    this.store.select(selectPHwithoutHouse(0)).subscribe(
+      (res) => {
+        allPHs = res;
+      }
+    )
+
+    allPHs.forEach(element => {
+      //if that hand won , gain the chips 
+      if(element.winloss == "win" || element.winloss =="push"){
+      this.store.dispatch(winChips({playerId: element.userId, pchips: element.chipsRaised * element.chipsGainsRatio}))
+      }
+      this.store.select(selectAllPlayers).subscribe((res)=>{
+        players = res
+      })
+      players.forEach(element => {
+        this.store.dispatch(resetSplits(element.id));
+        this.store.dispatch(trash({playerId: element.id}));
+      });
+
+      this.store.dispatch(trash({playerId: 0}));  
+      this.emptyHands();
+      //reset House hand
+      this.passIndex = 0 ;
+    
+      
+    });
+
+
+
   }
 
 

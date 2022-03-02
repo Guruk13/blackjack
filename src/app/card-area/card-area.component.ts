@@ -55,12 +55,26 @@ export class CardAreaComponent implements OnInit {
     this.playerHandState$ = this.store.select(selectPlayerHandCollections(this.playerId));
     //@TODO an observeable of hands.chips
     this.store.select(selectPlayerById(this.playerId)).subscribe(res => this.availableMoney = res.chips);
-    //is it splitable ?
     this.playerHandState$.subscribe((phs)=>{
       this.dataSource.data = phs;
     })
 
   }
+
+
+  isSplittable(pchips, puserId, psplittable){
+    let player; 
+    this.store.select(selectPlayerById(puserId)).subscribe((res)=>{
+      player = res;
+    })
+    if(player.splits<2 && pchips <= this.availableMoney ){
+      return true
+    }
+    return false;
+    
+  }
+
+
 
   getCard(playerid, handId) {
     this.dealerService.dealRandom(playerid, handId);

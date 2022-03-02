@@ -88,8 +88,16 @@ export const splitPair = createAction(
 
 
 export const changeChipCount = createAction(
-  '[Chips] Player is putting chips in play ',
+  '[Chips] PLayer chips  or hand chips is modified ',
   props<{ playerId: number, pchips: number, handId: string, newchipsraised }>()
+);
+
+
+
+
+export const winChips = createAction(
+  '[Chips] Player is winning chips ',
+  props<{ playerId: number, pchips: number, }>()
 );
 
 

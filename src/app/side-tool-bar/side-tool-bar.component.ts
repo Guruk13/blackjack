@@ -25,5 +25,9 @@ export class SideToolBarComponent implements OnInit {
   {
     this.dealerService.secondPass(); 
   }
+  thirdPass()
+  {
+    this.dealerService.thirdPass(); 
+  }
   
 }

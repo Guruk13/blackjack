@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Player } from 'app/models/player.model';
 import { Store } from '@ngrx/store';
-import { selectPlayerById, selectPossessedCards, selectUnfoldedPlayers } from 'app/state/player.selector';
+
 import { DealerService } from '../dealer.service'
 
 
@@ -21,8 +21,7 @@ export class PlayerComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.store.select(selectUnfoldedPlayers).subscribe((res) => {
-    })
+
   }
 
 }
