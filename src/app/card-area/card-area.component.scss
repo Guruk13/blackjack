@@ -5,7 +5,7 @@
     white-space: unset !important;
     display: flex;
     flex-direction: column;
-    
+
   }
   .cardContainer{
     flex-direction: row;
@@ -31,7 +31,6 @@
   .mat-column-cardsValueCol>h2{
     font-family: 'PlayerFont';
     color: $contrast;
-
   }
 
   .mat-column-raiseSplit{
