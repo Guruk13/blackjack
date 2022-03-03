@@ -68,6 +68,7 @@ import { CardAreaComponent } from './card-area/card-area.component';
 import { EffectsModule } from '@ngrx/effects';
 import { HomeComponent } from './home/home.component';
 import { from } from 'rxjs';
+import { NavbarDirective } from './navbar.directive';
 
 
 
@@ -86,6 +87,7 @@ import { from } from 'rxjs';
     PlayerComponent,
     CardAreaComponent,
     HomeComponent,
+    NavbarDirective,
 
 
   ],
