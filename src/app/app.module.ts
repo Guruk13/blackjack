@@ -46,7 +46,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { CardComponent } from './card/card.component';
 import { TableComponent } from './table/table.component';
 import { HandComponent } from './hand/hand.component';
-import {PackComponent} from './pack/pack.component'
+import {PackComponent} from './pack/pack.component';
+
 
 
 //Store related imports
@@ -65,6 +66,9 @@ import { PlayerComponent } from './player/player.component';
 import { CardAreaComponent } from './card-area/card-area.component';
 
 import { EffectsModule } from '@ngrx/effects';
+import { HomeComponent } from './home/home.component';
+import { from } from 'rxjs';
+import { NavbarDirective } from './navbar.directive';
 
 
 
@@ -82,6 +86,8 @@ import { EffectsModule } from '@ngrx/effects';
     SideBarWrapperDirective,
     PlayerComponent,
     CardAreaComponent,
+    HomeComponent,
+    NavbarDirective,
 
 
   ],
