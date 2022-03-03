@@ -2,7 +2,7 @@
 
 .card{
     aspect-ratio: 3/5;
-    height:  50px;
+    height:  80px;
     display:flex; 
     flex-direction: column;
     border: solid;
@@ -17,13 +17,16 @@
 .number{
     position:absolute;
     flex-shrink: 1;
-
 }
 
 
 .number>*{
     font-family: 'PlayerFont';
     color: $contrast;
+    top: 5px;
+    position: relative;
+    font-size: 40px;
+    margin-right: 4px;
 }
 
 

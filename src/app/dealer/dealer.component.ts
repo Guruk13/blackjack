@@ -61,8 +61,17 @@ export class DealerComponent implements OnInit {
   }
 
 
-  firstTurn(){
-    this.dealerService.firstPass();
+  stand(){
+    this.dealerService.nextTurn();
+  }
+
+  buttonString(){
+    if(this.dealerService.passIndex == 2 ){
+      return "Next round";
+    }
+    else{
+      return "Stand";
+    }
   }
 
 

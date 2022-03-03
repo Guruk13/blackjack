@@ -16,14 +16,15 @@ import {
   winChips,
   setWinloss,
   resetSplits,
-  
+
 } from './state/pack.actions';
 import { Store } from '@ngrx/store';
 import { Player } from './models/player.model';
 import { PlayerHand } from './models/playerHand.model';
-import { selectFirstHands, selectPHwithoutHouse, selectPlayerHandByIds,
+import {
+  selectFirstHands, selectPHwithoutHouse, selectPlayerHandByIds,
   selectPHashand,
- } from './state/playerHand.selector';
+} from './state/playerHand.selector';
 
 
 
@@ -137,19 +138,12 @@ export class DealerService {
     this.dealRandom(houseId, "firstHand");
     let players: any;
     //@todo check for no players
-
-    this.store.select(selectPwithhands).subscribe(res=>players = res);
-
-    console.log(players);
-    if(players){
+    this.store.select(selectPwithhands).subscribe(res => players = res);
+    if (players) {
       players.forEach((x: Player,) => (
         this.dealRandom(x.id, "firstHand")
       ));
-
     }
-
-
-
     //Cards have to be dealt clockwise   
     players.forEach((x: Player,) => (
       this.dealRandom(x.id, "firstHand")
@@ -166,8 +160,8 @@ export class DealerService {
 
     this.store.dispatch(emptyHand({ tempoplayer: house }))
     players.forEach((x: Player) => {
-      if(x.chips> 0){
-      this.store.dispatch(emptyHand({ tempoplayer: x }))
+      if (x.chips > 0) {
+        this.store.dispatch(emptyHand({ tempoplayer: x }))
       }
     });
   }
@@ -190,16 +184,16 @@ export class DealerService {
     });
 
     let unfold;
-    this.store.select(selectPwithhands).subscribe(res=> unfold = res)
+    this.store.select(selectPwithhands).subscribe(res => unfold = res)
 
     if (unfold.length > 0) {
       this.dealFirstHand()
     } else {
       //restart round
-      this.store.dispatch(trash({playerId: 0}));  
+      this.store.dispatch(trash({ playerId: 0 }));
       this.emptyHands();
       //reset House hand
-      this.passIndex = 0 ;
+      this.passIndex = 0;
     }
   }
 
@@ -247,9 +241,9 @@ export class DealerService {
           if (element.status == "busted") {
             this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "loss", chipGained: 0 }))
           } else {
-            
-              this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "win", chipGained: 2 }))
-            
+
+            this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "win", chipGained: 2 }))
+
           }
         }
       });
@@ -281,7 +275,7 @@ export class DealerService {
   }
 
   //deal chips , start a new turn,
-  thirdPass(){
+  thirdPass() {
     let allPHs
     let players;
 
@@ -293,27 +287,43 @@ export class DealerService {
 
     allPHs.forEach(element => {
       //if that hand won , gain the chips 
-      if(element.winloss == "win" || element.winloss =="push"){
-      this.store.dispatch(winChips({playerId: element.userId, pchips: element.chipsRaised * element.chipsGainsRatio}))
+      if (element.winloss == "win" || element.winloss == "push") {
+        this.store.dispatch(winChips({ playerId: element.userId, pchips: Math.round(element.chipsRaised * element.chipsGainsRatio) }))
       }
-      this.store.select(selectAllPlayers).subscribe((res)=>{
+      this.store.select(selectAllPlayers).subscribe((res) => {
         players = res
       })
       players.forEach(element => {
-        this.store.dispatch(resetSplits(element.id));
-        this.store.dispatch(trash({playerId: element.id}));
+        this.store.dispatch(resetSplits({playerId:element.id}));
+        this.store.dispatch(trash({ playerId: element.id }));
       });
 
-      this.store.dispatch(trash({playerId: 0}));  
+      this.store.dispatch(trash({ playerId: 0 }));
       this.emptyHands();
       //reset House hand
-      this.passIndex = 0 ;
-    
-      
+      this.passIndex = 0;
+
+
     });
 
 
 
+  }
+
+
+  nextTurn() {
+    if (this.passIndex == 0) {
+      this.firstPass()
+      return;
+    }
+    if (this.passIndex == 1) {
+      this.secondPass();
+      return;
+    }
+    if (this.passIndex == 2) {
+      this.thirdPass();
+      return;
+    }
   }
 
 

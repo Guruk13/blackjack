@@ -14,12 +14,19 @@
     flex: 0 0 300px !important;
     white-space: unset !important;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
   }
 
   .mat-column-cardsValueCol{
     flex: 0 0 50px !important;
     white-space: unset !important;
+  }
+
+  .mat-column-cardsValueCol>*{
+    font-family: 'PlayerFont';
+    color: $contrast;
+    font-size: 40px;
+    
   }
 
 
@@ -56,4 +63,18 @@
     margin-bottom: 20px;
     border:solid;
     border-color: $contrast;
+  }
+  .mat-cell{
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .next{
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
   }

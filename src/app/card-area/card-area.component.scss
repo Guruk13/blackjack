@@ -11,6 +11,8 @@
     flex-direction: row;
     display: flex;
   }
+  
+
   .mat-table{
     background-color: $table-color;
 
@@ -20,6 +22,7 @@
     flex: 0 1 100px !important;
     white-space: unset !important;
     flex-direction: column;
+    padding-left: 0;
   }
 
 
@@ -28,15 +31,34 @@
     white-space: unset !important;
   }
 
-  .mat-column-cardsValueCol>h2{
+  .mat-column-cardsValueCol>*{
     font-family: 'PlayerFont';
     color: $contrast;
+    font-size: 40px;
   }
 
   .mat-column-raiseSplit{
     flex: 0 0 100px !important;
     white-space: unset !important;
   }
+  .mat-column-raiseSplit>div{
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  button{
+    width: 80%;
+    background-color: $contrast;
+    font-family: 'PlayerFont';
+    color:$table-color; 
+    margin-bottom: 5px;
+    font-size: 22px;
+
+  }
+
+
+
+
 
   .mat-row.cdk-row{
     border-style:none;

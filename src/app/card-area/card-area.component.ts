@@ -128,13 +128,13 @@ export class CardAreaComponent implements OnInit {
   handRecap(situation, ratio, chips){
     let recap: string
     if(situation=="win"){
-      recap = "This hand got you " + (ratio * chips).toString() + " chips"; 
+      recap = "This hand got you " + (Math.round(ratio * chips)).toString() + " chips"; 
     }
     if(situation=="loss"){
-      recap = "You lost " + (ratio * chips).toString() + " chips with that hand"; 
+      recap = "You lost " + (Math.round(ratio * chips)).toString() + " chips with that hand"; 
     }
     if(situation=="push"){
-      recap = "Tie, have your " + (ratio * chips).toString() + "chips back"; 
+      recap = "Tie, have your " + (Math.round(ratio * chips)).toString() + "chips back"; 
     }
 
     return recap

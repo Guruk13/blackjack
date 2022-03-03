@@ -53,7 +53,8 @@ export const playerReducer = createReducer(
   //resets SplitCOunt
   immerOn(resetSplits, (state, { playerId }) => {
 
-    let hand = state.find(x => x.id == playerId)
+    state.find(x => x.id == playerId).splits = 0;
+
 
   }),
 
@@ -63,7 +64,7 @@ export const playerReducer = createReducer(
   }),
 
   immerOn(splitPair, (state, { hand }) => {
-    let player  = state.find(x => x.id == hand.userId);
+    let player = state.find(x => x.id == hand.userId);
     player.splits += 1;
     player.chips -= hand.chipsRaised;
   }),
