@@ -69,6 +69,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { HomeComponent } from './home/home.component';
 import { from } from 'rxjs';
 import { NavbarDirective } from './navbar.directive';
+import { SectionComponent } from './section/section.component';
 
 
 
@@ -88,6 +89,7 @@ import { NavbarDirective } from './navbar.directive';
     CardAreaComponent,
     HomeComponent,
     NavbarDirective,
+    SectionComponent,
 
 
   ],
