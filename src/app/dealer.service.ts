@@ -16,6 +16,7 @@ import {
   winChips,
   setWinloss,
   resetSplits,
+  deleteAll,
 
 } from './state/pack.actions';
 import { Store } from '@ngrx/store';
@@ -23,7 +24,6 @@ import { Player } from './models/player.model';
 import { PlayerHand } from './models/playerHand.model';
 import {
   selectFirstHands, selectPHwithoutHouse, selectPlayerHandByIds,
-  selectPHashand,
 } from './state/playerHand.selector';
 
 
@@ -118,6 +118,35 @@ export class DealerService {
     this.dealer$ = this.store.select(selectDealer);
     this.passIndex = 0;
     this.emptyHands()
+  }
+
+
+  resetGame(params){
+    this.createPack();
+    //this.store.dispatch(deleteAll());
+
+    console.log("he?");
+    let imoney: number = params.chips;
+    let dealer: Player = { id: 0, name: "Mr.House", chips: imoney, isDeciding: false, isOut: false, splits: 0 }
+    let myarray: Array<Player> = []; 
+    myarray.push({ id: 1, name: "You", chips: imoney, isDeciding: false, isOut: false, splits: 0 });
+    myarray.push({ id: 2, name: "Miss Fortune", chips: imoney, isDeciding: false, isOut: false, splits: 0 });
+    myarray.push({ id: 3, name: "Theubald", chips: imoney, isDeciding: true, isOut: false, splits: 0 });
+    console.log(myarray);
+    let tempoarray  =[]; 
+
+    tempoarray.push(dealer);
+
+
+    for(let i = 0 ; i<params.numberPlayers -1 ; i++){
+        tempoarray.push(myarray[i]);  
+    }
+
+    let somePlayers: ReadonlyArray<Player> = tempoarray;
+    this.store.dispatch(createPlayers({ somePlayers }));
+    this.passIndex = 0;
+    this.emptyHands();
+    
   }
 
   addPlayers() {

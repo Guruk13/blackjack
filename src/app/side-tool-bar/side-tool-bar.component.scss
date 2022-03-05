@@ -81,7 +81,28 @@
   }
 
   hr{
-    color:pink;
+    color: $contrast;
     margin-right: 75px;
     margin-left: 75px;
   }
+
+  .partyInit{
+    display: flex;
+    flex-direction: column;
+    color:$contrast ;
+    right: 0px;
+  }
+  
+
+  div#mat-select-value-1{
+    color:$contrast !important;
+  }
+
+  mat-label{
+    color:$contrast!important;
+  }
+
+  mat-select-min-line.ng-tns-c81-1.ng-star-inserted{
+    color:red;
+  }
+  

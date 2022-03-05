@@ -34,6 +34,12 @@ export const createPlayers = createAction(
   props<{ somePlayers: ReadonlyArray<Player> }>()
 );
 
+
+export const deleteAll= createAction(
+  'Teardown'
+);
+
+
 export const emptyHand = createAction(
   '[Hand]Creating first hands',
   props<{ tempoplayer: Player }>()

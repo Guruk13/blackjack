@@ -9,7 +9,8 @@ import {
   trash,
   commitChips,
   setDoubleable,
-  setWinloss
+  setWinloss,
+  deleteAll
 } from './pack.actions';
 import { PlayerHand } from 'app/models/playerHand.model';
 import { Card } from '../models/cards.model'
@@ -20,6 +21,9 @@ export const initialState: ReadonlyArray<PlayerHand> = [];
 export const playerHandsReducer = createReducer(
   initialState,
   on(createHands, (state, { someHands }) => someHands),
+
+
+  on(deleteAll, (state) => initialState),
 
   immerOn(setSplittable, (state, { id, userId, statusSplittable }) => {
     state.find((hand) => hand.userId === userId && id === hand.id).status = statusSplittable;
@@ -74,7 +78,6 @@ export const playerHandsReducer = createReducer(
     let handToRepush: PlayerHand = { ...state[theIndex], possessedCardsCollection: [state[theIndex].possessedCardsCollection[0]], 
       cardsValue:determineValue([state[theIndex].possessedCardsCollection[0]]) ,
       status: null,
-    
     }
     let card = state[theIndex].possessedCardsCollection.slice(1, 2);
     state[theIndex] = handToRepush;

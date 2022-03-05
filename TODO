@@ -4,7 +4,7 @@ todo
 implement snackbar from angmat , mr house is going to be verbose ! 
 
 https://angular.io/guide/reactive-forms#creating-dynamic-forms
-
+aa
 formcontrols :
  ->array(
      validators 

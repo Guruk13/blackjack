@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { immerOn } from 'ngrx-immer/store';
-import { isOut, createPlayers, changeChipCount, resetSplits, acessor, splitPair, winChips } from './pack.actions';
+import { isOut, createPlayers, changeChipCount, resetSplits, acessor, splitPair, winChips,deleteAll } from './pack.actions';
 import { shiftDecision } from './pack.actions';
 import { Player } from '../models/player.model';
 
@@ -10,6 +10,7 @@ export const initialState: ReadonlyArray<Player> = [];
 export const playerReducer = createReducer(
   initialState,
   on(createPlayers, (state, { somePlayers }) => somePlayers),
+  on(deleteAll, (state) => initialState),
   //overly complicated because of my lack of awareness of entities 
   on(shiftDecision, (state, { currentPlayer, nextPlayer, currentIndex, nextIndex }) => {
     let array = [

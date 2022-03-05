@@ -22,6 +22,7 @@ export class SideBarWrapperDirective {
   
   ngOnInit() {
     this.uiservice.navbar.hide()
+    this.uiservice.side = this;
   }
 
   @Input()
