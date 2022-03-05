@@ -28,7 +28,9 @@
 
 
     </mat-card-content>
-
-    <button class="next" (click)="stand()">{{buttonString()}}</button>
+    <div class="wrapper">
+        <button class="next" *ngIf="raised" (click)="stand()">{{buttonString()}}</button>
+    </div>
+    
 
 </mat-card>

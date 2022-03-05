@@ -2,25 +2,14 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {  selectPlayerHandByIds, selectPlayerHandCollections } from 'app/state/playerHand.selector';
 import { PlayerHand } from 'app/models/playerHand.model';
-//rxjs
-//https://medium.com/bytelimes/truly-reactive-forms-in-angular-a-unique-approach-cae9be6d7459
-
-
-import { MatTableDataSource } from '@angular/material/table';
-import { MatTable } from '@angular/material/table';
+import { MatTableDataSource, MatTable } from '@angular/material/table';
 import {selectPlayerById} from '../state/player.selector'
-
 import { DealerService } from '../dealer.service';
-
-
-
-
-//Form related imports
-import { FormBuilder,  FormGroup,  } from '@angular/forms';
-
 import { splitPair,  changeChipCount, setDoubleable } from 'app/state/pack.actions';
 
-
+//Theorically a hand can get 9 cards without being busted , 4 aces , 4 2 , 3 3 
+//A hand can only contain up to 7 cards before UI becomes unreadable 
+// a situation where there's more than 7 cards is unlikely because there's only one pack in play 
 
 @Component({
   selector: 'app-card-area',
@@ -36,21 +25,18 @@ export class CardAreaComponent implements OnInit {
   availableMoney:number;
 
 
-  form: FormGroup;
+
   dataSource = new MatTableDataSource<PlayerHand>();
   displayedColumns = [ 'chipsraised',  'raiseSplit', 'cardsValueCol', 'pcardsCol', ]
 
 
 
-  constructor(private store: Store, private fb: FormBuilder, private dealerService: DealerService) { }
+  constructor(private store: Store,  private dealerService: DealerService) { }
 
 
   randomarray: Array<string>;
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      playerhands: this.fb.array([])
-    });
 
     this.playerHandState$ = this.store.select(selectPlayerHandCollections(this.playerId));
     //@TODO an observeable of hands.chips
@@ -67,7 +53,7 @@ export class CardAreaComponent implements OnInit {
     this.store.select(selectPlayerById(puserId)).subscribe((res)=>{
       player = res;
     })
-    if(player.splits<2 && pchips <= this.availableMoney ){
+    if(player.splits<2 && pchips <= this.availableMoney  && psplittable){
       return true
     }
     return false;

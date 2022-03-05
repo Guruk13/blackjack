@@ -70,7 +70,7 @@ export const playerHandsReducer = createReducer(
       &&
       handToFind.userId == hand.userId
     );
-    //rebuilding hand ... @ODD
+    //rebuilding hand 
     let handToRepush: PlayerHand = { ...state[theIndex], possessedCardsCollection: [state[theIndex].possessedCardsCollection[0]], 
       cardsValue:determineValue([state[theIndex].possessedCardsCollection[0]]) ,
       status: null,

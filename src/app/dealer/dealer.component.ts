@@ -11,7 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatTable } from '@angular/material/table';
 import {selectPlayerById} from '../state/player.selector'
 
-import {  selectPlayerHandByIds, selectPlayerHandCollections } from 'app/state/playerHand.selector';
+import {  selectPHwithoutHouse, selectPlayerHandByIds, selectPlayerHandCollections,  } from 'app/state/playerHand.selector';
 
 // RxJS v6+
 import { PlayerHand } from 'app/models/playerHand.model';
@@ -36,7 +36,7 @@ export class DealerComponent implements OnInit {
 
   dataSource = new MatTableDataSource<PlayerHand>();
   displayedColumns = [  'cardsValueCol', 'pcardsCol', ]
-
+  raised;
 
 
   constructor(private store: Store,  private dealerService: DealerService) { }
@@ -57,6 +57,12 @@ export class DealerComponent implements OnInit {
     this.playerHandState$.subscribe((phs)=>{
       this.dataSource.data = phs;
     })
+
+    this.store.select(selectPHwithoutHouse(0)).subscribe((res)=>{
+      this.raised = res.find(res=> res.chipsRaised > 0 )
+    })
+
+
 
   }
 

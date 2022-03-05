@@ -2,7 +2,6 @@
 
 @import "~@angular/material/theming";
 
-
 @include mat.core();
 
 
@@ -27,6 +26,7 @@ html, body {
   height: 100vh; 
   margin: 0;
   padding: 0;
+  scroll-snap-type: y mandatory;
 
 
 }

@@ -70,6 +70,7 @@ import { HomeComponent } from './home/home.component';
 import { from } from 'rxjs';
 import { NavbarDirective } from './navbar.directive';
 import { SectionComponent } from './section/section.component';
+import { TechniqueComponent } from './technique/technique.component';
 
 
 
@@ -90,6 +91,7 @@ import { SectionComponent } from './section/section.component';
     HomeComponent,
     NavbarDirective,
     SectionComponent,
+    TechniqueComponent,
 
 
   ],

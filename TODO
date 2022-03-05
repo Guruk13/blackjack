@@ -1,13 +1,5 @@
 todo 
 
-change player area 
-
-When splitting a pair , manage chips : player.chips< pair to deal chips ? 
-
-write double, 
-write fold 
-write win condition 
-write drawcard for a hand 
 
 implement snackbar from angmat , mr house is going to be verbose ! 
 
@@ -21,13 +13,15 @@ formcontrols :
  ATTRIBUTION to 
 
 <a href="https://www.flaticon.com/free-icons/spade" title="spade icons">Spade icons created by Freepik - Flaticon</a>
-https://codepen.io/jo_Geek/pen/xgbaEr
+https://codepen.io/loganliffick/pen/xezrK
+https://www.freeiconspng.com/img/13568
+<a href="https://www.freeiconspng.com/img/13568">Compass Icon Photos</a>
 
 
-round value of won chips on blackjack 
+lazy load + loading 
+style nav / fix nav 
+formcontrols
+style 
 
-fix 50 px homecomponent 
 
 
-
-https://codepen.io/jo_Geek/pen/xgbaEr

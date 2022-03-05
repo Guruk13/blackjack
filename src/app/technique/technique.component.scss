@@ -1,0 +1,33 @@
+@import"../home/home.component";
+@import"../../vars.scss";
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@300;400&display=swap');
+.wide {
+    width: 90vw;
+  }
+.separated{
+    display: flex;
+    flex:row;
+}
+hr{
+    margin:30px;
+    color:pink;
+}
+.exampleCode{
+    font-size:28px;
+    padding:30px;
+    margin: 20px;
+    border:solid;
+    border-color: pink;
+    font-family: 'M PLUS 1 Code', sans-serif;
+}
+
+.quote{
+    border-color: pink;
+    color: pink;
+    font-family: 'M PLUS 1 Code', sans-serif;
+}
+
+

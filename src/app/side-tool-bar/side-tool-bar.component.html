@@ -1,12 +1,40 @@
-
 <div SideWrapperDirective #a='openme' class="overlay">
-    <button  class="closebtn"  (click)="a.close()">X</button>
+    <a class="closebtn" (click)="a.close()">X</a>
     <div class="overlay-content">
-        <a>dealrandaom</a>
-        <a (click)="firstPass()">FirstPass</a>
-        <a (click)="secondPass()">secondPass</a>
-        <a (click)="thirdPass()">thirdPass</a>
+        <div class="separated">
+            <div class="rules">
+                <h1>Quick Rules</h1>
+                <ol>
+                    <li>Raise your bet </li>
+                    <li>Two cards are dealt to your hand : You can split that hand in two if it's a pair.<br>
+                        Next to your cards is the Cards Value, get it as close to 21 as possible by doubling or hitting    
+                    </li>
+                    <li>Mr. House draws cards until he reaches 17, your wins and losses are calculated</li>
+                    <li>Earn your chips, start a new round</li>
+                </ol>
+                <h1>House rules</h1>
+                <ul>
+                    <li>Blackjack pays 3:2</li>
+                    <li>Wins are dealt at the end of the round</li>
+                    <li>No insurrance</li>
+                    <li>You can split, up to three hands</li>
+                    <li>Only one deck is used at a time , you may try to count cards</li>
+                </ul>
+            </div>
+            <hr>
+            <p> Du fait que j'étais novice à l'usage d'un Store et de Ngrx , j'ai eu des pitfall qui m'ont conduit
+                à contourner des notions plus complexes tels que les Entités ou la normalisation du state...<br><br>
+                Ici Immer est utilisé pour contourner le paradigme d'immutabilité du state, ce qui permet de modifier la
+                collection d'une main d'un joueur.Du fait que j'étais novice à l'usage d'un Store et de Ngrx , j'ai eu
+                des pitfall qui m'ont conduit
+                à contourner des notions plus complexes tels que les Entités ou la normalisation du state...<br><br>
+                Ici Immer est utilisé pour contourner le paradigme d'immutabilité du state, ce qui permet de modifier la
+                collection d'une main d'un joueur. </p>
+
+
+
+        </div>
     </div>
 </div>
 
-<button id="opener" (click)="a.open()">O</button>
+<div id="opener" (click)="a.open()"></div>
