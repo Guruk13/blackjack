@@ -5,6 +5,11 @@
     white-space: unset !important;
     display: flex;
     flex-direction: column;
+
+  }
+
+  .info{
+    font-size: 18px;
   }
 
   .cardContainer{
@@ -19,7 +24,7 @@
   }
 
   .mat-column-chipsraised{
-    flex: 0 1 100px !important;
+    flex: 0 5 100px !important;
     white-space: unset !important;
     flex-direction: column;
     padding-left: 0;

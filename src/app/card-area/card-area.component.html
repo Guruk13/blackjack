@@ -26,7 +26,7 @@
     <mat-cell *matCellDef="let element">
        <div *ngIf="passIndex() == 1 && element.status!='busted' && element.status!='blackjack' "> 
         <button mat-raised-button  (click)="getCard(element.userId, element.id)">Hit</button>
-        <button mat-raised-button  *ngIf="isSplittable(element.chipsRaised, element.userId, element.splittable)" (click)="split(element.userId, element.id)"> Split</button>
+        <button mat-raised-button  *ngIf="isSplittable(element.chipsRaised, element.userId, element.status)" (click)="split(element.userId, element.id)"> Split</button>
         <button mat-raised-button  *ngIf="isDoubleable(element.chipsRaised, element.userId, element.id)"
           (click)="double(element.userId, element.id, element.chipsRaised)">Double</button>
       </div>
@@ -42,8 +42,8 @@
           <app-card [card]="card"></app-card>
         </div>
       </div>
-      <h2 *ngIf="element.status != null && element.winloss == null && element.status != 'splittable' ">{{element.status.toUpperCase()}} {{" ! Please wait... "}}</h2>
-      <p *ngIf="element.winloss != null">{{ handRecap(element.winloss,  element.chipsGainsRatio, element.chipsRaised )}}</p>
+      <p class="info" *ngIf="element.status != null && element.winloss == null && element.status != 'splittable' ">{{element.status.toUpperCase()}} {{" ! Please wait... "}}</p>
+      <p class="info"  *ngIf="element.winloss != null">{{ handRecap(element.winloss,  element.chipsGainsRatio, element.chipsRaised )}}</p>
     </mat-cell>
   </ng-container>
 

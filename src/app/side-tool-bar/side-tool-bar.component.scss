@@ -12,14 +12,16 @@
     background-color: rgba(0,0,0, 0.9);
     overflow-x: hidden;
     transition: 0.5s;
+
   }
   
   .overlay-content {
     position: relative;
-    top: 25%;
+    top: 18%;
     width: 100%;
     text-align: center;
     margin-top: 30px;
+    transition: color 1s ease-in;
   }
   
   .overlay a {
@@ -72,37 +74,19 @@
   .separated{
     display: flex;
     flex:row;
-    color:$contrast;
+    justify-content: center;
   }
   .rules{
     flex-direction: column;
     text-align: left;
-    margin-left:100px;
-  }
 
+  }
+  li,p{
+    font-size: 25px;
+    margin-bottom: 10px;
+  }
   hr{
-    color: $contrast;
     margin-right: 75px;
     margin-left: 75px;
   }
 
-  .partyInit{
-    display: flex;
-    flex-direction: column;
-    color:$contrast ;
-    right: 0px;
-  }
-  
-
-  div#mat-select-value-1{
-    color:$contrast !important;
-  }
-
-  mat-label{
-    color:$contrast!important;
-  }
-
-  mat-select-min-line.ng-tns-c81-1.ng-star-inserted{
-    color:red;
-  }
-  

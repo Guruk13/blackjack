@@ -123,7 +123,7 @@ export class DealerService {
 
   resetGame(params){
     this.createPack();
-    //this.store.dispatch(deleteAll());
+    this.store.dispatch(deleteAll());
 
     console.log("he?");
     let imoney: number = params.chips;

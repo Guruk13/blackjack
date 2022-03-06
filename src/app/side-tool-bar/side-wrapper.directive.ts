@@ -11,18 +11,22 @@ export class SideBarWrapperDirective {
 
   open(){
     this.renderer.setStyle(this.el.nativeElement,"width", "100%" )
+    this.renderer.setStyle(this.el.nativeElement,"color", "white" )
     this.uiservice.navbar.show();
+
+
+
   }
 
 
   close(){
     this.renderer.setStyle(this.el.nativeElement,"width", "0%" )
+    this.renderer.setStyle(this.el.nativeElement,"color", "transparent" )
     this.uiservice.navbar.hide();
   }
   
   ngOnInit() {
     this.uiservice.navbar.hide()
-    this.uiservice.side = this;
   }
 
   @Input()

@@ -38,7 +38,7 @@ export class SideToolBarComponent implements OnInit {
     console.log( this.paramsGame.value);
     this.paramsGame.reset();
     this.dealerService.resetGame(this.paramsGame.value);
-    this.uiservice.side.close()
+
   }
 
 

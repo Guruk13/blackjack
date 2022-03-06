@@ -48,12 +48,12 @@ export class CardAreaComponent implements OnInit {
   }
 
 
-  isSplittable(pchips, puserId, psplittable){
+  isSplittable(pchips, puserId, status){
     let player; 
     this.store.select(selectPlayerById(puserId)).subscribe((res)=>{
       player = res;
     })
-    if(player.splits<2 && pchips <= this.availableMoney  && psplittable){
+    if(player.splits<2 && pchips <= this.availableMoney  && status=="splittable"){
       return true
     }
     return false;
@@ -120,7 +120,7 @@ export class CardAreaComponent implements OnInit {
       recap = "You lost " + (Math.round(ratio * chips)).toString() + " chips with that hand"; 
     }
     if(situation=="push"){
-      recap = "Tie, have your " + (Math.round(ratio * chips)).toString() + "chips back"; 
+      recap = "Tie, have your " + (Math.round(ratio * chips)).toString() + " chips back"; 
     }
 
     return recap
