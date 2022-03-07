@@ -24,4 +24,6 @@ formcontrols
 style 
 
 
+ng deploy --base-href=/blackprack/ --no-silent      
+
 
