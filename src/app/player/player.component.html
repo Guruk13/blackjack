@@ -1,6 +1,6 @@
 <mat-card class="player-zone">
     <mat-card-header>
-        <div mat-card-avatar class="example-header-image"></div>
+        <div mat-card-avatar [ngClass]=player.imgClass></div>
         <h1> {{ player.name.toUpperCase() }}</h1>
         <h1>{{player.chips}}</h1>
     </mat-card-header>

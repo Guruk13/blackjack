@@ -4,8 +4,7 @@ export interface Player {
     name:string
     id: number,
     chips:number,
-    isOut: boolean,
-    isDeciding:boolean,
     splits:number,
+    imgClass?:string
 
 }

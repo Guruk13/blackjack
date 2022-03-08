@@ -1,14 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-import { PlayerComponent } from 'app/player/player.component';
 import { Card } from '../models/cards.model';
 import { Player } from '../models/player.model'
 import { PlayerHand } from '../models/playerHand.model'
-
-export const addCard = createAction(
-  '[Pack] add card',
-  props<{ cardId: string }>()
-);
-
 
 export const createdPack = createAction(
   'Create pack with x deck, unshuffled success ',
@@ -74,16 +67,6 @@ export const setDoubleable = createAction(
 );
 
 
-export const shiftDecision = createAction(
-  '[Players] Shifting decision between players',
-  props<{
-    currentPlayer: Player,
-    nextPlayer: Player | undefined,
-    currentIndex: number,
-    nextIndex: number | undefined
-  }>()
-);
-
 export const splitPair = createAction(
   '[Player] Splitting a pair in half with the initial bet',
   props<{
@@ -130,8 +113,6 @@ export const commitChips = createAction(
   '[PlayerHand] Committing Chips  ',
   props<{ playerHand:  PlayerHand, }>()
 );
-
-
 
 
 //didnt use entities so gotta use this to speed things up 

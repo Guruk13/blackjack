@@ -3,8 +3,24 @@
   .example-header-image {
     background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
     background-size: cover;
-
   }
+
+
+  .ll {
+    background-image: url('../../assets/ll.png');
+    background-size: cover;
+  }
+
+  .mf {
+    background-image: url('../../assets/mf.png');
+    background-size: cover;
+  }
+
+  .me {
+    background-image: url('../../assets/me.jpg');
+    background-size: cover;
+  }
+
 
   .mat-card{
     border-radius: 0px;

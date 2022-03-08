@@ -28,24 +28,6 @@ export const selectAllPlayers =
   );
 
 
-//Players that are still playing 
-export const selectUnfoldedPlayers =
-  createSelector(selectAllPlayers, (players) =>
-    players.filter(
-      player => player.isOut == false
-    ).reverse()
-  )
-
-
-
-
-export const selectDecidingPLayer =
-  createSelector(selectUnfoldedPlayers, (players) =>
-    players.find(
-      player => player.isDeciding == true
-    ))
-
-
     export const selectPwithhands = createSelector(
       selectAllPlayers,
       selectPH,
