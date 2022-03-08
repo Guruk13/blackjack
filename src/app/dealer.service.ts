@@ -268,7 +268,7 @@ export class DealerService {
         }
         else {
           if (element.status == "busted") {
-            this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "loss", chipGained: 0 }))
+            this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "loss", chipGained: 1 }))
           } else {
 
             this.store.dispatch(setWinloss({ id: element.id, userId: element.userId, winlossString: "win", chipGained: 2 }))
