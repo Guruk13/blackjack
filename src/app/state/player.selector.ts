@@ -12,7 +12,7 @@ export const selectDealer =
   createSelector(selectPlayers, (players) => {
     return players.find(
       (player: Player) =>
-        player.name === "Mr.House"
+        player.id === 0
     )
   });
 

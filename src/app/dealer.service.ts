@@ -127,7 +127,7 @@ export class DealerService {
 
     console.log("he?");
     let imoney: number = params.chips;
-    let dealer: Player = { id: 0, name: "Mr.House", chips: imoney, isDeciding: false, isOut: false, splits: 0 }
+    let dealer: Player = { id: 0, name: "Mr. House", chips: imoney, isDeciding: false, isOut: false, splits: 0 }
     let myarray: Array<Player> = []; 
     myarray.push({ id: 1, name: "You", chips: imoney, isDeciding: false, isOut: false, splits: 0 });
     myarray.push({ id: 2, name: "Miss Fortune", chips: imoney, isDeciding: false, isOut: false, splits: 0 });
@@ -152,10 +152,10 @@ export class DealerService {
   addPlayers() {
     //todo create pack generator + modify card ids 
     let imoney: number = 200;
-    let dealer: Player = { id: 0, name: "Mr.House", chips: imoney, isDeciding: false, isOut: false, splits: 0 }
+    let dealer: Player = { id: 0, name: "Mr. House", chips: imoney, isDeciding: false, isOut: false, splits: 0 }
     let You: Player = { id: 1, name: "You", chips: imoney, isDeciding: false, isOut: false, splits: 0 }
     let MissFortune: Player = { id: 2, name: "Miss Fortune", chips: imoney, isDeciding: false, isOut: false, splits: 0 }
-    let some: Player = { id: 3, name: "Theubald", chips: imoney, isDeciding: true, isOut: false, splits: 0 }
+    let some: Player = { id: 3, name: "Lucky Luke", chips: imoney, isDeciding: true, isOut: false, splits: 0 }
     let somePlayers: ReadonlyArray<Player> = [dealer, You, MissFortune, some]
     this.store.dispatch(createPlayers({ somePlayers }));
   }

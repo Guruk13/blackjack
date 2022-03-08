@@ -144,7 +144,7 @@ function determineStatus(valueHand, posCardCol, splits) {
   }
   if (posCardCol.length == 2) {
     //@test
-    if (posCardCol[0].rank == posCardCol[1].rank) {
+    if (posCardCol[0].handValue == posCardCol[1].handValue) {
       status = "splittable";
     }
     //this is a natural blackjak 

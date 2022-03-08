@@ -6,6 +6,9 @@ import { DealerService } from 'app/dealer.service';
 
 
 
+
+// Above is some code used to param the game, however due to lack of unsubscribption this idea was abandoned 
+
 @Component({
   selector: 'app-side-tool-bar',
   templateUrl: './side-tool-bar.component.html',
